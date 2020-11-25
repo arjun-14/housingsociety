@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:housingsociety/screens/wrapper.dart';
 
 class Register extends StatefulWidget {
   @override
@@ -9,6 +8,24 @@ class Register extends StatefulWidget {
 class _RegisterState extends State<Register> {
   final _formkey = GlobalKey<FormState>();
   String _email, _password;
+  bool buttonEnabled = false;
+  bool obscureText = true;
+  Color visibiltyIconColor = Colors.grey;
+
+  void unHidePassword() {
+    setState(() {
+      obscureText = !obscureText;
+    });
+    if (obscureText == true) {
+      setState(() {
+        visibiltyIconColor = Colors.grey;
+      });
+    } else {
+      setState(() {
+        visibiltyIconColor = Colors.blue;
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -23,7 +40,7 @@ class _RegisterState extends State<Register> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text(
-                    'Register',
+                    'Create an account',
                     style: TextStyle(
                       fontSize: 20.0,
                       fontWeight: FontWeight.bold,
@@ -50,7 +67,7 @@ class _RegisterState extends State<Register> {
                     height: 20.0,
                   ),
                   TextFormField(
-                    obscureText: true,
+                    obscureText: obscureText,
                     onChanged: (val) {
                       setState(() {
                         _password = val;
@@ -62,6 +79,13 @@ class _RegisterState extends State<Register> {
                           : null;
                     },
                     decoration: InputDecoration(
+                      suffixIcon: IconButton(
+                        icon: Icon(
+                          Icons.visibility,
+                          color: visibiltyIconColor,
+                        ),
+                        onPressed: unHidePassword,
+                      ),
                       labelText: 'Password',
                       border: OutlineInputBorder(),
                     ),

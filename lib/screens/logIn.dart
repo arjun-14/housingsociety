@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:housingsociety/screens/wrapper.dart';
 
 class LogIn extends StatefulWidget {
   @override
-  _SignInState createState() => _SignInState();
+  _LogInState createState() => _LogInState();
 }
 
-class _SignInState extends State<LogIn> {
+class _LogInState extends State<LogIn> {
   final _formkey = GlobalKey<FormState>();
   String _email, _password;
   bool buttonEnabled = false;
