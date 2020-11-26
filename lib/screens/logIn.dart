@@ -22,7 +22,7 @@ class _LogInState extends State<LogIn> {
       });
     } else {
       setState(() {
-        visibiltyIconColor = Colors.blue;
+        visibiltyIconColor = Color(0xFFEB1555);
       });
     }
   }
@@ -44,6 +44,7 @@ class _LogInState extends State<LogIn> {
                     style: TextStyle(
                       fontSize: 20.0,
                       fontWeight: FontWeight.bold,
+                      color: Color(0xFFEB1555),
                     ),
                   ),
                   SizedBox(
@@ -95,7 +96,8 @@ class _LogInState extends State<LogIn> {
                   ),
                   SizedBox(
                     width: double.infinity,
-                    child: ElevatedButton(
+                    child: RaisedButton(
+                      color: Color(0xFFEB1555),
                       onPressed: () async {
                         if (_formkey.currentState.validate()) {
                           print(_email + ' ' + _password);
@@ -110,7 +112,7 @@ class _LogInState extends State<LogIn> {
                       'Create a new account',
                       style: TextStyle(
                         fontSize: 15.0,
-                        color: Colors.lightBlueAccent,
+                        color: Color(0xFFEB1555),
                       ),
                     ),
                   ),
