@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:housingsociety/shared/constants.dart';
+import 'package:housingsociety/services/auth.dart';
 
 class Register extends StatefulWidget {
   @override
@@ -7,6 +8,7 @@ class Register extends StatefulWidget {
 }
 
 class _RegisterState extends State<Register> {
+  final AuthService _auth = AuthService();
   final _formkey = GlobalKey<FormState>();
   String _email, _password;
   bool buttonEnabled = false;
@@ -101,7 +103,10 @@ class _RegisterState extends State<Register> {
                       color: kButtonColor,
                       onPressed: () async {
                         if (_formkey.currentState.validate()) {
-                          print(_email + ' ' + _password);
+                          dynamic result =
+                              await _auth.createUserWithEmailAndPassword(
+                                  _email, _password);
+                          print(result);
                         }
                       },
                       child: Text('Continue'),
