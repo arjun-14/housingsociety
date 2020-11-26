@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:housingsociety/shared/constants.dart';
 
 class LogIn extends StatefulWidget {
   @override
@@ -22,7 +23,7 @@ class _LogInState extends State<LogIn> {
       });
     } else {
       setState(() {
-        visibiltyIconColor = Color(0xFFEB1555);
+        visibiltyIconColor = kButtonColor;
       });
     }
   }
@@ -44,7 +45,7 @@ class _LogInState extends State<LogIn> {
                     style: TextStyle(
                       fontSize: 20.0,
                       fontWeight: FontWeight.bold,
-                      color: Color(0xFFEB1555),
+                      color: kButtonColor,
                     ),
                   ),
                   SizedBox(
@@ -97,7 +98,7 @@ class _LogInState extends State<LogIn> {
                   SizedBox(
                     width: double.infinity,
                     child: RaisedButton(
-                      color: Color(0xFFEB1555),
+                      color: kButtonColor,
                       onPressed: () async {
                         if (_formkey.currentState.validate()) {
                           print(_email + ' ' + _password);
@@ -112,7 +113,7 @@ class _LogInState extends State<LogIn> {
                       'Create a new account',
                       style: TextStyle(
                         fontSize: 15.0,
-                        color: Color(0xFFEB1555),
+                        color: kButtonColor,
                       ),
                     ),
                   ),

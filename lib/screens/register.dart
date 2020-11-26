@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:housingsociety/shared/constants.dart';
 
 class Register extends StatefulWidget {
   @override
@@ -22,7 +23,7 @@ class _RegisterState extends State<Register> {
       });
     } else {
       setState(() {
-        visibiltyIconColor = Color(0xFFEB1555);
+        visibiltyIconColor = kButtonColor;
       });
     }
   }
@@ -44,7 +45,7 @@ class _RegisterState extends State<Register> {
                     style: TextStyle(
                       fontSize: 20.0,
                       fontWeight: FontWeight.bold,
-                      color: Color(0xFFEB1555),
+                      color: kButtonColor,
                     ),
                   ),
                   SizedBox(
@@ -97,7 +98,7 @@ class _RegisterState extends State<Register> {
                   SizedBox(
                     width: double.infinity,
                     child: RaisedButton(
-                      color: Color(0xFFEB1555),
+                      color: kButtonColor,
                       onPressed: () async {
                         if (_formkey.currentState.validate()) {
                           print(_email + ' ' + _password);
@@ -112,7 +113,7 @@ class _RegisterState extends State<Register> {
                       'Already have an account?',
                       style: TextStyle(
                         fontSize: 15.0,
-                        color: Color(0xFFEB1555),
+                        color: kButtonColor,
                       ),
                     ),
                   ),
