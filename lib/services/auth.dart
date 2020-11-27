@@ -1,14 +1,19 @@
-import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:housingsociety/models/user.dart';
 
 class AuthService {
   final FirebaseAuth auth = FirebaseAuth.instance;
+
+  CurrentUser _userFromFireBase(User user) {
+    return user != null ? CurrentUser(uid: user.uid, email: user.email) : null;
+  }
 
   Future createUserWithEmailAndPassword(String email, String password) async {
     try {
       UserCredential userCredential = await auth.createUserWithEmailAndPassword(
           email: email, password: password);
-      return userCredential;
+      User user = userCredential.user;
+      return _userFromFireBase(user);
     } on FirebaseAuthException catch (e) {
       if (e.code == 'weak-password') {
         print('The password provided is too weak.');
@@ -30,7 +35,8 @@ class AuthService {
         email: email,
         password: password,
       );
-      return userCredential;
+      User user = userCredential.user;
+      return _userFromFireBase(user);
     } on FirebaseAuthException catch (e) {
       if (e.code == 'user-not-found') {
         print('No user found for that email.');

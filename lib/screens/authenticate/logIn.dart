@@ -107,7 +107,7 @@ class _LogInState extends State<LogIn> {
                         if (_formkey.currentState.validate()) {
                           dynamic result = await _auth
                               .logInWithEmailAndPassword(_email, _password);
-                          print(result);
+                          print(result.email);
                         }
                       },
                       child: Text('Continue'),
