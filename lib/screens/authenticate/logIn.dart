@@ -2,12 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:housingsociety/shared/constants.dart';
 import 'package:housingsociety/services/auth.dart';
 
-class Register extends StatefulWidget {
+class LogIn extends StatefulWidget {
+  final Function toggle;
+  LogIn({this.toggle});
   @override
-  _RegisterState createState() => _RegisterState();
+  _LogInState createState() => _LogInState();
 }
 
-class _RegisterState extends State<Register> {
+class _LogInState extends State<LogIn> {
   final AuthService _auth = AuthService();
   final _formkey = GlobalKey<FormState>();
   String _email, _password;
@@ -43,7 +45,7 @@ class _RegisterState extends State<Register> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text(
-                    'Create an account',
+                    'Log In',
                     style: TextStyle(
                       fontSize: 20.0,
                       fontWeight: FontWeight.bold,
@@ -103,9 +105,8 @@ class _RegisterState extends State<Register> {
                       color: kButtonColor,
                       onPressed: () async {
                         if (_formkey.currentState.validate()) {
-                          dynamic result =
-                              await _auth.createUserWithEmailAndPassword(
-                                  _email, _password);
+                          dynamic result = await _auth
+                              .logInWithEmailAndPassword(_email, _password);
                           print(result);
                         }
                       },
@@ -113,9 +114,11 @@ class _RegisterState extends State<Register> {
                     ),
                   ),
                   FlatButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      widget.toggle();
+                    },
                     child: Text(
-                      'Already have an account?',
+                      'Create a new account',
                       style: TextStyle(
                         fontSize: 15.0,
                         color: kButtonColor,
