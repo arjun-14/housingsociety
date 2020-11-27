@@ -15,6 +15,7 @@ class _LogInState extends State<LogIn> {
   String _email, _password;
   bool buttonEnabled = false;
   bool obscureText = true;
+  bool loading = false;
   Color visibiltyIconColor = Colors.grey;
 
   void unHidePassword() {

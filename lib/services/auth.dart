@@ -2,16 +2,20 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:housingsociety/models/user.dart';
 
 class AuthService {
-  final FirebaseAuth auth = FirebaseAuth.instance;
+  final FirebaseAuth _auth = FirebaseAuth.instance;
 
   CurrentUser _userFromFireBase(User user) {
     return user != null ? CurrentUser(uid: user.uid, email: user.email) : null;
   }
 
+  Stream<CurrentUser> get user {
+    return _auth.authStateChanges().map(_userFromFireBase);
+  }
+
   Future createUserWithEmailAndPassword(String email, String password) async {
     try {
-      UserCredential userCredential = await auth.createUserWithEmailAndPassword(
-          email: email, password: password);
+      UserCredential userCredential = await _auth
+          .createUserWithEmailAndPassword(email: email, password: password);
       User user = userCredential.user;
       return _userFromFireBase(user);
     } on FirebaseAuthException catch (e) {
@@ -49,5 +53,10 @@ class AuthService {
       print(e);
       return null;
     }
+  }
+
+  Future signOut() async {
+    await _auth.signOut();
+    return null;
   }
 }
