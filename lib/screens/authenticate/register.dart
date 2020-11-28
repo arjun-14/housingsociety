@@ -53,7 +53,7 @@ class _RegisterState extends State<Register> {
                           style: TextStyle(
                             fontSize: 20.0,
                             fontWeight: FontWeight.bold,
-                            color: kButtonColor,
+                            color: Colors.white,
                           ),
                         ),
                         SizedBox(

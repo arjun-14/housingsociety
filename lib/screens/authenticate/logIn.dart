@@ -54,7 +54,7 @@ class _LogInState extends State<LogIn> {
                           style: TextStyle(
                             fontSize: 20.0,
                             fontWeight: FontWeight.bold,
-                            color: kButtonColor,
+                            color: Colors.white,
                           ),
                         ),
                         SizedBox(
@@ -120,6 +120,17 @@ class _LogInState extends State<LogIn> {
                                   setState(() {
                                     loading = false;
                                   });
+                                  showModalActionSheet(
+                                    context: context,
+                                    actions: [
+                                      SheetAction(
+                                        label: 'Incorrect email id or password',
+                                        icon: Icons.error,
+                                        isDestructiveAction: true,
+                                      )
+                                    ],
+                                    // title: 'Incorrect email id or password',
+                                  );
                                 }
                               }
                             },
