@@ -12,7 +12,8 @@ class AuthService {
     return _auth.authStateChanges().map(_userFromFireBase);
   }
 
-  Future createUserWithEmailAndPassword(String email, String password) async {
+  Future createUserWithEmailAndPassword(
+      String email, String password, String name) async {
     try {
       UserCredential userCredential = await _auth
           .createUserWithEmailAndPassword(email: email, password: password);

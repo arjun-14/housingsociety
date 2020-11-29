@@ -30,7 +30,7 @@ class _LogInState extends State<LogIn> {
       });
     } else {
       setState(() {
-        visibiltyIconColor = kButtonColor;
+        visibiltyIconColor = kAmaranth;
       });
     }
   }
@@ -42,114 +42,117 @@ class _LogInState extends State<LogIn> {
         : Scaffold(
             body: SafeArea(
               child: Center(
-                child: Container(
-                  width: 300.0,
-                  child: Form(
-                    key: _formkey,
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text(
-                          'Log In',
-                          style: TextStyle(
-                            fontSize: 20.0,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.white,
-                          ),
-                        ),
-                        SizedBox(
-                          height: 20.0,
-                        ),
-                        TextFormField(
-                          onChanged: (val) {
-                            setState(() {
-                              _email = val;
-                            });
-                          },
-                          validator: (val) {
-                            return val.isEmpty ? 'Enter an email' : null;
-                          },
-                          decoration: InputDecoration(
-                            labelText: 'Email ID',
-                            border: OutlineInputBorder(),
-                          ),
-                        ),
-                        SizedBox(
-                          height: 20.0,
-                        ),
-                        TextFormField(
-                          obscureText: obscureText,
-                          onChanged: (val) {
-                            setState(() {
-                              _password = val;
-                            });
-                          },
-                          validator: (val) {
-                            return val.length < 4
-                                ? 'Password must be minimum of 4 characters'
-                                : null;
-                          },
-                          decoration: InputDecoration(
-                            suffixIcon: IconButton(
-                              icon: Icon(
-                                Icons.visibility,
-                                color: visibiltyIconColor,
-                              ),
-                              onPressed: unHidePassword,
-                            ),
-                            labelText: 'Password',
-                            border: OutlineInputBorder(),
-                          ),
-                        ),
-                        SizedBox(
-                          height: 20.0,
-                        ),
-                        SizedBox(
-                          width: double.infinity,
-                          child: RaisedButton(
-                            color: kButtonColor,
-                            onPressed: () async {
-                              if (_formkey.currentState.validate()) {
-                                setState(() {
-                                  loading = true;
-                                });
-                                dynamic result =
-                                    await _auth.logInWithEmailAndPassword(
-                                        _email, _password);
-                                if (result == null) {
-                                  setState(() {
-                                    loading = false;
-                                  });
-                                  showModalActionSheet(
-                                    context: context,
-                                    actions: [
-                                      SheetAction(
-                                        label: 'Incorrect email id or password',
-                                        icon: Icons.error,
-                                        isDestructiveAction: true,
-                                      )
-                                    ],
-                                    // title: 'Incorrect email id or password',
-                                  );
-                                }
-                              }
-                            },
-                            child: Text('Continue'),
-                          ),
-                        ),
-                        FlatButton(
-                          onPressed: () {
-                            widget.toggle();
-                          },
-                          child: Text(
-                            'Create a new account',
+                child: SingleChildScrollView(
+                  child: Container(
+                    width: 300.0,
+                    child: Form(
+                      key: _formkey,
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            'Log In',
                             style: TextStyle(
-                              fontSize: 15.0,
-                              color: kButtonColor,
+                              fontSize: 20.0,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.white,
                             ),
                           ),
-                        ),
-                      ],
+                          SizedBox(
+                            height: 20.0,
+                          ),
+                          TextFormField(
+                            onChanged: (val) {
+                              setState(() {
+                                _email = val;
+                              });
+                            },
+                            validator: (val) {
+                              return val.isEmpty ? 'Enter an email' : null;
+                            },
+                            decoration: InputDecoration(
+                              labelText: 'Email ID',
+                              border: OutlineInputBorder(),
+                            ),
+                          ),
+                          SizedBox(
+                            height: 20.0,
+                          ),
+                          TextFormField(
+                            obscureText: obscureText,
+                            onChanged: (val) {
+                              setState(() {
+                                _password = val;
+                              });
+                            },
+                            validator: (val) {
+                              return val.length < 4
+                                  ? 'Password must be minimum of 4 characters'
+                                  : null;
+                            },
+                            decoration: InputDecoration(
+                              suffixIcon: IconButton(
+                                icon: Icon(
+                                  Icons.visibility,
+                                  color: visibiltyIconColor,
+                                ),
+                                onPressed: unHidePassword,
+                              ),
+                              labelText: 'Password',
+                              border: OutlineInputBorder(),
+                            ),
+                          ),
+                          SizedBox(
+                            height: 20.0,
+                          ),
+                          SizedBox(
+                            width: double.infinity,
+                            child: RaisedButton(
+                              color: kAmaranth,
+                              onPressed: () async {
+                                if (_formkey.currentState.validate()) {
+                                  setState(() {
+                                    loading = true;
+                                  });
+                                  dynamic result =
+                                      await _auth.logInWithEmailAndPassword(
+                                          _email, _password);
+                                  if (result == null) {
+                                    setState(() {
+                                      loading = false;
+                                    });
+                                    showModalActionSheet(
+                                      context: context,
+                                      actions: [
+                                        SheetAction(
+                                          label:
+                                              'Incorrect email id or password',
+                                          icon: Icons.error,
+                                          isDestructiveAction: true,
+                                        )
+                                      ],
+                                      // title: 'Incorrect email id or password',
+                                    );
+                                  }
+                                }
+                              },
+                              child: Text('Continue'),
+                            ),
+                          ),
+                          FlatButton(
+                            onPressed: () {
+                              widget.toggle();
+                            },
+                            child: Text(
+                              'Create a new account',
+                              style: TextStyle(
+                                fontSize: 15.0,
+                                color: kAmaranth,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
                   ),
                 ),
