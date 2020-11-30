@@ -59,10 +59,10 @@ class Home extends StatelessWidget {
           ],
         ),
       ),
-      body: Column(
-        children: [
-          Expanded(
-            child: Row(
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            Row(
               children: [
                 ReusableCard(
                   icon: Icons.message,
@@ -78,45 +78,27 @@ class Home extends StatelessWidget {
                     print('clikced');
                   },
                 ),
-                ReusableCard(
-                  icon: Icons.medical_services,
-                  text: 'Health',
-                  onpress: () {
-                    print('clikced');
-                  },
-                ),
               ],
             ),
-          ),
-          Expanded(
-            child: Row(
+            Row(
               children: [
                 ReusableCard(
-                  icon: Icons.message,
+                  icon: Icons.support_agent,
                   text: 'Complaint',
                   onpress: () {
                     print('clikced');
                   },
                 ),
                 ReusableCard(
-                  icon: Icons.message,
+                  icon: Icons.local_mall,
                   text: 'Market',
-                  onpress: () {
-                    print('clikced');
-                  },
-                ),
-                ReusableCard(
-                  icon: Icons.message,
-                  text: 'Visitor',
                   onpress: () {
                     print('clikced');
                   },
                 ),
               ],
             ),
-          ),
-          Expanded(
-            child: Row(
+            Row(
               children: [
                 ReusableCard(
                   icon: Icons.contacts,
@@ -132,17 +114,28 @@ class Home extends StatelessWidget {
                     print('clikced');
                   },
                 ),
+              ],
+            ),
+            Row(
+              children: [
                 ReusableCard(
-                  icon: Icons.message,
-                  text: 'Events',
+                  icon: Icons.medical_services,
+                  text: 'Health',
+                  onpress: () {
+                    print('clikced');
+                  },
+                ),
+                ReusableCard(
+                  icon: Icons.face,
+                  text: 'Visitor',
                   onpress: () {
                     print('clikced');
                   },
                 ),
               ],
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

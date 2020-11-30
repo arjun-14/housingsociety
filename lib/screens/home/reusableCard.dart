@@ -13,6 +13,7 @@ class ReusableCard extends StatelessWidget {
       child: GestureDetector(
         onTap: onpress,
         child: Container(
+          height: 150.0,
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
