@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:housingsociety/services/database.dart';
 import 'package:housingsociety/shared/constants.dart';
+import 'package:emoji_picker/emoji_picker.dart';
+import 'package:provider/provider.dart';
+import 'package:housingsociety/models/user.dart';
 
 class Chat extends StatefulWidget {
   @override
@@ -7,9 +11,12 @@ class Chat extends StatefulWidget {
 }
 
 class _ChatState extends State<Chat> {
+  DatabaseService db = DatabaseService();
+
   String message;
   @override
   Widget build(BuildContext context) {
+    final user = Provider.of<CurrentUser>(context);
     return Scaffold(
       appBar: AppBar(
         title: Text('Chat'),
@@ -32,9 +39,7 @@ class _ChatState extends State<Chat> {
                       },
                       decoration: InputDecoration(
                         prefixIcon: IconButton(
-                          onPressed: () {
-                            print('clicked');
-                          },
+                          onPressed: () {},
                           icon: Icon(
                             Icons.emoji_emotions,
                           ),
@@ -57,6 +62,7 @@ class _ChatState extends State<Chat> {
                     color: kAmaranth,
                     onPressed: () {
                       print('button');
+                      db.addMessage(message, user.email);
                     },
                     icon: Icon(Icons.send),
                   ),
