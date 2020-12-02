@@ -30,7 +30,7 @@ dependencies:
   cupertino_icons: ^1.0.0
   firebase_core: ^0.5.2+1
   firebase_auth: ^0.18.3+1
-  cloud_firestore: ^0.14.3
+  cloud_firestore: ^0.14.3+1
   flutter_spinkit: ^4.1.2
   provider: ^4.3.2+2
   adaptive_dialog: ^0.9.2
