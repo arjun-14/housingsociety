@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:housingsociety/screens/home/modules/chat/chat.dart';
 import 'package:housingsociety/screens/home/reusableCard.dart';
 import 'package:housingsociety/services/auth.dart';
 import 'package:housingsociety/shared/constants.dart';
@@ -68,6 +69,12 @@ class Home extends StatelessWidget {
                   icon: Icons.message,
                   text: 'Chat',
                   onpress: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => Chat(),
+                      ),
+                    );
                     print('clikced');
                   },
                 ),
