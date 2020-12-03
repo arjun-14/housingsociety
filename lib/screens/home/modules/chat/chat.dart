@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:housingsociety/screens/home/modules/chat/realtimeUpdate.dart';
+
 import 'package:housingsociety/services/database.dart';
 import 'package:housingsociety/shared/constants.dart';
-import 'package:emoji_picker/emoji_picker.dart';
+
 import 'package:provider/provider.dart';
 import 'package:housingsociety/models/user.dart';
 
@@ -20,13 +22,21 @@ class _ChatState extends State<Chat> {
     return Scaffold(
       appBar: AppBar(
         title: Text('Chat'),
+        actions: [
+          IconButton(
+            onPressed: () {
+              db.messageStream();
+            },
+            icon: Icon(Icons.ac_unit),
+          ),
+        ],
       ),
       body: SafeArea(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.end,
           children: [
-            Container(
-              color: Colors.white,
+            Expanded(
+              child: RealtimeChatUpdate(),
             ),
             Row(
               children: [

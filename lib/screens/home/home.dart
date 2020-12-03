@@ -2,16 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:housingsociety/screens/home/modules/chat/chat.dart';
 import 'package:housingsociety/screens/home/reusableCard.dart';
 import 'package:housingsociety/services/auth.dart';
-import 'package:housingsociety/shared/constants.dart';
-import 'package:housingsociety/models/user.dart';
-import 'package:provider/provider.dart';
 
 class Home extends StatelessWidget {
   final AuthService _auth = AuthService();
 
   @override
   Widget build(BuildContext context) {
-    final user = Provider.of<CurrentUser>(context);
     return Scaffold(
       appBar: AppBar(
         actions: [
