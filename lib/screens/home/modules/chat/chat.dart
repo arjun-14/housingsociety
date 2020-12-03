@@ -19,17 +19,10 @@ class _ChatState extends State<Chat> {
   @override
   Widget build(BuildContext context) {
     final user = Provider.of<CurrentUser>(context);
+    var _textController = TextEditingController();
     return Scaffold(
       appBar: AppBar(
         title: Text('Chat'),
-        actions: [
-          IconButton(
-            onPressed: () {
-              db.messageStream();
-            },
-            icon: Icon(Icons.ac_unit),
-          ),
-        ],
       ),
       body: SafeArea(
         child: Column(
@@ -42,27 +35,26 @@ class _ChatState extends State<Chat> {
               children: [
                 Expanded(
                   flex: 10,
-                  child: Form(
-                    child: TextFormField(
-                      onChanged: (val) {
-                        message = val;
-                      },
-                      decoration: InputDecoration(
-                        prefixIcon: IconButton(
-                          onPressed: () {},
-                          icon: Icon(
-                            Icons.emoji_emotions,
-                          ),
+                  child: TextField(
+                    controller: _textController,
+                    onChanged: (val) {
+                      message = val;
+                    },
+                    decoration: InputDecoration(
+                      prefixIcon: IconButton(
+                        onPressed: () {},
+                        icon: Icon(
+                          Icons.emoji_emotions,
                         ),
-                        fillColor: kSpaceCadet,
-                        filled: true,
-                        hintText: 'Type a message...',
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.all(
-                            Radius.circular(30.0),
-                          ),
-                          borderSide: BorderSide.none,
+                      ),
+                      fillColor: kSpaceCadet,
+                      filled: true,
+                      hintText: 'Type a message...',
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.all(
+                          Radius.circular(30.0),
                         ),
+                        borderSide: BorderSide.none,
                       ),
                     ),
                   ),
@@ -71,7 +63,7 @@ class _ChatState extends State<Chat> {
                   child: IconButton(
                     color: kAmaranth,
                     onPressed: () {
-                      print('button');
+                      _textController.clear();
                       db.addMessage(message, user.email);
                     },
                     icon: Icon(Icons.send),

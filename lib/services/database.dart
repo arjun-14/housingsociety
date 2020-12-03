@@ -9,12 +9,4 @@ class DatabaseService {
       {'message': message, 'sender': sender},
     );
   }
-
-  void messageStream() async {
-    await for (var snapshot in moduleChat.snapshots()) {
-      for (var message in snapshot.docs) {
-        print(message.data());
-      }
-    }
-  }
 }

@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:housingsociety/shared/constants.dart';
 
 class RealtimeChatUpdate extends StatelessWidget {
   @override
@@ -18,11 +19,15 @@ class RealtimeChatUpdate extends StatelessWidget {
           return Text("Loading");
         }
 
-        return new ListView(
+        return ListView(
           children: snapshot.data.docs.map((DocumentSnapshot document) {
-            return new ListTile(
-              title: new Text(document.data()['message']),
-              subtitle: new Text(document.data()['sender']),
+            return Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: ListTile(
+                tileColor: kSpaceCadet,
+                title: new Text(document.data()['message']),
+                subtitle: new Text(document.data()['sender']),
+              ),
             );
           }).toList(),
         );
