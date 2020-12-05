@@ -15,7 +15,8 @@ class _RegisterState extends State<Register> {
   final AuthService _auth = AuthService();
   final _formkey = GlobalKey<FormState>();
 
-  String _email, _password, _name;
+  String _email, _password;
+  static String name;
   bool buttonEnabled = false;
   bool obscureText = true;
   bool loading = false;
@@ -65,7 +66,7 @@ class _RegisterState extends State<Register> {
                           TextFormField(
                             onChanged: (val) {
                               setState(() {
-                                _name = val;
+                                name = val;
                               });
                             },
                             validator: (val) {
@@ -136,7 +137,7 @@ class _RegisterState extends State<Register> {
                                   });
                                   dynamic result = await _auth
                                       .createUserWithEmailAndPassword(
-                                          _email, _password, _name);
+                                          _email, _password, name);
                                   if (result == null) {
                                     setState(() {
                                       loading = false;

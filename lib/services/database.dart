@@ -6,9 +6,14 @@ class DatabaseService {
   CollectionReference userProfile =
       FirebaseFirestore.instance.collection('user_profile');
 
-  Future<void> addMessage(message, sender) {
+  Future<void> addMessage(message, sender, email, Timestamp timestamp) {
     return moduleChat.add(
-      {'message': message, 'sender': sender},
+      {
+        'message': message,
+        'sender': sender,
+        'email': email,
+        'timestamp': timestamp
+      },
     );
   }
 
