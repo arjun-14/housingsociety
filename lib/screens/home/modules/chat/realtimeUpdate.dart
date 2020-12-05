@@ -25,8 +25,14 @@ class RealtimeChatUpdate extends StatelessWidget {
               padding: const EdgeInsets.all(8.0),
               child: ListTile(
                 tileColor: kSpaceCadet,
-                title: new Text(document.data()['message']),
-                subtitle: new Text(document.data()['sender']),
+                title: new Text(
+                  document.data()['sender'],
+                  style: TextStyle(fontSize: 15),
+                ),
+                subtitle: new Text(
+                  document.data()['message'],
+                  style: TextStyle(fontSize: 16),
+                ),
               ),
             );
           }).toList(),

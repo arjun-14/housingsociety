@@ -1,11 +1,15 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:housingsociety/models/user.dart';
+import 'package:housingsociety/services/database.dart';
 
 class AuthService {
   final FirebaseAuth _auth = FirebaseAuth.instance;
+  DatabaseService db = DatabaseService();
 
   CurrentUser _userFromFireBase(User user) {
-    return user != null ? CurrentUser(uid: user.uid, email: user.email) : null;
+    return user != null
+        ? CurrentUser(uid: user.uid, email: user.email, name: user.displayName)
+        : null;
   }
 
   Stream<CurrentUser> get user {
@@ -17,8 +21,11 @@ class AuthService {
     try {
       UserCredential userCredential = await _auth
           .createUserWithEmailAndPassword(email: email, password: password);
+      await userCredential.user.updateProfile(displayName: name);
+      print(userCredential.user.displayName);
       User user = userCredential.user;
-      return _userFromFireBase(user);
+      db.setProfileonRegistration(user.uid, name);
+      return _userFromFireBase(userCredential.user);
     } on FirebaseAuthException catch (e) {
       if (e.code == 'weak-password') {
         print('The password provided is too weak.');

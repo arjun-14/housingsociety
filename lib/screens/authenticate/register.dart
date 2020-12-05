@@ -142,7 +142,6 @@ class _RegisterState extends State<Register> {
                                       loading = false;
                                     });
                                   }
-                                  print(result);
                                 }
                               },
                               child: Text('Continue'),

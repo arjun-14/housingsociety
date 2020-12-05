@@ -64,7 +64,7 @@ class _ChatState extends State<Chat> {
                     color: kAmaranth,
                     onPressed: () {
                       _textController.clear();
-                      db.addMessage(message, user.email);
+                      db.addMessage(message, user.name);
                     },
                     icon: Icon(Icons.send),
                   ),
