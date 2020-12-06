@@ -16,43 +16,20 @@ class AuthService {
     return _auth.authStateChanges().map(_userFromFireBase);
   }
 
-  // Future createUserWithEmailAndPassword(
-  //     String email, String password, String name) async {
-  //   try {
-  //     UserCredential userCredential = await _auth
-  //         .createUserWithEmailAndPassword(email: email, password: password);
-  //     userCredential.user.updateProfile(displayName: name).then((_) {
-  //       print(userCredential.user.displayName);
-  //       User user = userCredential.user;
-  //       db.setProfileonRegistration(user.uid, name);
-  //       return _userFromFireBase(userCredential.user);
-  //     });
-  //   } on FirebaseAuthException catch (e) {
-  //     if (e.code == 'weak-password') {
-  //       print('The password provided is too weak.');
-  //       return null;
-  //     } else if (e.code == 'email-already-in-use') {
-  //       print('The account already exists for that email.');
-  //       return null;
-  //     }
-  //   } catch (e) {
-  //     print(e);
-  //     return null;
-  //   }
-  // }
   Future createUserWithEmailAndPassword(
       String email, String password, String name) async {
     try {
       UserCredential userCredential = await _auth
           .createUserWithEmailAndPassword(email: email, password: password);
-      User user = userCredential.user;
 
-      user.updateProfile(displayName: name);
-      User updateduser = await _auth.currentUser;
-      print(updateduser.displayName);
-      //User user = userCredential.user;
-      db.setProfileonRegistration(user.uid, name);
-      return _userFromFireBase(user);
+      userCredential.user.updateProfile(displayName: name).then((_) {
+        User user = _auth.currentUser;
+        user.reload();
+        User updateduser = _auth.currentUser;
+        print(updateduser.displayName);
+        db.setProfileonRegistration(user.uid, name);
+        return _userFromFireBase(updateduser);
+      });
     } on FirebaseAuthException catch (e) {
       if (e.code == 'weak-password') {
         print('The password provided is too weak.');
@@ -88,6 +65,11 @@ class AuthService {
       print(e);
       return null;
     }
+  }
+
+  String userName() {
+    final User user = _auth.currentUser;
+    return user.displayName;
   }
 
   Future signOut() async {

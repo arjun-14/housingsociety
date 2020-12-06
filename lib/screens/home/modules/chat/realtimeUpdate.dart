@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:housingsociety/models/user.dart';
 import 'package:housingsociety/shared/constants.dart';
+import 'package:housingsociety/shared/loading.dart';
 import 'package:provider/provider.dart';
 
 class RealtimeChatUpdate extends StatelessWidget {
@@ -20,7 +21,7 @@ class RealtimeChatUpdate extends StatelessWidget {
         }
 
         if (snapshot.connectionState == ConnectionState.waiting) {
-          return Text("Loading");
+          return Loading();
         }
 
         return ListView(
