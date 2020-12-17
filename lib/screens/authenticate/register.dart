@@ -142,6 +142,12 @@ class _RegisterState extends State<Register> {
                                     setState(() {
                                       loading = false;
                                     });
+                                    final snackbar = SnackBar(
+                                      content: Text(
+                                        'Oops! An error occured',
+                                      ),
+                                    );
+                                    Scaffold.of(context).showSnackBar(snackbar);
                                   }
                                 }
                               },

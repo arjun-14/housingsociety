@@ -9,6 +9,9 @@ class RealtimeChatUpdate extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final user = Provider.of<CurrentUser>(context);
+    String previousUSerEmail;
+    String currentUSerEmail;
+
     Query users = FirebaseFirestore.instance
         .collection('module_chat')
         .orderBy('timestamp', descending: true);
@@ -27,8 +30,13 @@ class RealtimeChatUpdate extends StatelessWidget {
         return ListView(
           reverse: true,
           children: snapshot.data.docs.map((DocumentSnapshot document) {
+            if (previousUSerEmail != currentUSerEmail) {
+              previousUSerEmail = currentUSerEmail;
+            }
+            currentUSerEmail = document.data()['email'];
+            print(previousUSerEmail);
             return Padding(
-              padding: const EdgeInsets.all(8.0),
+              padding: const EdgeInsets.all(3.0),
               child: Column(
                 crossAxisAlignment: document.data()['email'] == user.email
                     ? CrossAxisAlignment.end
@@ -36,12 +44,16 @@ class RealtimeChatUpdate extends StatelessWidget {
                 children: [
                   Padding(
                     padding: EdgeInsets.symmetric(horizontal: 10),
-                    child: Text(
-                      document.data()['sender'],
-                      style: TextStyle(
-                        fontSize: 12,
-                      ),
-                    ),
+                    child: document.data()['email'] == user.email
+                        ? SizedBox(
+                            height: 0,
+                          )
+                        : Text(
+                            document.data()['sender'],
+                            style: TextStyle(
+                              fontSize: 12,
+                            ),
+                          ),
                   ),
                   Material(
                     color: kAmaranth,
@@ -60,9 +72,13 @@ class RealtimeChatUpdate extends StatelessWidget {
                     child: Padding(
                       padding:
                           EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-                      child: Text(
-                        document.data()['message'],
-                        style: TextStyle(fontSize: 18),
+                      child: Container(
+                        constraints: BoxConstraints(
+                            maxWidth: MediaQuery.of(context).size.width / 1.4),
+                        child: Text(
+                          document.data()['message'],
+                          style: TextStyle(fontSize: 16),
+                        ),
                       ),
                     ),
                   )

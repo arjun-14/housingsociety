@@ -89,7 +89,10 @@ class Home extends StatelessWidget {
                     icon: Icons.announcement,
                     text: 'Notice',
                     onpress: () {
-                      print('clikced');
+                      final snackbar = SnackBar(
+                        content: Text('test'),
+                      );
+                      Scaffold.of(context).showSnackBar(snackbar);
                     },
                   ),
                 ],

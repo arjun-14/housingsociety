@@ -14,6 +14,7 @@ class LogIn extends StatefulWidget {
 class _LogInState extends State<LogIn> {
   final AuthService _auth = AuthService();
   final _formkey = GlobalKey<FormState>();
+
   String _email, _password;
   bool buttonEnabled = false;
   bool obscureText = true;
@@ -121,18 +122,19 @@ class _LogInState extends State<LogIn> {
                                     setState(() {
                                       loading = false;
                                     });
-                                    showModalActionSheet(
-                                      context: context,
-                                      actions: [
-                                        SheetAction(
-                                          label:
-                                              'Incorrect email id or password',
-                                          icon: Icons.error,
-                                          isDestructiveAction: true,
-                                        )
-                                      ],
-                                      // title: 'Incorrect email id or password',
-                                    );
+
+                                    // showModalActionSheet(
+                                    //   context: context,
+                                    //   actions: [
+                                    //     SheetAction(
+                                    //       label:
+                                    //           'Incorrect email id or password',
+                                    //       icon: Icons.error,
+                                    //       isDestructiveAction: true,
+                                    //     )
+                                    //   ],
+                                    //   // title: 'Incorrect email id or password',
+                                    // );
                                   }
                                 }
                               },
