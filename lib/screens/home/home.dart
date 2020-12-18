@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:housingsociety/models/user.dart';
 import 'package:housingsociety/screens/home/modules/chat/chat.dart';
+import 'package:housingsociety/screens/home/modules/profile/profile.dart';
 import 'package:housingsociety/screens/home/reusableCard.dart';
 import 'package:housingsociety/services/auth.dart';
 import 'package:provider/provider.dart';
@@ -15,13 +16,6 @@ class Home extends StatelessWidget {
       child: Scaffold(
         appBar: AppBar(
           actions: [
-            IconButton(
-              icon: Icon(Icons.ac_unit),
-              onPressed: () {
-                print(_auth.userName());
-                print(user.name);
-              },
-            ),
             IconButton(
               onPressed: () {
                 _auth.signOut();
@@ -39,13 +33,13 @@ class Home extends StatelessWidget {
         drawer: Drawer(
           child: ListView(
             padding: EdgeInsets.zero,
-            children: const <Widget>[
+            children: <Widget>[
               DrawerHeader(
                 decoration: BoxDecoration(
                   color: Color(0xFF1D1E33),
                 ),
                 child: Text(
-                  'Drawer Header',
+                  'Society',
                   style: TextStyle(
                     color: Colors.white,
                     fontSize: 24,
@@ -53,10 +47,28 @@ class Home extends StatelessWidget {
                 ),
               ),
               ListTile(
+                onTap: () {
+                  Navigator.pop(context);
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => Chat(),
+                    ),
+                  );
+                },
                 leading: Icon(Icons.message),
                 title: Text('Messages'),
               ),
               ListTile(
+                onTap: () {
+                  Navigator.pop(context);
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => Profile(),
+                    ),
+                  );
+                },
                 leading: Icon(Icons.account_circle),
                 title: Text('Profile'),
               ),
@@ -82,7 +94,6 @@ class Home extends StatelessWidget {
                           builder: (context) => Chat(),
                         ),
                       );
-                      print('clikced');
                     },
                   ),
                   ReusableCard(

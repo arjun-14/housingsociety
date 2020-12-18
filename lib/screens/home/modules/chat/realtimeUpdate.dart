@@ -9,8 +9,8 @@ class RealtimeChatUpdate extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final user = Provider.of<CurrentUser>(context);
-    String previousUSerEmail;
-    String currentUSerEmail;
+    String previousUserEmail;
+    String currentUserEmail;
 
     Query users = FirebaseFirestore.instance
         .collection('module_chat')
@@ -30,11 +30,9 @@ class RealtimeChatUpdate extends StatelessWidget {
         return ListView(
           reverse: true,
           children: snapshot.data.docs.map((DocumentSnapshot document) {
-            if (previousUSerEmail != currentUSerEmail) {
-              previousUSerEmail = currentUSerEmail;
-            }
-            currentUSerEmail = document.data()['email'];
-            print(previousUSerEmail);
+            previousUserEmail = currentUserEmail;
+            currentUserEmail = document.data()['email'];
+
             return Padding(
               padding: const EdgeInsets.all(3.0),
               child: Column(
@@ -81,7 +79,7 @@ class RealtimeChatUpdate extends StatelessWidget {
                         ),
                       ),
                     ),
-                  )
+                  ),
                 ],
               ),
             );

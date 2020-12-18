@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:housingsociety/shared/constants.dart';
 import 'package:housingsociety/services/auth.dart';
 import 'package:housingsociety/shared/loading.dart';
+import 'package:adaptive_dialog/adaptive_dialog.dart';
 
 class Register extends StatefulWidget {
   final Function toggle;
@@ -142,12 +143,18 @@ class _RegisterState extends State<Register> {
                                     setState(() {
                                       loading = false;
                                     });
-                                    final snackbar = SnackBar(
-                                      content: Text(
-                                        'Oops! An error occured',
-                                      ),
+                                    showModalActionSheet(
+                                      context: context,
+                                      actions: [
+                                        SheetAction(
+                                          label:
+                                              'An error occured.Please try again',
+                                          icon: Icons.error,
+                                          isDestructiveAction: true,
+                                        )
+                                      ],
+                                      //title: 'Incorrect email id or password',
                                     );
-                                    Scaffold.of(context).showSnackBar(snackbar);
                                   }
                                 }
                               },
