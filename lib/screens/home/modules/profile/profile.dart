@@ -16,81 +16,54 @@ class Profile extends StatelessWidget {
             radius: 50.0,
             backgroundColor: Colors.white,
           ),
-          FlatButton(
-            onPressed: () {
-              print('clicked');
-            },
-            child: Row(
-              children: [
-                Expanded(
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Text(
-                      'Name',
-                      style: TextStyle(
-                        fontSize: 18.0,
-                      ),
-                    ),
-                  ),
+          ReusableProfileTile(
+            label: 'Name',
+            value: user.name,
+          ),
+          ReusableProfileTile(
+            label: 'Email address',
+            value: user.email,
+          ),
+          ReusableProfileTile(
+            label: 'Change password',
+            value: ' ',
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class ReusableProfileTile extends StatelessWidget {
+  final String label;
+  final String value;
+  ReusableProfileTile({this.label, this.value});
+  @override
+  Widget build(BuildContext context) {
+    return FlatButton(
+      onPressed: () {
+        print('clicked');
+      },
+      child: Row(
+        children: [
+          Expanded(
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Text(
+                label,
+                style: TextStyle(
+                  fontSize: 18.0,
                 ),
-                Text(
-                  user.name,
-                  style: TextStyle(
-                    fontSize: 18.0,
-                  ),
-                ),
-                Icon(Icons.navigate_next),
-              ],
+              ),
             ),
           ),
-          FlatButton(
-            onPressed: () {
-              print('clicked');
-            },
-            child: Row(
-              children: [
-                Expanded(
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Text(
-                      'Email address',
-                      style: TextStyle(
-                        fontSize: 18.0,
-                      ),
-                    ),
-                  ),
-                ),
-                Text(
-                  user.email,
-                  style: TextStyle(
-                    fontSize: 18.0,
-                  ),
-                ),
-                Icon(Icons.navigate_next),
-              ],
+          Text(
+            value,
+            style: TextStyle(
+              fontSize: 18.0,
             ),
           ),
-          FlatButton(
-            onPressed: () {
-              print('clicked');
-            },
-            child: Row(
-              children: [
-                Expanded(
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Text(
-                      'Change password',
-                      style: TextStyle(
-                        fontSize: 18.0,
-                      ),
-                    ),
-                  ),
-                ),
-                Icon(Icons.navigate_next),
-              ],
-            ),
-          ),
+          Icon(Icons.navigate_next),
         ],
       ),
     );
