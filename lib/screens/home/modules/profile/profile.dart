@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:housingsociety/models/user.dart';
+import 'package:housingsociety/screens/home/modules/profile/editName.dart';
+import 'package:housingsociety/services/auth.dart';
 import 'package:provider/provider.dart';
 
 class Profile extends StatelessWidget {
@@ -18,15 +20,40 @@ class Profile extends StatelessWidget {
           ),
           ReusableProfileTile(
             label: 'Name',
-            value: user.name,
+            value: user.name ?? AuthService().userName(),
+            onpress: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => EditName(),
+                ),
+              );
+            },
           ),
           ReusableProfileTile(
-            label: 'Email address',
+            label: 'Email',
             value: user.email,
           ),
           ReusableProfileTile(
             label: 'Change password',
             value: ' ',
+          ),
+          Row(
+            children: [
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: FlatButton(
+                  onPressed: () {},
+                  child: Text(
+                    'Delete account',
+                    style: TextStyle(
+                      color: Colors.red,
+                      fontSize: 18.0,
+                    ),
+                  ),
+                ),
+              ),
+            ],
           ),
         ],
       ),
@@ -37,13 +64,12 @@ class Profile extends StatelessWidget {
 class ReusableProfileTile extends StatelessWidget {
   final String label;
   final String value;
-  ReusableProfileTile({this.label, this.value});
+  final Function onpress;
+  ReusableProfileTile({this.label, this.value, this.onpress});
   @override
   Widget build(BuildContext context) {
     return FlatButton(
-      onPressed: () {
-        print('clicked');
-      },
+      onPressed: onpress,
       child: Row(
         children: [
           Expanded(

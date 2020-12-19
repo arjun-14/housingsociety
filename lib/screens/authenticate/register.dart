@@ -143,18 +143,18 @@ class _RegisterState extends State<Register> {
                                     setState(() {
                                       loading = false;
                                     });
-                                    showModalActionSheet(
-                                      context: context,
-                                      actions: [
-                                        SheetAction(
-                                          label:
-                                              'An error occured.Please try again',
-                                          icon: Icons.error,
-                                          isDestructiveAction: true,
-                                        )
-                                      ],
-                                      //title: 'Incorrect email id or password',
-                                    );
+                                    // showModalActionSheet(
+                                    //   context: context,
+                                    //   actions: [
+                                    //     SheetAction(
+                                    //       label:
+                                    //           'An error occured.Please try again',
+                                    //       icon: Icons.error,
+                                    //       isDestructiveAction: true,
+                                    //     )
+                                    //   ],
+                                    //   //title: 'Incorrect email id or password',
+                                    // );
                                   }
                                 }
                               },
