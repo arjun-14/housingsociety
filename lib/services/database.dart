@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:housingsociety/services/auth.dart';
 
 class DatabaseService {
   CollectionReference moduleChat =
@@ -23,5 +24,12 @@ class DatabaseService {
         'name': name,
       },
     );
+  }
+
+  Future<void> updateProfileName(uid, updatedName) {
+    userProfile.doc(uid).set({
+      'name': updatedName,
+    });
+    return AuthService().updateDisplayName(updatedName);
   }
 }

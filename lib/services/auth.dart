@@ -13,8 +13,12 @@ class AuthService {
   }
 
   Stream<CurrentUser> get user {
-    return _auth.authStateChanges().map(_userFromFireBase);
+    return _auth.userChanges().map(_userFromFireBase);
   }
+
+  // Stream<User> get userChanges {
+  //   return _auth.userChanges();
+  // }
 
   Future createUserWithEmailAndPassword(
       String email, String password, String name) async {
@@ -75,5 +79,19 @@ class AuthService {
   Future signOut() async {
     await _auth.signOut();
     return null;
+  }
+
+  Future updateDisplayName(updatedName) async {
+    _auth.currentUser
+        .updateProfile(
+      displayName: updatedName,
+    )
+        .then((_) {
+      User user = _auth.currentUser;
+      user.reload();
+      User updateduser = _auth.currentUser;
+      return _userFromFireBase(updateduser);
+    });
+    return userName();
   }
 }

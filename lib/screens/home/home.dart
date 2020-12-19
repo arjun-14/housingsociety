@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:housingsociety/models/user.dart';
 import 'package:housingsociety/screens/home/modules/chat/chat.dart';
@@ -11,11 +12,16 @@ class Home extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final user = Provider.of<CurrentUser>(context);
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
           actions: [
+            IconButton(
+              icon: Icon(Icons.ac_unit),
+              onPressed: () {
+                print(AuthService().userName());
+              },
+            ),
             IconButton(
               onPressed: () {
                 _auth.signOut();

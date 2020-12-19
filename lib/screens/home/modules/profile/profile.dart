@@ -1,10 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:housingsociety/models/user.dart';
 import 'package:housingsociety/screens/home/modules/profile/editName.dart';
-import 'package:housingsociety/services/auth.dart';
 import 'package:provider/provider.dart';
 
-class Profile extends StatelessWidget {
+class Profile extends StatefulWidget {
+  @override
+  _ProfileState createState() => _ProfileState();
+}
+
+class _ProfileState extends State<Profile> {
   @override
   Widget build(BuildContext context) {
     final user = Provider.of<CurrentUser>(context);
@@ -20,7 +24,8 @@ class Profile extends StatelessWidget {
           ),
           ReusableProfileTile(
             label: 'Name',
-            value: user.name ?? AuthService().userName(),
+            //value: AuthService().userName(),
+            value: user.name,
             onpress: () {
               Navigator.push(
                 context,
