@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:housingsociety/models/user.dart';
+import 'package:housingsociety/screens/home/modules/profile/editEmail.dart';
 import 'package:housingsociety/screens/home/modules/profile/editName.dart';
 import 'package:provider/provider.dart';
 
@@ -38,6 +39,14 @@ class _ProfileState extends State<Profile> {
           ReusableProfileTile(
             label: 'Email',
             value: user.email,
+            onpress: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => EditEmail(),
+                ),
+              );
+            },
           ),
           ReusableProfileTile(
             label: 'Change password',

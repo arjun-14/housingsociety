@@ -16,10 +16,6 @@ class AuthService {
     return _auth.userChanges().map(_userFromFireBase);
   }
 
-  // Stream<User> get userChanges {
-  //   return _auth.userChanges();
-  // }
-
   Future createUserWithEmailAndPassword(
       String email, String password, String name) async {
     try {
