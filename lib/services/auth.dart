@@ -92,15 +92,23 @@ class AuthService {
   }
 
   Future updateEmail(email, password) async {
-    _auth.currentUser.updateEmail(email);
-    EmailAuthCredential credential = EmailAuthProvider.credential(
-      email: email,
-      password: password,
-    );
-
-    dynamic result =
-        await _auth.currentUser.reauthenticateWithCredential(credential);
-
-    return result;
+    try {
+      _auth.currentUser.updateEmail(email);
+      EmailAuthCredential credential = EmailAuthProvider.credential(
+        email: email,
+        password: password,
+      );
+      dynamic result =
+          await _auth.currentUser.reauthenticateWithCredential(credential);
+      return result;
+    } on FirebaseAuthException catch (e) {
+      if (e.code == 'email-already-in-use') {
+        print('The account already exists for that email.');
+      }
+      return null;
+    } catch (e) {
+      print(e);
+      return null;
+    }
   }
 }

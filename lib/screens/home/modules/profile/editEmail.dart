@@ -3,6 +3,7 @@ import 'package:housingsociety/services/auth.dart';
 import 'package:provider/provider.dart';
 import 'package:housingsociety/models/user.dart';
 import 'package:housingsociety/shared/constants.dart';
+import 'package:adaptive_dialog/adaptive_dialog.dart';
 
 class EditEmail extends StatefulWidget {
   @override
@@ -77,15 +78,30 @@ class _EditEmailState extends State<EditEmail> {
         ],
       ),
       floatingActionButton: Visibility(
-        visible: (updatedEmail != user.email || updatedEmail != '') &&
+        visible: (updatedEmail != user.email && updatedEmail != '') &&
                 password != '' &&
                 password.length > 4
             ? true
             : false,
         child: FloatingActionButton(
-          onPressed: () {
-            AuthService().updateEmail(updatedEmail, password);
-            Navigator.pop(context);
+          onPressed: () async {
+            dynamic result =
+                await AuthService().updateEmail(updatedEmail, password);
+            print(result);
+            if (result == null) {
+              showModalActionSheet(
+                context: context,
+                actions: [
+                  SheetAction(
+                    label: 'An error occurred. Please try again!',
+                    icon: Icons.error,
+                    isDestructiveAction: true,
+                  )
+                ],
+              );
+            } else {
+              Navigator.pop(context);
+            }
           },
           child: Icon(Icons.save),
         ),
