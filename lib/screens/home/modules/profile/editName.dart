@@ -29,6 +29,9 @@ class _EditNameState extends State<EditName> {
               padding: const EdgeInsets.all(16.0),
               child: TextFormField(
                 initialValue: userName,
+                decoration: InputDecoration(
+                  labelText: 'Name',
+                ),
                 onChanged: (value) {
                   setState(() {
                     updatedName = value;

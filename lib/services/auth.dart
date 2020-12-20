@@ -90,4 +90,17 @@ class AuthService {
     });
     return userName();
   }
+
+  Future updateEmail(email, password) async {
+    _auth.currentUser.updateEmail(email);
+    EmailAuthCredential credential = EmailAuthProvider.credential(
+      email: email,
+      password: password,
+    );
+
+    dynamic result =
+        await _auth.currentUser.reauthenticateWithCredential(credential);
+
+    return result;
+  }
 }
