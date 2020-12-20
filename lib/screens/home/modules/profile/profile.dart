@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:housingsociety/models/user.dart';
 import 'package:housingsociety/screens/home/modules/profile/editEmail.dart';
 import 'package:housingsociety/screens/home/modules/profile/editName.dart';
+import 'package:housingsociety/screens/home/modules/profile/editPassword.dart';
 import 'package:provider/provider.dart';
 
 class Profile extends StatefulWidget {
@@ -51,6 +52,14 @@ class _ProfileState extends State<Profile> {
           ReusableProfileTile(
             label: 'Change password',
             value: ' ',
+            onpress: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => EditPassword(),
+                ),
+              );
+            },
           ),
           Row(
             children: [
