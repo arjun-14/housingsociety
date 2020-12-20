@@ -46,10 +46,17 @@ class _EditPasswordState extends State<EditPassword> {
       ),
       floatingActionButton: Visibility(
         visible: currentPassword != '' && updatedPassword != '' ? true : false,
-        child: FloatingActionButton(
-          onPressed: () {},
-          child: Icon(
-            Icons.save,
+        child: Builder(
+          builder: (BuildContext context) => FloatingActionButton(
+            onPressed: () {
+              final snackbar = SnackBar(
+                content: Text('hello'),
+              );
+              Scaffold.of(context).showSnackBar(snackbar);
+            },
+            child: Icon(
+              Icons.save,
+            ),
           ),
         ),
       ),
