@@ -112,24 +112,28 @@ class AuthService {
     }
   }
 
-  Future updatePassword(email, newPassword) async {
+  Future updatePassword(oldPassword, newPassword) async {
     try {
-      _auth.currentUser.updatePassword(newPassword);
       EmailAuthCredential credential = EmailAuthProvider.credential(
-        email: email,
+        email: _auth.currentUser.email,
+        password: oldPassword,
+      );
+      await _auth.currentUser.reauthenticateWithCredential(credential);
+      await _auth.currentUser.updatePassword(newPassword);
+      EmailAuthCredential newCredential = EmailAuthProvider.credential(
+        email: _auth.currentUser.email,
         password: newPassword,
       );
-      dynamic result =
-          await _auth.currentUser.reauthenticateWithCredential(credential);
-      return result;
+      await _auth.currentUser.reauthenticateWithCredential(newCredential);
+      return 'Password updated successfully';
     } on FirebaseAuthException catch (e) {
-      if (e.code == 'weak-password') {
-        print('The password provided is too weak.');
+      if (e.code == 'wrong-password') {
+        print('Wrong password provided for that user.');
+        return 'Wrong password provided for that user.';
       }
-      return null;
     } catch (e) {
       print(e);
-      return null;
+      return 'An error occurred, please try again.';
     }
   }
 }
