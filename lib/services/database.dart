@@ -6,6 +6,8 @@ class DatabaseService {
       FirebaseFirestore.instance.collection('module_chat');
   CollectionReference userProfile =
       FirebaseFirestore.instance.collection('user_profile');
+  CollectionReference moduleProfile =
+      FirebaseFirestore.instance.collection('module_notice');
 
   Future<void> addMessage(message, sender, email, Timestamp timestamp) {
     return moduleChat.add(
@@ -31,5 +33,13 @@ class DatabaseService {
       'name': updatedName,
     });
     return AuthService().updateDisplayName(updatedName);
+  }
+
+  Future<void> addNotice(title, notice) {
+    return moduleProfile.add({
+      'title': title,
+      'notice': notice,
+      'timestamp': Timestamp.now(),
+    });
   }
 }

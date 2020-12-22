@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:housingsociety/services/database.dart';
 
 class AddNotice extends StatelessWidget {
   static const String id = 'add_notice';
+  String title = 'Title';
+  String notice = 'Notice';
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -10,7 +13,8 @@ class AddNotice extends StatelessWidget {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          print('clicked');
+          DatabaseService().addNotice(title, notice);
+          Navigator.pop(context);
         },
         child: Icon(
           Icons.save,
@@ -30,6 +34,9 @@ class AddNotice extends StatelessWidget {
                 border: InputBorder.none,
                 hintText: 'Title',
               ),
+              onChanged: (val) {
+                title = val;
+              },
             ),
             TextField(
               maxLines: null,
@@ -40,6 +47,9 @@ class AddNotice extends StatelessWidget {
                 border: InputBorder.none,
                 hintText: 'Notice',
               ),
+              onChanged: (val) {
+                notice = val;
+              },
             ),
           ],
         ),
