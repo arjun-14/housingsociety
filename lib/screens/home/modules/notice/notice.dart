@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:housingsociety/screens/home/modules/notice/addnotice.dart';
 
 class Notice extends StatelessWidget {
   static const String id = 'notice';
@@ -10,7 +11,8 @@ class Notice extends StatelessWidget {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          print('clicked');
+          print('click');
+          Navigator.pushNamed(context, AddNotice.id);
         },
         child: Icon(
           Icons.add,

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:housingsociety/models/user.dart';
+import 'package:housingsociety/screens/home/modules/notice/addnotice.dart';
 import 'package:housingsociety/screens/home/modules/notice/notice.dart';
 import 'package:housingsociety/screens/home/modules/profile/editEmail.dart';
 import 'package:housingsociety/screens/home/modules/profile/editName.dart';
@@ -35,6 +36,7 @@ class MyApp extends StatelessWidget {
           EditEmail.id: (context) => EditEmail(),
           EditPassword.id: (context) => EditPassword(),
           Notice.id: (context) => Notice(),
+          AddNotice.id: (context) => AddNotice(),
         },
       ),
     );
