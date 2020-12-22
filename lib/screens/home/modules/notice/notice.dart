@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:housingsociety/screens/home/modules/notice/addnotice.dart';
+import 'package:housingsociety/screens/home/modules/notice/realtimenoticeupdate.dart';
 
 class Notice extends StatelessWidget {
   static const String id = 'notice';
@@ -18,6 +19,7 @@ class Notice extends StatelessWidget {
           Icons.add,
         ),
       ),
+      body: RealTimeNoticeUpdate(),
     );
   }
 }
