@@ -55,12 +55,7 @@ class Home extends StatelessWidget {
               ListTile(
                 onTap: () {
                   Navigator.pop(context);
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => Chat(),
-                    ),
-                  );
+                  Navigator.pushNamed(context, Chat.id);
                 },
                 leading: Icon(Icons.message),
                 title: Text('Messages'),
@@ -68,12 +63,7 @@ class Home extends StatelessWidget {
               ListTile(
                 onTap: () {
                   Navigator.pop(context);
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => Profile(),
-                    ),
-                  );
+                  Navigator.pushNamed(context, Profile.id);
                 },
                 leading: Icon(Icons.account_circle),
                 title: Text('Profile'),
@@ -94,23 +84,13 @@ class Home extends StatelessWidget {
                     icon: Icons.message,
                     text: 'Chat',
                     onpress: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => Chat(),
-                        ),
-                      );
+                      Navigator.pushNamed(context, Chat.id);
                     },
                   ),
                   ReusableCard(
                     icon: Icons.announcement,
                     text: 'Notice',
-                    onpress: () {
-                      final snackbar = SnackBar(
-                        content: Text('test'),
-                      );
-                      Scaffold.of(context).showSnackBar(snackbar);
-                    },
+                    onpress: () {},
                   ),
                 ],
               ),

@@ -6,6 +6,7 @@ import 'package:housingsociety/screens/home/modules/profile/editPassword.dart';
 import 'package:provider/provider.dart';
 
 class Profile extends StatefulWidget {
+  static const String id = 'profile';
   @override
   _ProfileState createState() => _ProfileState();
 }
@@ -29,36 +30,21 @@ class _ProfileState extends State<Profile> {
             //value: AuthService().userName(),
             value: user.name,
             onpress: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => EditName(),
-                ),
-              );
+              Navigator.pushNamed(context, EditName.id);
             },
           ),
           ReusableProfileTile(
             label: 'Email',
             value: user.email,
             onpress: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => EditEmail(),
-                ),
-              );
+              Navigator.pushNamed(context, EditEmail.id);
             },
           ),
           ReusableProfileTile(
             label: 'Change password',
             value: ' ',
             onpress: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => EditPassword(),
-                ),
-              );
+              Navigator.pushNamed(context, EditPassword.id);
             },
           ),
           Row(

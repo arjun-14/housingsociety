@@ -11,6 +11,7 @@ import 'package:housingsociety/models/user.dart';
 import 'package:emoji_picker/emoji_picker.dart';
 
 class Chat extends StatefulWidget {
+  static const String id = 'chat';
   @override
   _ChatState createState() => _ChatState();
 }

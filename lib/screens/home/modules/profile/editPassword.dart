@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:housingsociety/screens/home/modules/profile/profile.dart';
 import 'package:housingsociety/services/auth.dart';
 import 'package:housingsociety/shared/constants.dart';
 
 class EditPassword extends StatefulWidget {
+  static const String id = 'edit_password';
   @override
   _EditPasswordState createState() => _EditPasswordState();
 }
@@ -159,8 +161,10 @@ class _EditPasswordState extends State<EditPassword> {
                       actions: [
                         FlatButton(
                           onPressed: () {
-                            Navigator.of(context)
-                                .popUntil((route) => route.isFirst);
+                            Navigator.popUntil(
+                              context,
+                              ModalRoute.withName(Profile.id),
+                            );
                           },
                           child: Text(
                             'Okay',

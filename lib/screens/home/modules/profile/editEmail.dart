@@ -6,6 +6,7 @@ import 'package:housingsociety/shared/constants.dart';
 import 'package:adaptive_dialog/adaptive_dialog.dart';
 
 class EditEmail extends StatefulWidget {
+  static const String id = 'edit_email';
   @override
   _EditEmailState createState() => _EditEmailState();
 }

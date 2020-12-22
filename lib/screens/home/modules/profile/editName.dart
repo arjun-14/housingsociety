@@ -6,6 +6,7 @@ import 'package:housingsociety/shared/loading.dart';
 import 'package:provider/provider.dart';
 
 class EditName extends StatefulWidget {
+  static const String id = 'edit_name';
   @override
   _EditNameState createState() => _EditNameState();
 }
