@@ -15,7 +15,7 @@ class DatabaseService {
         'message': message,
         'sender': sender,
         'email': email,
-        'timestamp': timestamp
+        'timestamp': timestamp,
       },
     );
   }

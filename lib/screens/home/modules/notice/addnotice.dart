@@ -41,7 +41,7 @@ class AddNotice extends StatelessWidget {
             TextField(
               maxLines: null,
               style: TextStyle(
-                fontSize: 20,
+                fontSize: 16,
               ),
               decoration: InputDecoration(
                 border: InputBorder.none,
