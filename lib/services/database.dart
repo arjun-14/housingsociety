@@ -42,4 +42,17 @@ class DatabaseService {
       'timestamp': Timestamp.now(),
     });
   }
+
+  Future<void> deleteNotice(uid) {
+    return moduleProfile.doc(uid).delete().catchError((e) {
+      print(e);
+    });
+  }
+
+  Future<void> editNotice(uid, title, notice) {
+    return moduleProfile.doc(uid).update({
+      'title': title,
+      'notice': notice,
+    });
+  }
 }

@@ -3,17 +3,29 @@ import 'package:housingsociety/services/database.dart';
 
 class AddNotice extends StatelessWidget {
   static const String id = 'add_notice';
-  String title = 'Title';
-  String notice = 'Notice';
+  final String editTitle;
+  final String editNotice;
+  final int flag;
+  final String uid;
+  AddNotice({this.editTitle, this.editNotice, this.flag, this.uid});
+
   @override
   Widget build(BuildContext context) {
+    String title = 'Title';
+    String notice = 'Notice';
+    if (flag == 0) {
+      title = editTitle;
+      notice = editNotice;
+    }
     return Scaffold(
       appBar: AppBar(
-        title: Text('Add Notice'),
-      ),
+          //  title: Text('Add Notice'),
+          ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          DatabaseService().addNotice(title, notice);
+          flag == 0
+              ? DatabaseService().editNotice(uid, title, notice)
+              : DatabaseService().addNotice(title, notice);
           Navigator.pop(context);
         },
         child: Icon(
@@ -24,7 +36,8 @@ class AddNotice extends StatelessWidget {
         padding: const EdgeInsets.symmetric(horizontal: 15),
         child: Column(
           children: [
-            TextField(
+            TextFormField(
+              initialValue: flag == 0 ? editTitle : null,
               maxLines: null,
               style: TextStyle(
                 fontSize: 25,
@@ -38,7 +51,8 @@ class AddNotice extends StatelessWidget {
                 title = val;
               },
             ),
-            TextField(
+            TextFormField(
+              initialValue: flag == 0 ? editNotice : null,
               maxLines: null,
               style: TextStyle(
                 fontSize: 16,
