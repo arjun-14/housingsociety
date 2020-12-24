@@ -4,6 +4,7 @@ import 'package:housingsociety/models/user.dart';
 import 'package:housingsociety/screens/home/modules/chat/chat.dart';
 import 'package:housingsociety/screens/home/modules/notice/notice.dart';
 import 'package:housingsociety/screens/home/modules/profile/profile.dart';
+import 'package:housingsociety/screens/home/modules/voting/voting.dart';
 import 'package:housingsociety/screens/home/reusableCard.dart';
 import 'package:housingsociety/services/auth.dart';
 import 'package:provider/provider.dart';
@@ -107,10 +108,10 @@ class Home extends StatelessWidget {
                     },
                   ),
                   ReusableCard(
-                    icon: Icons.local_mall,
-                    text: 'Market',
+                    icon: Icons.how_to_vote,
+                    text: 'Voting',
                     onpress: () {
-                      print('clikced');
+                      Navigator.pushNamed(context, Voting.id);
                     },
                   ),
                 ],

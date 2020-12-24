@@ -41,7 +41,6 @@ class _AddNoticeState extends State<AddNotice> {
       notice = widget.editNotice;
     }
     return GestureDetector(
-      behavior: HitTestBehavior.opaque,
       onTap: () {
         myFocusNode.requestFocus();
       },

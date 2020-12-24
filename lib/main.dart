@@ -6,6 +6,7 @@ import 'package:housingsociety/screens/home/modules/profile/editEmail.dart';
 import 'package:housingsociety/screens/home/modules/profile/editName.dart';
 import 'package:housingsociety/screens/home/modules/profile/editPassword.dart';
 import 'package:housingsociety/screens/home/modules/profile/profile.dart';
+import 'package:housingsociety/screens/home/modules/voting/voting.dart';
 import 'package:housingsociety/screens/wrapper.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:housingsociety/services/auth.dart';
@@ -37,6 +38,7 @@ class MyApp extends StatelessWidget {
           EditPassword.id: (context) => EditPassword(),
           Notice.id: (context) => Notice(),
           AddNotice.id: (context) => AddNotice(),
+          Voting.id: (context) => Voting(),
         },
       ),
     );
