@@ -53,12 +53,11 @@ class _EditNameState extends State<EditName> {
                   });
                   dynamic result = DatabaseService()
                       .updateProfileName(user.uid, updatedName);
-                  if (result != null) {
-                    setState(() {
-                      loading = false;
-                    });
-                    Navigator.pop(context);
-                  }
+                  setState(() {
+                    loading = false;
+                  });
+                  Navigator.pop(context);
+
                   print(result);
 
                   print(updatedName);
