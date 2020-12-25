@@ -6,6 +6,7 @@ import 'package:housingsociety/screens/home/modules/profile/editEmail.dart';
 import 'package:housingsociety/screens/home/modules/profile/editName.dart';
 import 'package:housingsociety/screens/home/modules/profile/editPassword.dart';
 import 'package:housingsociety/screens/home/modules/profile/profile.dart';
+import 'package:housingsociety/screens/home/modules/voting/addvoting.dart';
 import 'package:housingsociety/screens/home/modules/voting/voting.dart';
 import 'package:housingsociety/screens/wrapper.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -39,6 +40,7 @@ class MyApp extends StatelessWidget {
           Notice.id: (context) => Notice(),
           AddNotice.id: (context) => AddNotice(),
           Voting.id: (context) => Voting(),
+          AddVoting.id: (context) => AddVoting(),
         },
       ),
     );
