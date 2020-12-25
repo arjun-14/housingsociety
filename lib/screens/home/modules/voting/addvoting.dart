@@ -10,11 +10,20 @@ class AddVoting extends StatefulWidget {
 
 class _AddVotingState extends State<AddVoting> {
   List<DynamicParticipants> dynamicparticipants = [];
+  ScrollController _scrollController = new ScrollController();
 
   void addParticpant() {
     setState(() {
-      dynamicparticipants.add(DynamicParticipants());
+      dynamicparticipants
+          .add(DynamicParticipants(index: dynamicparticipants.length + 1));
     });
+    // _scrollController.animateTo(
+    //   0.0,
+    //   curve: Curves.easeOut,
+    //   duration: const Duration(milliseconds: 300),
+    // );
+    _scrollController.animateTo(_scrollController.position.maxScrollExtent,
+        duration: const Duration(milliseconds: 500), curve: Curves.easeOut);
   }
 
   @override
@@ -29,13 +38,23 @@ class _AddVotingState extends State<AddVoting> {
       ),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 16),
-        child: ListView.builder(
-          itemCount: dynamicparticipants.length,
-          itemBuilder: (context, index) {
-            return Column(children: [
-              dynamicparticipants[index],
-            ]);
-          },
+        child: ListView(
+          controller: _scrollController,
+          children: [
+            TextFormField(
+              decoration: InputDecoration(
+                labelText: 'Title',
+              ),
+            ),
+            ListView.builder(
+              shrinkWrap: true,
+              physics: ClampingScrollPhysics(),
+              itemCount: dynamicparticipants.length,
+              itemBuilder: (context, index) {
+                return dynamicparticipants[index];
+              },
+            ),
+          ],
         ),
       ),
     );
