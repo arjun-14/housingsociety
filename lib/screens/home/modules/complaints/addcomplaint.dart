@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:housingsociety/services/database.dart';
 
 class AddComplaint extends StatefulWidget {
   static const String id = 'add_complaint';
@@ -19,7 +20,9 @@ class _AddComplaintState extends State<AddComplaint> {
       floatingActionButton: Visibility(
         visible: (title != null && description != null) ? true : false,
         child: FloatingActionButton(
-          onPressed: () {},
+          onPressed: () {
+            DatabaseService().addComplaint(title, description);
+          },
           child: Icon(
             Icons.add,
           ),

@@ -6,8 +6,10 @@ class DatabaseService {
       FirebaseFirestore.instance.collection('module_chat');
   CollectionReference userProfile =
       FirebaseFirestore.instance.collection('user_profile');
-  CollectionReference moduleProfile =
+  CollectionReference moduleNotice =
       FirebaseFirestore.instance.collection('module_notice');
+  CollectionReference moduleComplaint =
+      FirebaseFirestore.instance.collection('module_complaint');
 
   Future<void> addMessage(message, sender, email, Timestamp timestamp) {
     return moduleChat.add(
@@ -36,7 +38,7 @@ class DatabaseService {
   }
 
   Future<void> addNotice(title, notice) {
-    return moduleProfile.add({
+    return moduleNotice.add({
       'title': title,
       'notice': notice,
       'timestamp': Timestamp.now(),
@@ -44,15 +46,23 @@ class DatabaseService {
   }
 
   Future<void> deleteNotice(uid) {
-    return moduleProfile.doc(uid).delete().catchError((e) {
+    return moduleNotice.doc(uid).delete().catchError((e) {
       print(e);
     });
   }
 
   Future<void> editNotice(uid, title, notice) {
-    return moduleProfile.doc(uid).update({
+    return moduleNotice.doc(uid).update({
       'title': title,
       'notice': notice,
+    });
+  }
+
+  Future<void> addComplaint(title, description) {
+    return moduleComplaint.add({
+      'title': title,
+      'description': description,
+      'timestamp': Timestamp.now(),
     });
   }
 }
