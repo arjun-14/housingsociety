@@ -9,7 +9,14 @@ class AddVoting extends StatefulWidget {
 }
 
 class _AddVotingState extends State<AddVoting> {
-  List<DynamicParticipants> dynamicparticipants = [];
+  List<DynamicParticipants> dynamicparticipants = [
+    DynamicParticipants(
+      index: 1,
+    ),
+    DynamicParticipants(
+      index: 2,
+    )
+  ];
   ScrollController _scrollController = new ScrollController();
 
   void addParticpant() {

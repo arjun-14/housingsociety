@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:housingsociety/models/user.dart';
 import 'package:housingsociety/screens/home/modules/chat/chat.dart';
+import 'package:housingsociety/screens/home/modules/complaints/complaint.dart';
 import 'package:housingsociety/screens/home/modules/notice/notice.dart';
 import 'package:housingsociety/screens/home/modules/profile/profile.dart';
 import 'package:housingsociety/screens/home/modules/voting/voting.dart';
@@ -104,7 +105,7 @@ class Home extends StatelessWidget {
                     icon: Icons.support_agent,
                     text: 'Complaint',
                     onpress: () {
-                      print('clikced');
+                      Navigator.pushNamed(context, Complaint.id);
                     },
                   ),
                   ReusableCard(
