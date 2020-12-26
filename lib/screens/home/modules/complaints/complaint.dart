@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:housingsociety/screens/home/modules/complaints/addcomplaint.dart';
+import 'package:housingsociety/screens/home/modules/complaints/realtimecomplaintupdate.dart';
 
 class Complaint extends StatelessWidget {
   static const String id = 'complaint';
@@ -17,6 +18,7 @@ class Complaint extends StatelessWidget {
           Icons.add,
         ),
       ),
+      body: RealTimeComplaintUpdate(),
     );
   }
 }

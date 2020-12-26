@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:housingsociety/services/database.dart';
+import 'package:housingsociety/shared/constants.dart';
 
 class AddComplaint extends StatefulWidget {
   static const String id = 'add_complaint';
@@ -22,9 +23,10 @@ class _AddComplaintState extends State<AddComplaint> {
         child: FloatingActionButton(
           onPressed: () {
             DatabaseService().addComplaint(title, description);
+            Navigator.pop(context);
           },
           child: Icon(
-            Icons.add,
+            Icons.save,
           ),
         ),
       ),
@@ -67,6 +69,21 @@ class _AddComplaintState extends State<AddComplaint> {
                     });
                   },
                 ),
+                SizedBox(
+                  height: 16,
+                ),
+                // SizedBox(
+                //   width: double.infinity,
+                //   height: 40,
+                //   child: RaisedButton(
+                //     color: kAmaranth,
+                //     onPressed: () {
+                //       DatabaseService().addComplaint(title, description);
+                //       Navigator.pop(context);
+                //     },
+                //     child: Text('Lodge Complaint'),
+                //   ),
+                // ),
               ],
             ),
           ],
