@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:housingsociety/models/user.dart';
+import 'package:housingsociety/screens/home/modules/complaints/addcomplaint.dart';
 import 'package:housingsociety/screens/home/modules/complaints/complaint.dart';
 import 'package:housingsociety/screens/home/modules/notice/addnotice.dart';
 import 'package:housingsociety/screens/home/modules/notice/notice.dart';
@@ -43,6 +44,7 @@ class MyApp extends StatelessWidget {
           Voting.id: (context) => Voting(),
           AddVoting.id: (context) => AddVoting(),
           Complaint.id: (context) => Complaint(),
+          AddComplaint.id: (context) => AddComplaint(),
         },
       ),
     );
