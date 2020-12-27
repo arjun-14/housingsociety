@@ -8,7 +8,7 @@ class Complaint extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Complaint'),
+        title: Text('Complaints'),
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {

@@ -58,11 +58,18 @@ class DatabaseService {
     });
   }
 
-  Future<void> addComplaint(title, description) {
+  Future<void> addComplaint(userName, description, likes) {
     return moduleComplaint.add({
-      'title': title,
+      'username': userName,
       'description': description,
+      'likes': likes,
       'timestamp': Timestamp.now(),
+    });
+  }
+
+  Future<void> deleteComplaint(uid) {
+    return moduleComplaint.doc(uid).delete().catchError((e) {
+      print(e);
     });
   }
 }

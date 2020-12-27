@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:housingsociety/services/auth.dart';
 import 'package:housingsociety/services/database.dart';
 import 'package:housingsociety/shared/constants.dart';
 
@@ -19,10 +20,11 @@ class _AddComplaintState extends State<AddComplaint> {
         title: Text('Add Complaint'),
       ),
       floatingActionButton: Visibility(
-        visible: (title != null && description != null) ? true : false,
+        visible: (description != null) ? true : false,
         child: FloatingActionButton(
           onPressed: () {
-            DatabaseService().addComplaint(title, description);
+            DatabaseService()
+                .addComplaint(AuthService().userName(), description, 0);
             Navigator.pop(context);
           },
           child: Icon(
@@ -38,22 +40,6 @@ class _AddComplaintState extends State<AddComplaint> {
             Column(
               children: [
                 TextFormField(
-                  maxLines: null,
-                  style: TextStyle(
-                    fontSize: 25,
-                    fontWeight: FontWeight.bold,
-                  ),
-                  decoration: InputDecoration(
-                    border: InputBorder.none,
-                    hintText: 'Title',
-                  ),
-                  onChanged: (val) {
-                    setState(() {
-                      title = val;
-                    });
-                  },
-                ),
-                TextFormField(
                   autofocus: true,
                   maxLines: null,
                   style: TextStyle(
@@ -61,7 +47,7 @@ class _AddComplaintState extends State<AddComplaint> {
                   ),
                   decoration: InputDecoration(
                     border: InputBorder.none,
-                    hintText: 'Description',
+                    hintText: 'Describe your issue ...',
                   ),
                   onChanged: (val) {
                     setState(() {
