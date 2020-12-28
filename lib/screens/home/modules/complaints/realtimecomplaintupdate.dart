@@ -1,8 +1,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:housingsociety/services/database.dart';
 import 'package:housingsociety/shared/loading.dart';
 import 'package:housingsociety/shared/constants.dart';
+import 'package:housingsociety/models/user.dart';
+import 'package:provider/provider.dart';
 
 class RealTimeComplaintUpdate extends StatefulWidget {
   @override
@@ -12,8 +15,10 @@ class RealTimeComplaintUpdate extends StatefulWidget {
 
 class _RealTimeComplaintUpdateState extends State<RealTimeComplaintUpdate> {
   bool liked = false;
+  DatabaseService db = DatabaseService();
   @override
   Widget build(BuildContext context) {
+    final user = Provider.of<CurrentUser>(context);
     Query notice = FirebaseFirestore.instance
         .collection('module_complaint')
         .orderBy('timestamp', descending: true);
@@ -64,7 +69,7 @@ class _RealTimeComplaintUpdateState extends State<RealTimeComplaintUpdate> {
                               Icons.delete,
                             ),
                             onPressed: () {
-                              DatabaseService().deleteComplaint(document.id);
+                              db.deleteComplaint(document.id);
                             },
                           )
                         ],
@@ -88,14 +93,18 @@ class _RealTimeComplaintUpdateState extends State<RealTimeComplaintUpdate> {
                             child: FlatButton.icon(
                               onPressed: () {
                                 setState(() {
+                                  db.updateLikes(document.id,
+                                      document.data()['likes'] , user.uid);
                                   liked = !liked;
                                 });
                               },
                               icon: Icon(
                                 Icons.thumb_up,
-                                color: liked ? kAmaranth : Colors.white,
+                                // color: liked ? kAmaranth : Colors.white,
                               ),
-                              label: Text(document.data()['likes'].toString()),
+                              label: Text(
+                                document.data()['likes'].toString(),
+                              ),
                             ),
                           ),
                           Expanded(

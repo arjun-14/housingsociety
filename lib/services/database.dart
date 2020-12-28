@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:housingsociety/services/auth.dart';
 
 class DatabaseService {
@@ -10,6 +11,8 @@ class DatabaseService {
       FirebaseFirestore.instance.collection('module_notice');
   CollectionReference moduleComplaint =
       FirebaseFirestore.instance.collection('module_complaint');
+  CollectionReference moduleComplaintUserLikes =
+      FirebaseFirestore.instance.collection('module_complaint_user_likes');
 
   Future<void> addMessage(message, sender, email, Timestamp timestamp) {
     return moduleChat.add(
@@ -71,5 +74,35 @@ class DatabaseService {
     return moduleComplaint.doc(uid).delete().catchError((e) {
       print(e);
     });
+  }
+
+  Future<void> updateLikes(docuid, likes, useruid) {
+    moduleComplaintUserLikes
+        .doc(useruid)
+        .get()
+        .then((DocumentSnapshot documentSnapshot) {
+      dynamic result = (documentSnapshot.data()[docuid]);
+      if (result == true) {
+        moduleComplaintUserLikes.doc(useruid).update({
+          docuid: FieldValue.delete(),
+        });
+        moduleComplaint.doc(docuid).update({
+          'likes': likes - 1,
+        }).catchError((e) {
+          print(e);
+        });
+      } else {
+        moduleComplaintUserLikes.doc(useruid).update({
+          docuid: true,
+        });
+        moduleComplaint.doc(docuid).update({
+          'likes': likes + 1,
+        }).catchError((e) {
+          print(e);
+        });
+      }
+    });
+
+    return null;
   }
 }
