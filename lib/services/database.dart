@@ -1,5 +1,4 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:housingsociety/services/auth.dart';
 
 class DatabaseService {
@@ -76,12 +75,13 @@ class DatabaseService {
     });
   }
 
-  Future<void> updateLikes(docuid, likes, useruid) {
-    moduleComplaintUserLikes
+  Future<dynamic> updateLikes(docuid, likes, useruid) async {
+    dynamic result;
+    await moduleComplaintUserLikes
         .doc(useruid)
         .get()
         .then((DocumentSnapshot documentSnapshot) {
-      dynamic result = (documentSnapshot.data()[docuid]);
+      result = (documentSnapshot.data()[docuid]);
       if (result == true) {
         moduleComplaintUserLikes.doc(useruid).update({
           docuid: FieldValue.delete(),
@@ -102,7 +102,24 @@ class DatabaseService {
         });
       }
     });
+    return result;
+  }
 
-    return null;
+  getCurrentUSerLikes() async {
+    dynamic userid = AuthService().userId();
+    Map<String, dynamic> likes;
+
+    CollectionReference moduleComplaintUserLikes =
+        FirebaseFirestore.instance.collection('module_complaint_user_likes');
+
+    await moduleComplaintUserLikes
+        .doc(userid)
+        .get()
+        .then((value) => likes = value.data());
+    // moduleComplaintUserLikes
+    //     .get()
+    //     .then((value) => print(value.data()['asasa']));
+    print(likes);
+    return likes;
   }
 }

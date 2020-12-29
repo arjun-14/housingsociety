@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:housingsociety/shared/constants.dart';
 import 'package:housingsociety/services/auth.dart';
 import 'package:housingsociety/shared/loading.dart';
-import 'package:adaptive_dialog/adaptive_dialog.dart';
 
 class Register extends StatefulWidget {
   final Function toggle;

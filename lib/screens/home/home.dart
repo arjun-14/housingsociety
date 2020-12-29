@@ -1,6 +1,4 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:housingsociety/models/user.dart';
 import 'package:housingsociety/screens/home/modules/chat/chat.dart';
 import 'package:housingsociety/screens/home/modules/complaints/complaint.dart';
 import 'package:housingsociety/screens/home/modules/notice/notice.dart';
@@ -8,7 +6,6 @@ import 'package:housingsociety/screens/home/modules/profile/profile.dart';
 import 'package:housingsociety/screens/home/modules/voting/voting.dart';
 import 'package:housingsociety/screens/home/reusableCard.dart';
 import 'package:housingsociety/services/auth.dart';
-import 'package:provider/provider.dart';
 
 class Home extends StatelessWidget {
   final AuthService _auth = AuthService();

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:housingsociety/services/auth.dart';
 import 'package:housingsociety/services/database.dart';
-import 'package:housingsociety/shared/constants.dart';
 
 class AddComplaint extends StatefulWidget {
   static const String id = 'add_complaint';

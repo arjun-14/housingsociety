@@ -1,14 +1,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:housingsociety/screens/authenticate/register.dart';
 import 'package:housingsociety/screens/home/modules/chat/realtimeUpdate.dart';
 import 'package:housingsociety/services/auth.dart';
 import 'package:housingsociety/services/database.dart';
 import 'package:housingsociety/shared/constants.dart';
-import 'package:housingsociety/shared/emoji.dart';
 import 'package:provider/provider.dart';
 import 'package:housingsociety/models/user.dart';
-import 'package:emoji_picker/emoji_picker.dart';
 
 class Chat extends StatefulWidget {
   static const String id = 'chat';
