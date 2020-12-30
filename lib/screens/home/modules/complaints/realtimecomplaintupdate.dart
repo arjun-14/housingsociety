@@ -157,7 +157,9 @@ class _RealTimeComplaintUpdateState extends State<RealTimeComplaintUpdate> {
                                   onPressed: () {
                                     showBarModalBottomSheet(
                                       context: context,
-                                      builder: (context) => Comments(),
+                                      builder: (context) => Comments(
+                                        docid: document.id,
+                                      ),
                                     );
                                   },
                                   icon: Icon(

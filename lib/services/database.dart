@@ -12,6 +12,8 @@ class DatabaseService {
       FirebaseFirestore.instance.collection('module_complaint');
   CollectionReference moduleComplaintUserLikes =
       FirebaseFirestore.instance.collection('module_complaint_user_likes');
+  CollectionReference moduleComplaintUserComments =
+      FirebaseFirestore.instance.collection('module_complaint_comments');
 
   Future<void> addMessage(message, sender, email, Timestamp timestamp) {
     return moduleChat.add(
@@ -121,5 +123,13 @@ class DatabaseService {
     //     .then((value) => print(value.data()['asasa']));
     print(likes);
     return likes;
+  }
+
+  Future<void> addComment(docid, userName, comment) {
+    return moduleComplaintUserComments.doc(docid).collection('comments').add({
+      'userName': userName,
+      'comment': comment,
+      'timestamp': Timestamp.now(),
+    });
   }
 }

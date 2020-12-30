@@ -1,9 +1,20 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:housingsociety/models/user.dart';
+import 'package:housingsociety/screens/home/modules/complaints/realtimecommentsupdate.dart';
+import 'package:housingsociety/services/auth.dart';
+import 'package:housingsociety/services/database.dart';
 import 'package:housingsociety/shared/constants.dart';
+import 'package:provider/provider.dart';
 
 class Comments extends StatelessWidget {
+  final DatabaseService db = DatabaseService();
+
+  final docid;
+  Comments({this.docid});
   @override
   Widget build(BuildContext context) {
+    final user = Provider.of<CurrentUser>(context);
     String comment;
     var _textController = TextEditingController();
     return Container(
@@ -12,8 +23,8 @@ class Comments extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         children: [
           Expanded(
-            child: SizedBox(
-              height: double.infinity,
+            child: RealTimeCommentUpdates(
+              docid: docid,
             ),
           ),
           Padding(
@@ -53,6 +64,7 @@ class Comments extends StatelessWidget {
                     color: kAmaranth,
                     onPressed: () {
                       _textController.clear();
+                      db.addComment(docid, user.name, comment);
                     },
                     icon: Icon(Icons.send),
                   ),

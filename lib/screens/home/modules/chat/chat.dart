@@ -67,12 +67,13 @@ class _ChatState extends State<Chat> {
                       color: kAmaranth,
                       onPressed: () {
                         _textController.clear();
-                        db.addMessage(
-                          message,
-                          user.name ?? AuthService().userName(),
-                          user.email,
-                          Timestamp.now(),
-                        );
+                        message != null
+                            ? db.addMessage(
+                                message,
+                                user.name ?? AuthService().userName(),
+                                user.email,
+                                Timestamp.now())
+                            : print('null');
                       },
                       icon: Icon(Icons.send),
                     ),
