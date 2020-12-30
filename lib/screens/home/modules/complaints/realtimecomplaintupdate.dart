@@ -1,9 +1,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:housingsociety/screens/home/modules/complaints/comments.dart';
 import 'package:housingsociety/services/database.dart';
 import 'package:housingsociety/shared/loading.dart';
 import 'package:housingsociety/shared/constants.dart';
 import 'package:housingsociety/models/user.dart';
+import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:provider/provider.dart';
 import 'package:housingsociety/services/auth.dart';
 
@@ -48,9 +50,10 @@ class _RealTimeComplaintUpdateState extends State<RealTimeComplaintUpdate> {
   @override
   Widget build(BuildContext context) {
     final user = Provider.of<CurrentUser>(context);
+    BuildContext maincontext = context;
     Query notice = FirebaseFirestore.instance
         .collection('module_complaint')
-        .orderBy('timestamp', descending: true);
+        .orderBy('likes', descending: true);
     return likes == null
         ? Loading()
         : StreamBuilder<QuerySnapshot>(
@@ -151,7 +154,12 @@ class _RealTimeComplaintUpdateState extends State<RealTimeComplaintUpdate> {
                               ),
                               Expanded(
                                 child: FlatButton.icon(
-                                  onPressed: () {},
+                                  onPressed: () {
+                                    showBarModalBottomSheet(
+                                      context: context,
+                                      builder: (context) => Comments(),
+                                    );
+                                  },
                                   icon: Icon(
                                     Icons.comment_outlined,
                                   ),
