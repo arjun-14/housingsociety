@@ -72,7 +72,11 @@ class DatabaseService {
   }
 
   Future<void> deleteComplaint(uid) {
-    return moduleComplaint.doc(uid).delete().catchError((e) {
+    moduleComplaint.doc(uid).delete().catchError((e) {
+      print(e);
+    });
+
+    return moduleComplaintUserComments.doc(uid).delete().catchError((e) {
       print(e);
     });
   }
@@ -107,24 +111,6 @@ class DatabaseService {
     return result;
   }
 
-  getCurrentUSerLikes() async {
-    dynamic userid = AuthService().userId();
-    Map<String, dynamic> likes;
-
-    CollectionReference moduleComplaintUserLikes =
-        FirebaseFirestore.instance.collection('module_complaint_user_likes');
-
-    await moduleComplaintUserLikes
-        .doc(userid)
-        .get()
-        .then((value) => likes = value.data());
-    // moduleComplaintUserLikes
-    //     .get()
-    //     .then((value) => print(value.data()['asasa']));
-    print(likes);
-    return likes;
-  }
-
   Future<void> addComment(docid, userName, comment) {
     return moduleComplaintUserComments.doc(docid).collection('comments').add({
       'userName': userName,
@@ -133,3 +119,21 @@ class DatabaseService {
     });
   }
 }
+
+// getCurrentUSerLikes() async {
+//   dynamic userid = AuthService().userId();
+//   Map<String, dynamic> likes;
+
+//   CollectionReference moduleComplaintUserLikes =
+//       FirebaseFirestore.instance.collection('module_complaint_user_likes');
+
+//   await moduleComplaintUserLikes
+//       .doc(userid)
+//       .get()
+//       .then((value) => likes = value.data());
+//   // moduleComplaintUserLikes
+//   //     .get()
+//   //     .then((value) => print(value.data()['asasa']));
+//   print(likes);
+//   return likes;
+// }

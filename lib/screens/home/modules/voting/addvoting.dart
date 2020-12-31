@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:housingsociety/screens/home/modules/voting/dynamicparticipants.dart';
 
 class AddVoting extends StatefulWidget {
@@ -17,28 +18,28 @@ class _AddVotingState extends State<AddVoting> {
       index: 2,
     )
   ];
-  ScrollController _scrollController = new ScrollController();
+  ScrollController _scrollController = ScrollController();
 
-  void addParticpant() {
-    setState(() {
-      dynamicparticipants
-          .add(DynamicParticipants(index: dynamicparticipants.length + 1));
-    });
-    // _scrollController.animateTo(
-    //   0.0,
-    //   curve: Curves.easeOut,
-    //   duration: const Duration(milliseconds: 300),
-    // );
-    _scrollController.animateTo(_scrollController.position.maxScrollExtent,
-        duration: const Duration(milliseconds: 500), curve: Curves.easeOut);
-  }
+  void addParticpant() {}
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(),
       floatingActionButton: FloatingActionButton(
-        onPressed: () => addParticpant(),
+        onPressed: () {
+          setState(() {
+            dynamicparticipants.add(
+                DynamicParticipants(index: dynamicparticipants.length + 1));
+          });
+          SchedulerBinding.instance.addPostFrameCallback((_) {
+            _scrollController.animateTo(
+              _scrollController.position.maxScrollExtent,
+              duration: const Duration(milliseconds: 300),
+              curve: Curves.easeOut,
+            );
+          });
+        },
         child: Icon(
           Icons.add,
         ),

@@ -9,6 +9,7 @@ class RealtimeChatUpdate extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final user = Provider.of<CurrentUser>(context);
+
     String previousUserEmail;
     String currentUserEmail;
 

@@ -66,7 +66,6 @@ class _ChatState extends State<Chat> {
                     child: IconButton(
                       color: kAmaranth,
                       onPressed: () {
-                        _textController.clear();
                         message != null
                             ? db.addMessage(
                                 message,
