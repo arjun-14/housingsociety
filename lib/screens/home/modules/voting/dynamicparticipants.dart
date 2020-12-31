@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:housingsociety/shared/constants.dart';
 
 class DynamicParticipants extends StatefulWidget {
   final int index;
@@ -20,8 +21,14 @@ class _DynamicParticipantsState extends State<DynamicParticipants> {
         print(temp);
       },
       decoration: InputDecoration(
-        labelText: 'Participant ' + widget.index.toString(),
-      ),
+          labelText: 'Participant ' + widget.index.toString(),
+          suffixIcon: IconButton(
+            onPressed: () {},
+            icon: Icon(
+              Icons.remove_circle_outline,
+              color: kAmaranth,
+            ),
+          )),
     );
   }
 }
