@@ -1,34 +1,30 @@
 import 'package:flutter/material.dart';
 import 'package:housingsociety/shared/constants.dart';
 
-class DynamicParticipants extends StatefulWidget {
+class DynamicParticipants extends StatelessWidget {
   final int index;
+
+  // final bool visibility;
   DynamicParticipants({this.index});
 
   @override
-  _DynamicParticipantsState createState() => _DynamicParticipantsState();
-}
-
-class _DynamicParticipantsState extends State<DynamicParticipants> {
-  String temp;
-  @override
   Widget build(BuildContext context) {
+    String temp;
     return TextField(
       onChanged: (val) {
-        setState(() {
-          temp = val;
-        });
-        print(temp);
+        temp = val;
+        // print(temp);
       },
       decoration: InputDecoration(
-          labelText: 'Participant ' + widget.index.toString(),
-          suffixIcon: IconButton(
-            onPressed: () {},
-            icon: Icon(
-              Icons.remove_circle_outline,
-              color: kAmaranth,
-            ),
-          )),
+        labelText: 'Participant ' + index.toString(),
+        // suffixIcon: IconButton(
+        //   onPressed: () {},
+        //   icon: Icon(
+        //     Icons.remove_circle_outline,
+        //     color: kAmaranth,
+        //   ),
+        // ),
+      ),
     );
   }
 }

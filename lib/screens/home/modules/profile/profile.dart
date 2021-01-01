@@ -4,6 +4,8 @@ import 'package:housingsociety/screens/home/modules/profile/editEmail.dart';
 import 'package:housingsociety/screens/home/modules/profile/editName.dart';
 import 'package:housingsociety/screens/home/modules/profile/editPassword.dart';
 import 'package:provider/provider.dart';
+import 'package:image_picker/image_picker.dart';
+import 'dart:io';
 
 class Profile extends StatefulWidget {
   static const String id = 'profile';
@@ -12,6 +14,21 @@ class Profile extends StatefulWidget {
 }
 
 class _ProfileState extends State<Profile> {
+  File profileImage;
+  final picker = ImagePicker();
+
+  Future getImage() async {
+    final pickedFile = await picker.getImage(source: ImageSource.gallery);
+
+    setState(() {
+      if (pickedFile != null) {
+        profileImage = File(pickedFile.path);
+      } else {
+        print('No image selected.');
+      }
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     final user = Provider.of<CurrentUser>(context);
@@ -21,9 +38,20 @@ class _ProfileState extends State<Profile> {
       ),
       body: ListView(
         children: [
-          CircleAvatar(
-            radius: 50.0,
-            backgroundColor: Colors.white,
+          Container(
+            child: GestureDetector(
+              onTap: () {
+                showBottomSheet(
+                    context: context,
+                    builder: (context) {
+                      return Container();
+                    });
+              },
+              child: CircleAvatar(
+                radius: 50.0,
+                backgroundColor: Colors.white,
+              ),
+            ),
           ),
           ReusableProfileTile(
             label: 'Name',

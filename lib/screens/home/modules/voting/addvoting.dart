@@ -11,6 +11,7 @@ class AddVoting extends StatefulWidget {
 }
 
 class _AddVotingState extends State<AddVoting> {
+  List<TextEditingController> _controllers = List();
   List<DynamicParticipants> dynamicparticipants = [
     DynamicParticipants(
       index: 1,
@@ -28,7 +29,9 @@ class _AddVotingState extends State<AddVoting> {
         title: Text('Add Participants'),
         actions: [
           IconButton(
-            onPressed: () {},
+            onPressed: () {
+              print(_controllers[1].text);
+            },
             icon: Icon(
               Icons.done,
               color: kAmaranth,
@@ -51,7 +54,23 @@ class _AddVotingState extends State<AddVoting> {
               physics: ClampingScrollPhysics(),
               itemCount: dynamicparticipants.length,
               itemBuilder: (context, index) {
-                return dynamicparticipants[index];
+                _controllers.add(TextEditingController());
+                return Row(
+                  children: [
+                    Expanded(child: dynamicparticipants[index]),
+                    IconButton(
+                        icon: Icon(
+                          Icons.remove_circle_outline,
+                          color: kAmaranth,
+                        ),
+                        onPressed: () {
+                          setState(() {
+                            print(_controllers[index].text);
+                            // dynamicparticipants.removeAt(index);
+                          });
+                        }),
+                  ],
+                );
               },
             ),
             Align(
@@ -63,8 +82,11 @@ class _AddVotingState extends State<AddVoting> {
                   ),
                   onPressed: () {
                     setState(() {
-                      dynamicparticipants.add(DynamicParticipants(
-                          index: dynamicparticipants.length + 1));
+                      dynamicparticipants.add(
+                        DynamicParticipants(
+                          index: dynamicparticipants.length + 1,
+                        ),
+                      );
                     });
                     SchedulerBinding.instance.addPostFrameCallback((_) {
                       _scrollController.animateTo(
