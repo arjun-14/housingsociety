@@ -5,6 +5,7 @@ import 'package:housingsociety/screens/home/modules/profile/editName.dart';
 import 'package:housingsociety/screens/home/modules/profile/editPassword.dart';
 import 'package:housingsociety/screens/home/modules/profile/reusableprofiletile.dart';
 import 'package:housingsociety/shared/constants.dart';
+import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:provider/provider.dart';
 import 'package:image_picker/image_picker.dart';
 import 'dart:io';
@@ -19,8 +20,8 @@ class _ProfileState extends State<Profile> {
   File profileImage;
   final picker = ImagePicker();
 
-  Future getImage() async {
-    final pickedFile = await picker.getImage(source: ImageSource.gallery);
+  Future getImage(source) async {
+    final pickedFile = await picker.getImage(source: source);
 
     setState(() {
       if (pickedFile != null) {
@@ -51,11 +52,42 @@ class _ProfileState extends State<Profile> {
                   height: 50,
                   width: 50,
                   child: FloatingActionButton(
+                    backgroundColor: kAmaranth,
                     onPressed: () {
-                      showBottomSheet(
+                      showModalBottomSheet(
+                          backgroundColor: Colors.transparent,
                           context: context,
                           builder: (context) {
-                            return Container();
+                            return Container(
+                              height: 130,
+                              decoration: BoxDecoration(
+                                color: kSpaceCadet,
+                                borderRadius: BorderRadius.vertical(
+                                  top: Radius.circular(15),
+                                ),
+                              ),
+                              child: ListView(
+                                children: [
+                                  ListTile(
+                                    leading: Icon(Icons.camera_alt),
+                                    title: Text('Choose from Camera'),
+                                    onTap: () {
+                                      getImage(ImageSource.camera);
+                                      Navigator.pop(context);
+                                    },
+                                  ),
+                                  Divider(),
+                                  ListTile(
+                                    leading: Icon(Icons.collections),
+                                    title: Text('Choose from gallery'),
+                                    onTap: () {
+                                      getImage(ImageSource.gallery);
+                                      Navigator.pop(context);
+                                    },
+                                  )
+                                ],
+                              ),
+                            );
                           });
                     },
                     child: Icon(
