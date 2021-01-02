@@ -3,6 +3,8 @@ import 'package:housingsociety/models/user.dart';
 import 'package:housingsociety/screens/home/modules/profile/editEmail.dart';
 import 'package:housingsociety/screens/home/modules/profile/editName.dart';
 import 'package:housingsociety/screens/home/modules/profile/editPassword.dart';
+import 'package:housingsociety/screens/home/modules/profile/reusableprofiletile.dart';
+import 'package:housingsociety/shared/constants.dart';
 import 'package:provider/provider.dart';
 import 'package:image_picker/image_picker.dart';
 import 'dart:io';
@@ -36,20 +38,31 @@ class _ProfileState extends State<Profile> {
       appBar: AppBar(
         title: Text('Profile'),
       ),
-      body: ListView(
+      body: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Container(
-            child: GestureDetector(
-              onTap: () {
-                showBottomSheet(
-                    context: context,
-                    builder: (context) {
-                      return Container();
-                    });
-              },
-              child: CircleAvatar(
-                radius: 50.0,
-                backgroundColor: Colors.white,
+            child: CircleAvatar(
+              radius: 65.0,
+              backgroundColor: Colors.white,
+              child: Align(
+                alignment: Alignment.bottomRight,
+                child: Container(
+                  height: 50,
+                  width: 50,
+                  child: FloatingActionButton(
+                    onPressed: () {
+                      showBottomSheet(
+                          context: context,
+                          builder: (context) {
+                            return Container();
+                          });
+                    },
+                    child: Icon(
+                      Icons.camera_alt,
+                    ),
+                  ),
+                ),
               ),
             ),
           ),
@@ -92,41 +105,6 @@ class _ProfileState extends State<Profile> {
               ),
             ],
           ),
-        ],
-      ),
-    );
-  }
-}
-
-class ReusableProfileTile extends StatelessWidget {
-  final String label;
-  final String value;
-  final Function onpress;
-  ReusableProfileTile({this.label, this.value, this.onpress});
-  @override
-  Widget build(BuildContext context) {
-    return FlatButton(
-      onPressed: onpress,
-      child: Row(
-        children: [
-          Expanded(
-            child: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Text(
-                label,
-                style: TextStyle(
-                  fontSize: 18.0,
-                ),
-              ),
-            ),
-          ),
-          Text(
-            value,
-            style: TextStyle(
-              fontSize: 18.0,
-            ),
-          ),
-          Icon(Icons.navigate_next),
         ],
       ),
     );
