@@ -4,6 +4,7 @@ import 'package:housingsociety/screens/home/modules/profile/editEmail.dart';
 import 'package:housingsociety/screens/home/modules/profile/editName.dart';
 import 'package:housingsociety/screens/home/modules/profile/editPassword.dart';
 import 'package:housingsociety/screens/home/modules/profile/reusableprofiletile.dart';
+import 'package:housingsociety/services/storage.dart';
 import 'package:housingsociety/shared/constants.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:provider/provider.dart';
@@ -19,13 +20,16 @@ class Profile extends StatefulWidget {
 class _ProfileState extends State<Profile> {
   File profileImage;
   final picker = ImagePicker();
+  StorageService storage = StorageService();
 
-  Future getImage(source) async {
+  Future getImage(source, uid) async {
     final pickedFile = await picker.getImage(source: source);
 
     setState(() {
       if (pickedFile != null) {
         profileImage = File(pickedFile.path);
+        String profileImagePath = pickedFile.path;
+        storage.uploadProfilePicture(profileImagePath, uid);
       } else {
         print('No image selected.');
       }
@@ -72,7 +76,7 @@ class _ProfileState extends State<Profile> {
                                     leading: Icon(Icons.camera_alt),
                                     title: Text('Choose from Camera'),
                                     onTap: () {
-                                      getImage(ImageSource.camera);
+                                      getImage(ImageSource.camera, user.uid);
                                       Navigator.pop(context);
                                     },
                                   ),
@@ -81,7 +85,7 @@ class _ProfileState extends State<Profile> {
                                     leading: Icon(Icons.collections),
                                     title: Text('Choose from gallery'),
                                     onTap: () {
-                                      getImage(ImageSource.gallery);
+                                      getImage(ImageSource.gallery, user.uid);
                                       Navigator.pop(context);
                                     },
                                   )
