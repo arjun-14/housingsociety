@@ -3,6 +3,7 @@ import 'package:housingsociety/models/user.dart';
 import 'package:housingsociety/screens/home/modules/profile/editEmail.dart';
 import 'package:housingsociety/screens/home/modules/profile/editName.dart';
 import 'package:housingsociety/screens/home/modules/profile/editPassword.dart';
+import 'package:housingsociety/screens/home/modules/profile/editPhoneNumber.dart';
 import 'package:housingsociety/screens/home/modules/profile/reusableprofiletile.dart';
 import 'package:housingsociety/services/storage.dart';
 import 'package:housingsociety/shared/constants.dart';
@@ -132,6 +133,13 @@ class _ProfileState extends State<Profile> {
                       value: user.email,
                       onpress: () {
                         Navigator.pushNamed(context, EditEmail.id);
+                      },
+                    ),
+                    ReusableProfileTile(
+                      label: 'Phone',
+                      value: ' ',
+                      onpress: () {
+                        Navigator.pushNamed(context, EditPhoneNumber.id);
                       },
                     ),
                     ReusableProfileTile(
