@@ -8,7 +8,11 @@ class AuthService {
 
   CurrentUser _userFromFireBase(User user) {
     return user != null
-        ? CurrentUser(uid: user.uid, email: user.email, name: user.displayName)
+        ? CurrentUser(
+            uid: user.uid,
+            email: user.email,
+            name: user.displayName,
+            profilePicture: user.photoURL)
         : null;
   }
 
@@ -94,6 +98,13 @@ class AuthService {
       return _userFromFireBase(updateduser);
     });
     return userName();
+  }
+
+  Future updateProfilePicture(updatedProfilePicture) async {
+    _auth.currentUser.updateProfile(
+      photoURL: updatedProfilePicture,
+    );
+    return _userFromFireBase(_auth.currentUser);
   }
 
   Future updateEmail(email, password) async {

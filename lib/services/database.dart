@@ -35,10 +35,17 @@ class DatabaseService {
   }
 
   Future<void> updateProfileName(uid, updatedName) {
-    userProfile.doc(uid).set({
+    userProfile.doc(uid).update({
       'name': updatedName,
     });
     return AuthService().updateDisplayName(updatedName);
+  }
+
+  Future<void> updateProfilePicture(uid, profilePicture) {
+    userProfile.doc(uid).update({
+      'profile_picture': profilePicture,
+    });
+    return AuthService().updateProfilePicture(profilePicture);
   }
 
   Future<void> addNotice(title, notice) {
