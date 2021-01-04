@@ -48,6 +48,12 @@ class DatabaseService {
     return AuthService().updateProfilePicture(profilePicture);
   }
 
+  Future<void> updatePhoneNumber(uid, phoneNo) {
+    userProfile.doc(uid).update({
+      'phone_no': phoneNo,
+    });
+  }
+
   Future<void> addNotice(title, notice) {
     return moduleNotice.add({
       'title': title,
