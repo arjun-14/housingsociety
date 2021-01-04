@@ -31,17 +31,11 @@ class _ProfileState extends State<Profile> {
 
     setState(() {
       if (pickedFile != null) {
-        loading = true;
         profileImage = File(pickedFile.path);
         profileImagePath = pickedFile.path;
+        storage.uploadProfilePicture(profileImagePath, uid);
       }
     });
-    if (loading == true) {
-      await storage.uploadProfilePicture(profileImagePath, uid);
-      setState(() {
-        loading = false;
-      });
-    }
   }
 
   @override
@@ -49,150 +43,140 @@ class _ProfileState extends State<Profile> {
     final user = Provider.of<CurrentUser>(context);
     DocumentReference userProfile =
         FirebaseFirestore.instance.collection('user_profile').doc(user.uid);
-    return loading == true
-        ? Loading()
-        : Scaffold(
+    return StreamBuilder<DocumentSnapshot>(
+        stream: userProfile.snapshots(),
+        builder:
+            (BuildContext context, AsyncSnapshot<DocumentSnapshot> snapshot) {
+          if (snapshot.hasError) {
+            return Text('Something went wrong');
+          }
+
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return Loading();
+          }
+          return Scaffold(
             appBar: AppBar(
               title: Text('Profile'),
             ),
-            body: StreamBuilder<DocumentSnapshot>(
-                stream: userProfile.snapshots(),
-                builder: (BuildContext context,
-                    AsyncSnapshot<DocumentSnapshot> snapshot) {
-                  if (snapshot.hasError) {
-                    return Text('Something went wrong');
-                  }
-
-                  if (snapshot.connectionState == ConnectionState.waiting) {
-                    return Loading();
-                  }
-                  return ListView(
-                    children: [
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          Container(
-                            child: CircleAvatar(
-                              radius: 65.0,
-                              //backgroundColor: Colors.white,
-                              backgroundImage: user.profilePicture == null
-                                  ? AssetImage(
-                                      'assets/images/default_profile_pic.jpg')
-                                  : NetworkImage(user.profilePicture),
-                              child: Align(
-                                alignment: Alignment.bottomRight,
-                                child: Container(
-                                  height: 50,
-                                  width: 50,
-                                  child: FloatingActionButton(
-                                    backgroundColor: kAmaranth,
-                                    onPressed: () {
-                                      showModalBottomSheet(
-                                          backgroundColor: Colors.transparent,
-                                          context: context,
-                                          builder: (context) {
-                                            return Container(
-                                              height: 130,
-                                              decoration: BoxDecoration(
-                                                color: kSpaceCadet,
-                                                borderRadius:
-                                                    BorderRadius.vertical(
-                                                  top: Radius.circular(15),
-                                                ),
-                                              ),
-                                              child: ListView(
-                                                children: [
-                                                  ListTile(
-                                                    leading:
-                                                        Icon(Icons.camera_alt),
-                                                    title: Text(
-                                                        'Choose from Camera'),
-                                                    onTap: () {
-                                                      getImage(
-                                                          ImageSource.camera,
-                                                          user.uid);
-                                                      Navigator.pop(context);
-                                                    },
-                                                  ),
-                                                  Divider(),
-                                                  ListTile(
-                                                    leading:
-                                                        Icon(Icons.collections),
-                                                    title: Text(
-                                                        'Choose from gallery'),
-                                                    onTap: () {
-                                                      getImage(
-                                                          ImageSource.gallery,
-                                                          user.uid);
-                                                      Navigator.pop(context);
-                                                    },
-                                                  )
-                                                ],
-                                              ),
-                                            );
-                                          });
-                                    },
-                                    child: Icon(
-                                      Icons.camera_alt,
-                                    ),
-                                  ),
-                                ),
+            body: ListView(
+              children: [
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Container(
+                      child: CircleAvatar(
+                        radius: 65.0,
+                        //backgroundColor: Colors.white,
+                        backgroundImage: user.profilePicture == null
+                            ? AssetImage(
+                                'assets/images/default_profile_pic.jpg')
+                            : NetworkImage(snapshot.data['profile_picture']),
+                        child: Align(
+                          alignment: Alignment.bottomRight,
+                          child: Container(
+                            height: 50,
+                            width: 50,
+                            child: FloatingActionButton(
+                              backgroundColor: kAmaranth,
+                              onPressed: () {
+                                showModalBottomSheet(
+                                    backgroundColor: Colors.transparent,
+                                    context: context,
+                                    builder: (context) {
+                                      return Container(
+                                        height: 130,
+                                        decoration: BoxDecoration(
+                                          color: kSpaceCadet,
+                                          borderRadius: BorderRadius.vertical(
+                                            top: Radius.circular(15),
+                                          ),
+                                        ),
+                                        child: ListView(
+                                          children: [
+                                            ListTile(
+                                              leading: Icon(Icons.camera_alt),
+                                              title: Text('Choose from Camera'),
+                                              onTap: () {
+                                                getImage(ImageSource.camera,
+                                                    user.uid);
+                                                Navigator.pop(context);
+                                              },
+                                            ),
+                                            Divider(),
+                                            ListTile(
+                                              leading: Icon(Icons.collections),
+                                              title:
+                                                  Text('Choose from gallery'),
+                                              onTap: () {
+                                                getImage(ImageSource.gallery,
+                                                    user.uid);
+                                                Navigator.pop(context);
+                                              },
+                                            )
+                                          ],
+                                        ),
+                                      );
+                                    });
+                              },
+                              child: Icon(
+                                Icons.camera_alt,
                               ),
                             ),
                           ),
-                          ReusableProfileTile(
-                            label: 'Name',
-                            //value: AuthService().userName(),
-                            value: user.name,
-                            onpress: () {
-                              Navigator.pushNamed(context, EditName.id);
-                            },
-                          ),
-                          ReusableProfileTile(
-                            label: 'Email',
-                            value: user.email,
-                            onpress: () {
-                              Navigator.pushNamed(context, EditEmail.id);
-                            },
-                          ),
-                          ReusableProfileTile(
-                            label: 'Phone',
-                            value: snapshot.data['phone_no'] == null
-                                ? ' '
-                                : snapshot.data['phone_no'],
-                            onpress: () {
-                              Navigator.pushNamed(context, EditPhoneNumber.id);
-                            },
-                          ),
-                          ReusableProfileTile(
-                            label: 'Change password',
-                            value: ' ',
-                            onpress: () {
-                              Navigator.pushNamed(context, EditPassword.id);
-                            },
-                          ),
-                          Row(
-                            children: [
-                              Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: FlatButton(
-                                  onPressed: () {},
-                                  child: Text(
-                                    'Delete account',
-                                    style: TextStyle(
-                                      color: Colors.red,
-                                      fontSize: 18.0,
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ],
+                        ),
                       ),
-                    ],
-                  );
-                }),
+                    ),
+                    ReusableProfileTile(
+                      label: 'Name',
+                      //value: AuthService().userName(),
+                      value: user.name,
+                      onpress: () {
+                        Navigator.pushNamed(context, EditName.id);
+                      },
+                    ),
+                    ReusableProfileTile(
+                      label: 'Email',
+                      value: user.email,
+                      onpress: () {
+                        Navigator.pushNamed(context, EditEmail.id);
+                      },
+                    ),
+                    ReusableProfileTile(
+                      label: 'Phone',
+                      value: snapshot.data['phone_no'],
+                      onpress: () {
+                        Navigator.pushNamed(context, EditPhoneNumber.id);
+                      },
+                    ),
+                    ReusableProfileTile(
+                      label: 'Change password',
+                      value: ' ',
+                      onpress: () {
+                        Navigator.pushNamed(context, EditPassword.id);
+                      },
+                    ),
+                    Row(
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: FlatButton(
+                            onPressed: () {},
+                            child: Text(
+                              'Delete account',
+                              style: TextStyle(
+                                color: Colors.red,
+                                fontSize: 18.0,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              ],
+            ),
           );
+        });
   }
 }
