@@ -30,6 +30,7 @@ class DatabaseService {
     return userProfile.doc(uid).set(
       {
         'name': name,
+        'phone_no': ' ',
       },
     );
   }

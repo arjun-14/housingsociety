@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:housingsociety/shared/constants.dart';
+import 'package:housingsociety/shared/loading.dart';
 
 class RealTimeCommentUpdates extends StatelessWidget {
   final String docid;
@@ -20,7 +21,7 @@ class RealTimeCommentUpdates extends StatelessWidget {
         }
 
         if (snapshot.connectionState == ConnectionState.waiting) {
-          return Text("Loading");
+          return Loading();
         }
 
         return ListView(

@@ -64,7 +64,7 @@ class _ProfileState extends State<Profile> {
                   }
 
                   if (snapshot.connectionState == ConnectionState.waiting) {
-                    return Text("Loading");
+                    return Loading();
                   }
                   return ListView(
                     children: [
@@ -157,7 +157,9 @@ class _ProfileState extends State<Profile> {
                           ),
                           ReusableProfileTile(
                             label: 'Phone',
-                            value: snapshot.data['phone_no'],
+                            value: snapshot.data['phone_no'] == null
+                                ? ' '
+                                : snapshot.data['phone_no'],
                             onpress: () {
                               Navigator.pushNamed(context, EditPhoneNumber.id);
                             },
