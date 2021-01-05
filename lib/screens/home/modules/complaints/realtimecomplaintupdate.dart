@@ -65,7 +65,7 @@ class _RealTimeComplaintUpdateState extends State<RealTimeComplaintUpdate> {
               }
 
               if (snapshot.connectionState == ConnectionState.waiting) {
-                return Loading();
+                return Text('Loading');
               }
               return ListView(
                 children: snapshot.data.docs.map((DocumentSnapshot document) {

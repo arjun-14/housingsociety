@@ -15,8 +15,8 @@ class _RegisterState extends State<Register> {
   final AuthService _auth = AuthService();
   final _formkey = GlobalKey<FormState>();
 
-  String _email, _password;
-  static String name;
+  String _email, _password, name, flatno;
+  String wing = '';
   bool buttonEnabled = false;
   bool obscureText = true;
   bool loading = false;
@@ -82,6 +82,43 @@ class _RegisterState extends State<Register> {
                           SizedBox(
                             height: 20.0,
                           ),
+                          Row(
+                            children: [
+                              Expanded(
+                                flex: 2,
+                                child: TextFormField(
+                                  onChanged: (val) {
+                                    wing = val;
+                                  },
+                                  decoration: InputDecoration(
+                                    labelText: 'Wing',
+                                    border: OutlineInputBorder(),
+                                  ),
+                                ),
+                              ),
+                              SizedBox(
+                                width: 10,
+                              ),
+                              Expanded(
+                                flex: 4,
+                                child: TextFormField(
+                                  onChanged: (val) {
+                                    flatno = val;
+                                  },
+                                  validator: (val) {
+                                    return val.isEmpty ? 'Enter flat no' : null;
+                                  },
+                                  decoration: InputDecoration(
+                                    labelText: 'Flat no.',
+                                    border: OutlineInputBorder(),
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                          SizedBox(
+                            height: 20.0,
+                          ),
                           TextFormField(
                             onChanged: (val) {
                               setState(() {
@@ -136,8 +173,8 @@ class _RegisterState extends State<Register> {
                                     loading = true;
                                   });
                                   dynamic result = await _auth
-                                      .createUserWithEmailAndPassword(
-                                          _email, _password, name);
+                                      .createUserWithEmailAndPassword(_email,
+                                          _password, name, wing, flatno);
                                   if (result == null) {
                                     setState(() {
                                       loading = false;

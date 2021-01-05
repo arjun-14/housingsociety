@@ -26,11 +26,13 @@ class DatabaseService {
     );
   }
 
-  Future<void> setProfileonRegistration(uid, name) {
+  Future<void> setProfileonRegistration(uid, name, wing, flatno) {
     return userProfile.doc(uid).set(
       {
         'name': name,
         'phone_no': ' ',
+        'wing': wing,
+        'flatno': flatno,
       },
     );
   }

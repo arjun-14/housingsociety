@@ -20,8 +20,8 @@ class AuthService {
     return _auth.userChanges().map(_userFromFireBase);
   }
 
-  Future createUserWithEmailAndPassword(
-      String email, String password, String name) async {
+  Future createUserWithEmailAndPassword(String email, String password,
+      String name, String wing, String flatno) async {
     try {
       UserCredential userCredential = await _auth
           .createUserWithEmailAndPassword(email: email, password: password);
@@ -31,7 +31,7 @@ class AuthService {
         user.reload();
         User updateduser = _auth.currentUser;
         print(updateduser.displayName);
-        db.setProfileonRegistration(user.uid, name);
+        db.setProfileonRegistration(user.uid, name, wing, flatno);
         return _userFromFireBase(updateduser);
       });
     } on FirebaseAuthException catch (e) {

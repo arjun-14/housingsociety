@@ -155,6 +155,13 @@ class _ProfileState extends State<Profile> {
                         Navigator.pushNamed(context, EditPassword.id);
                       },
                     ),
+                    ReusableProfileTile(
+                      label: 'Flat no',
+                      value: ' ',
+                      onpress: () {
+                        // Navigator.pushNamed(context, EditPassword.id);
+                      },
+                    ),
                     Row(
                       children: [
                         Padding(
