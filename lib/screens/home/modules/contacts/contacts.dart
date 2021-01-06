@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:housingsociety/shared/loading.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class Contacts extends StatelessWidget {
   static const String id = 'contacts';
@@ -38,7 +39,10 @@ class Contacts extends StatelessWidget {
                 ),
                 trailing: IconButton(
                   icon: Icon(Icons.call),
-                  onPressed: () {},
+                  onPressed: () {
+                    print("tel://" + document.data()['phone_no']);
+                    launch("tel://" + document.data()['phone_no']);
+                  },
                 ),
               );
             }).toList(),
