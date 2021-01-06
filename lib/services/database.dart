@@ -33,6 +33,7 @@ class DatabaseService {
         'phone_no': ' ',
         'wing': wing,
         'flatno': flatno,
+        'profile_picture': ' ',
       },
     );
   }
