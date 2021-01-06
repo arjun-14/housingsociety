@@ -1,3 +1,4 @@
+import 'package:adaptive_dialog/adaptive_dialog.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:housingsociety/models/user.dart';
@@ -157,10 +158,10 @@ class _ProfileState extends State<Profile> {
                     ),
                     ReusableProfileTile(
                       label: 'Flat no',
-                      value: ' ',
-                      onpress: () {
-                        // Navigator.pushNamed(context, EditPassword.id);
-                      },
+                      value: snapshot.data['wing'] +
+                          '  ' +
+                          snapshot.data['flatno'],
+                      onpress: () {},
                     ),
                     Row(
                       children: [
