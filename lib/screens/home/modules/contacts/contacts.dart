@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:housingsociety/screens/home/modules/contacts/addemergencycontact.dart';
 import 'package:housingsociety/screens/home/modules/contacts/emergencycontacts.dart';
 import 'package:housingsociety/shared/constants.dart';
 import 'package:housingsociety/shared/loading.dart';
@@ -28,6 +29,20 @@ class _ContactsState extends State<Contacts> {
     return Scaffold(
       appBar: AppBar(
         title: Text('Contacts'),
+        actions: [
+          Visibility(
+            visible: _selectedIndex == 0 ? false : true,
+            child: IconButton(
+              icon: Icon(Icons.add),
+              onPressed: () {
+                Navigator.pushNamed(
+                  context,
+                  AddEmergencyContact.id,
+                );
+              },
+            ),
+          ),
+        ],
       ),
       body: _selectedIndex == 0
           ? StreamBuilder<QuerySnapshot>(
