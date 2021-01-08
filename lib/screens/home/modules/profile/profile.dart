@@ -120,7 +120,7 @@ class _ProfileState extends State<Profile> {
                                     });
                               },
                               child: Icon(
-                                Icons.camera_alt,
+                                Icons.add_a_photo,
                               ),
                             ),
                           ),
