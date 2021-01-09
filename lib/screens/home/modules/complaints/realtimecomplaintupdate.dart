@@ -29,8 +29,6 @@ class _RealTimeComplaintUpdateState extends State<RealTimeComplaintUpdate> {
 
   @override
   void initState() {
-    // TODO: implement initState
-
     super.initState();
     getCurrentUSerLikes();
   }

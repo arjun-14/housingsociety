@@ -1,6 +1,7 @@
 import 'package:adaptive_dialog/adaptive_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:housingsociety/screens/home/modules/contacts/contacts.dart';
+import 'package:housingsociety/services/database.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:housingsociety/shared/constants.dart';
 import 'dart:io';
@@ -14,12 +15,12 @@ class AddEmergencyContact extends StatefulWidget {
 
 class _AddEmergencyContactState extends State<AddEmergencyContact> {
   File profileImage;
+  String profileImagePath = ' ';
   final picker = ImagePicker();
-  String name, phoneno, address;
+  String name = ' ', phoneNo = ' ', address = ' ';
 
   Future getImage(source) async {
     final pickedFile = await picker.getImage(source: source);
-    String profileImagePath;
 
     setState(() {
       if (pickedFile != null) {
@@ -27,6 +28,7 @@ class _AddEmergencyContactState extends State<AddEmergencyContact> {
         profileImagePath = pickedFile.path;
       }
     });
+    print(pickedFile);
   }
 
   @override
@@ -81,7 +83,15 @@ class _AddEmergencyContactState extends State<AddEmergencyContact> {
         title: Text('Create Contact'),
         actions: [
           FlatButton(
-            onPressed: () {},
+            onPressed: () async {
+              if (name == ' ' && phoneNo == ' ' && address == ' ') {
+                Navigator.pop(context);
+              } else {
+                await DatabaseService().addEmergencyContact(
+                    name, phoneNo, address, profileImagePath);
+                Navigator.pop(context);
+              }
+            },
             child: Text(
               'Save',
               style: TextStyle(
@@ -161,6 +171,7 @@ class _AddEmergencyContactState extends State<AddEmergencyContact> {
                 padding: const EdgeInsets.all(8.0),
                 child: TextFormField(
                   onChanged: (val) {
+                    setState(() {});
                     name = val;
                   },
                   decoration: InputDecoration(
@@ -176,7 +187,7 @@ class _AddEmergencyContactState extends State<AddEmergencyContact> {
                 padding: const EdgeInsets.all(8.0),
                 child: TextFormField(
                   onChanged: (val) {
-                    phoneno = val;
+                    phoneNo = val;
                   },
                   keyboardType: TextInputType.phone,
                   decoration: InputDecoration(

@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:housingsociety/services/auth.dart';
+import 'package:housingsociety/services/storage.dart';
 
 class DatabaseService {
   CollectionReference moduleChat =
@@ -14,6 +15,8 @@ class DatabaseService {
       FirebaseFirestore.instance.collection('module_complaint_user_likes');
   CollectionReference moduleComplaintUserComments =
       FirebaseFirestore.instance.collection('module_complaint_comments');
+  CollectionReference moduleContatcsEmergencyContact =
+      FirebaseFirestore.instance.collection('module_contacts_emergency');
 
   Future<void> addMessage(message, sender, email, Timestamp timestamp) {
     return moduleChat.add(
@@ -53,7 +56,7 @@ class DatabaseService {
   }
 
   Future<void> updatePhoneNumber(uid, phoneNo) {
-    userProfile.doc(uid).update({
+    return userProfile.doc(uid).update({
       'phone_no': phoneNo,
     });
   }
@@ -133,6 +136,25 @@ class DatabaseService {
       'userName': userName,
       'comment': comment,
       'timestamp': Timestamp.now(),
+    });
+  }
+
+  Future<void> addEmergencyContact(
+      name, phoneNo, address, profilePicture) async {
+    DocumentReference result = await moduleContatcsEmergencyContact.add({
+      'name': name,
+      'phone_no': phoneNo,
+      'address': address,
+      'profile_picture': ' ',
+    });
+
+    StorageService storage = StorageService();
+    storage.addEmergencyContactPhoto(profilePicture, result.id);
+  }
+
+  Future<void> updateEmergencyContact(profilePicture, docid) {
+    return moduleContatcsEmergencyContact.doc(docid).update({
+      'profile_picture': profilePicture,
     });
   }
 }
