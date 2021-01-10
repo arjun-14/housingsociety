@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:housingsociety/screens/home/modules/contacts/addemergencycontact.dart';
 import 'package:housingsociety/shared/constants.dart';
 import 'package:housingsociety/shared/loading.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -23,12 +24,15 @@ class EmergencyContacts extends StatelessWidget {
           children: snapshot.data.docs.map((DocumentSnapshot document) {
             return ListTile(
               leading: CircleAvatar(
-                backgroundImage: document.data()['profile_picture'] == ' '
+                backgroundImage: document.data()['profile_picture'] == ''
                     ? AssetImage('assets/images/default_profile_pic.jpg')
                     : NetworkImage(document.data()['profile_picture']),
               ),
               title: Text(
                 document.data()['name'],
+              ),
+              subtitle: Text(
+                document.data()['address'],
               ),
               trailing: IconButton(
                 color: kAmaranth,
@@ -37,6 +41,21 @@ class EmergencyContacts extends StatelessWidget {
                   launch("tel://" + document.data()['phone_no']);
                 },
               ),
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => AddEmergencyContact(
+                      currentName: document.data()['name'],
+                      currentPhone: document.data()['phone_no'],
+                      currentAddress: document.data()['address'],
+                      currentProfilePicture: document.data()['profile_picture'],
+                      flag: 0,
+                      docid: document.id,
+                    ),
+                  ),
+                );
+              },
             );
           }).toList(),
         );

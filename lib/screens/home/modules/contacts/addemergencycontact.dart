@@ -1,4 +1,3 @@
-import 'package:adaptive_dialog/adaptive_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:housingsociety/screens/home/modules/contacts/contacts.dart';
 import 'package:housingsociety/services/database.dart';
@@ -8,16 +7,28 @@ import 'dart:io';
 
 class AddEmergencyContact extends StatefulWidget {
   static const String id = 'add_emergency_contact';
-
+  final String currentProfilePicture,
+      currentName,
+      currentPhone,
+      currentAddress,
+      docid;
+  final int flag;
+  AddEmergencyContact(
+      {this.currentProfilePicture,
+      this.currentName,
+      this.currentPhone,
+      this.currentAddress,
+      this.flag,
+      this.docid});
   @override
   _AddEmergencyContactState createState() => _AddEmergencyContactState();
 }
 
 class _AddEmergencyContactState extends State<AddEmergencyContact> {
   File profileImage;
-  String profileImagePath = ' ';
+  String profileImagePath = '';
   final picker = ImagePicker();
-  String name = ' ', phoneNo = ' ', address = ' ';
+  String name = '', phoneNo = '', address = '';
 
   Future getImage(source) async {
     final pickedFile = await picker.getImage(source: source);
@@ -33,70 +44,84 @@ class _AddEmergencyContactState extends State<AddEmergencyContact> {
 
   @override
   Widget build(BuildContext context) {
+    if (widget.flag == 0) {
+      name = widget.currentName;
+      phoneNo = widget.currentPhone;
+      address = widget.currentAddress;
+    }
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
           icon: Icon(Icons.clear),
           onPressed: () {
-            showDialog(
-                context: context,
-                builder: (BuildContext context) {
-                  return AlertDialog(
-                    backgroundColor: kSpaceCadet,
-                    title: Text(
-                      'Your changes have not been saved',
-                      style: TextStyle(
-                        fontSize: 16,
-                      ),
-                    ),
-                    actions: [
-                      FlatButton(
-                        onPressed: () {
-                          Navigator.popUntil(
-                            context,
-                            ModalRoute.withName(Contacts.id),
-                          );
-                        },
-                        child: Text(
-                          'Discard',
-                          style: TextStyle(
-                            color: kAmaranth,
-                          ),
+            if (name == '' && phoneNo == '' && address == '') {
+              Navigator.pop(context);
+            } else {
+              showDialog(
+                  context: context,
+                  builder: (BuildContext context) {
+                    return AlertDialog(
+                      backgroundColor: kSpaceCadet,
+                      title: Text(
+                        'Your changes have not been saved',
+                        style: TextStyle(
+                          fontSize: 16,
                         ),
                       ),
-                      FlatButton(
-                        onPressed: () {
-                          Navigator.pop(context);
-                        },
-                        child: Text(
-                          'Cancel',
-                          style: TextStyle(
-                            color: kAmaranth,
+                      actions: [
+                        IconButton(
+                            icon: Icon(Icons.ac_unit),
+                            onPressed: () {
+                              print(widget.docid);
+                            }),
+                        FlatButton(
+                          onPressed: () {
+                            Navigator.popUntil(
+                              context,
+                              ModalRoute.withName(Contacts.id),
+                            );
+                          },
+                          child: Text(
+                            'Discard',
+                            style: TextStyle(
+                              color: kAmaranth,
+                            ),
                           ),
                         ),
-                      ),
-                    ],
-                  );
-                });
+                        FlatButton(
+                          onPressed: () {
+                            Navigator.pop(context);
+                          },
+                          child: Text(
+                            'Cancel',
+                            style: TextStyle(
+                              color: kAmaranth,
+                            ),
+                          ),
+                        ),
+                      ],
+                    );
+                  });
+            }
           },
         ),
         title: Text('Create Contact'),
         actions: [
-          FlatButton(
-            onPressed: () async {
-              if (name == ' ' && phoneNo == ' ' && address == ' ') {
+          Visibility(
+            visible: true,
+            // name != '' && phoneNo != '' ? true : false
+            child: FlatButton(
+              onPressed: () async {
+                await DatabaseService().addEmergencyContact(name, phoneNo,
+                    address, profileImagePath, widget.flag, widget.docid);
                 Navigator.pop(context);
-              } else {
-                await DatabaseService().addEmergencyContact(
-                    name, phoneNo, address, profileImagePath);
-                Navigator.pop(context);
-              }
-            },
-            child: Text(
-              'Save',
-              style: TextStyle(
-                fontSize: 18,
-                color: kAmaranth,
+              },
+              child: Text(
+                'Save',
+                style: TextStyle(
+                  fontSize: 18,
+                  color: kAmaranth,
+                ),
               ),
             ),
           ),
@@ -110,9 +135,14 @@ class _AddEmergencyContactState extends State<AddEmergencyContact> {
                 child: Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: CircleAvatar(
-                    backgroundImage: profileImage == null
-                        ? AssetImage('assets/images/default_profile_pic.jpg')
-                        : FileImage(profileImage),
+                    backgroundImage: widget.currentProfilePicture != '' &&
+                            profileImage == null &&
+                            widget.flag == 0
+                        ? NetworkImage(widget.currentProfilePicture)
+                        : profileImage == null
+                            ? AssetImage(
+                                'assets/images/default_profile_pic.jpg')
+                            : FileImage(profileImage),
                     radius: 65,
                     child: Align(
                       alignment: Alignment.bottomRight,
@@ -170,9 +200,10 @@ class _AddEmergencyContactState extends State<AddEmergencyContact> {
               Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: TextFormField(
+                  initialValue: name,
                   onChanged: (val) {
-                    setState(() {});
                     name = val;
+                    print(name);
                   },
                   decoration: InputDecoration(
                     prefixIcon: Icon(
@@ -186,6 +217,7 @@ class _AddEmergencyContactState extends State<AddEmergencyContact> {
               Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: TextFormField(
+                  initialValue: phoneNo,
                   onChanged: (val) {
                     phoneNo = val;
                   },
@@ -202,6 +234,7 @@ class _AddEmergencyContactState extends State<AddEmergencyContact> {
               Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: TextFormField(
+                  initialValue: address,
                   onChanged: (val) {
                     address = val;
                   },
