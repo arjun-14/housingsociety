@@ -142,17 +142,22 @@ class DatabaseService {
   Future<void> addEmergencyContact(
       name, phoneNo, address, profilePicture, flag, docid) async {
     if (flag == 0) {
-      print(flag);
-      print(name);
-      print(phoneNo);
-      await moduleContatcsEmergencyContact.doc(docid).update({
-        'name': name,
-        'phone_no': phoneNo,
-        'address': address,
-        'profile_picture': '',
-      });
-      StorageService storage = StorageService();
-      storage.addEmergencyContactPhoto(profilePicture, docid);
+      if (profilePicture == '') {
+        await moduleContatcsEmergencyContact.doc(docid).update({
+          'name': name,
+          'phone_no': phoneNo,
+          'address': address,
+        });
+      } else {
+        await moduleContatcsEmergencyContact.doc(docid).update({
+          'name': name,
+          'phone_no': phoneNo,
+          'address': address,
+          'profile_picture': '',
+        });
+        StorageService storage = StorageService();
+        storage.addEmergencyContactPhoto(profilePicture, docid);
+      }
     } else {
       DocumentReference result = await moduleContatcsEmergencyContact.add({
         'name': name,
