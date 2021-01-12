@@ -29,7 +29,7 @@ class _AddEmergencyContactState extends State<AddEmergencyContact> {
   String profileImagePath = '';
   final picker = ImagePicker();
   String name = '', phoneNo = '', address = '';
-
+  final formkey = GlobalKey<FormState>();
   Future getImage(source) async {
     final pickedFile = await picker.getImage(source: source);
 
@@ -54,7 +54,12 @@ class _AddEmergencyContactState extends State<AddEmergencyContact> {
         leading: IconButton(
           icon: Icon(Icons.clear),
           onPressed: () {
-            if (name == '' && phoneNo == '' && address == '') {
+            if (widget.flag == 0 &&
+                widget.currentName == name &&
+                widget.currentPhone == phoneNo &&
+                widget.currentAddress == address) {
+              Navigator.pop(context);
+            } else if (name == '' && phoneNo == '' && address == '') {
               Navigator.pop(context);
             } else {
               showDialog(
@@ -69,11 +74,6 @@ class _AddEmergencyContactState extends State<AddEmergencyContact> {
                         ),
                       ),
                       actions: [
-                        IconButton(
-                            icon: Icon(Icons.ac_unit),
-                            onPressed: () {
-                              print(widget.docid);
-                            }),
                         FlatButton(
                           onPressed: () {
                             Navigator.popUntil(
@@ -109,12 +109,13 @@ class _AddEmergencyContactState extends State<AddEmergencyContact> {
         actions: [
           Visibility(
             visible: true,
-            // name != '' && phoneNo != '' ? true : false
             child: FlatButton(
               onPressed: () async {
-                await DatabaseService().addEmergencyContact(name, phoneNo,
-                    address, profileImagePath, widget.flag, widget.docid);
-                Navigator.pop(context);
+                if (formkey.currentState.validate()) {
+                  await DatabaseService().addEmergencyContact(name, phoneNo,
+                      address, profileImagePath, widget.flag, widget.docid);
+                  Navigator.pop(context);
+                }
               },
               child: Text(
                 'Save',
@@ -199,18 +200,25 @@ class _AddEmergencyContactState extends State<AddEmergencyContact> {
               ),
               Padding(
                 padding: const EdgeInsets.all(8.0),
-                child: TextFormField(
-                  initialValue: name,
-                  onChanged: (val) {
-                    name = val;
-                    print(name);
-                  },
-                  decoration: InputDecoration(
-                    prefixIcon: Icon(
-                      Icons.perm_identity,
+                child: Form(
+                  key: formkey,
+                  child: TextFormField(
+                    initialValue: name,
+                    validator: (val) {
+                      return val.isEmpty ? 'Name cannot be empty' : null;
+                    },
+                    onChanged: (val) {
+                      name = val;
+
+                      print(name);
+                    },
+                    decoration: InputDecoration(
+                      prefixIcon: Icon(
+                        Icons.perm_identity,
+                      ),
+                      labelText: 'Name',
+                      border: OutlineInputBorder(),
                     ),
-                    labelText: 'Name',
-                    border: OutlineInputBorder(),
                   ),
                 ),
               ),
