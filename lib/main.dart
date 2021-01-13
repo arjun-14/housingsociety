@@ -4,6 +4,7 @@ import 'package:housingsociety/screens/home/modules/complaints/addcomplaint.dart
 import 'package:housingsociety/screens/home/modules/complaints/complaint.dart';
 import 'package:housingsociety/screens/home/modules/contacts/addemergencycontact.dart';
 import 'package:housingsociety/screens/home/modules/contacts/contacts.dart';
+import 'package:housingsociety/screens/home/modules/health/health.dart';
 import 'package:housingsociety/screens/home/modules/notice/addnotice.dart';
 import 'package:housingsociety/screens/home/modules/notice/notice.dart';
 import 'package:housingsociety/screens/home/modules/profile/editEmail.dart';
@@ -51,6 +52,7 @@ class MyApp extends StatelessWidget {
           AddComplaint.id: (context) => AddComplaint(),
           Contacts.id: (context) => Contacts(),
           AddEmergencyContact.id: (context) => AddEmergencyContact(),
+          Health.id: (context) => Health(),
         },
       ),
     );
