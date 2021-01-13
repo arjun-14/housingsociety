@@ -33,10 +33,10 @@ class DatabaseService {
     return userProfile.doc(uid).set(
       {
         'name': name,
-        'phone_no': ' ',
+        'phone_no': '',
         'wing': wing,
         'flatno': flatno,
-        'profile_picture': ' ',
+        'profile_picture': '',
       },
     );
   }

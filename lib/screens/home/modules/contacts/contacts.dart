@@ -26,6 +26,8 @@ class _ContactsState extends State<Contacts> {
   Widget build(BuildContext context) {
     Query userProfile =
         FirebaseFirestore.instance.collection('user_profile').orderBy('name');
+    //  .where('phone_no', isNotEqualTo: '');
+
     return Scaffold(
       appBar: AppBar(
         title: Text('Contacts'),
@@ -50,37 +52,45 @@ class _ContactsState extends State<Contacts> {
               builder: (BuildContext context,
                   AsyncSnapshot<QuerySnapshot> snapshot) {
                 if (snapshot.hasError) {
-                  return Text('Something went wrong');
+                  return Center(
+                    child: Text('Something went wrong'),
+                  );
                 }
                 if (snapshot.connectionState == ConnectionState.waiting) {
                   return Loading();
                 }
                 return ListView(
                   children: snapshot.data.docs.map((DocumentSnapshot document) {
-                    return ListTile(
-                      leading: CircleAvatar(
-                        backgroundImage: document.data()['profile_picture'] ==
-                                ' '
-                            ? AssetImage(
-                                'assets/images/default_profile_pic.jpg')
-                            : NetworkImage(document.data()['profile_picture']),
-                      ),
-                      title: Text(
-                        document.data()['name'],
-                      ),
-                      subtitle: Text(
-                        document.data()['wing'] +
-                            ' ' +
-                            document.data()['flatno'],
-                      ),
-                      trailing: IconButton(
-                        color: kAmaranth,
-                        icon: Icon(Icons.call),
-                        onPressed: () {
-                          launch("tel://" + document.data()['phone_no']);
-                        },
-                      ),
-                    );
+                    return document.data()['phone_no'] == ''
+                        ? SizedBox(
+                            height: 0,
+                          )
+                        : ListTile(
+                            leading: CircleAvatar(
+                              backgroundImage: document
+                                          .data()['profile_picture'] ==
+                                      ' '
+                                  ? AssetImage(
+                                      'assets/images/default_profile_pic.jpg')
+                                  : NetworkImage(
+                                      document.data()['profile_picture']),
+                            ),
+                            title: Text(
+                              document.data()['name'],
+                            ),
+                            subtitle: Text(
+                              document.data()['wing'] +
+                                  ' ' +
+                                  document.data()['flatno'],
+                            ),
+                            trailing: IconButton(
+                              color: kAmaranth,
+                              icon: Icon(Icons.call),
+                              onPressed: () {
+                                launch("tel://" + document.data()['phone_no']);
+                              },
+                            ),
+                          );
                   }).toList(),
                 );
               },
