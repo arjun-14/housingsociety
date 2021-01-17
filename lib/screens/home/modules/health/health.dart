@@ -91,12 +91,27 @@ class _HealthState extends State<Health> {
           ),
         ],
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          db.addIndividualHealthStatus(user.uid, groupvalue);
-        },
-        child: Icon(
-          Icons.save,
+      floatingActionButton: Builder(
+        builder: (context) => FloatingActionButton(
+          onPressed: () {
+            dynamic result = db.addIndividualHealthStatus(user.uid, groupvalue);
+            if (result != null) {
+              final snackBar = SnackBar(
+                backgroundColor: kXiketic,
+                duration: Duration(seconds: 1),
+                content: Text(
+                  'Status saved successfully',
+                  style: TextStyle(
+                    color: Colors.white,
+                  ),
+                ),
+              );
+              Scaffold.of(context).showSnackBar(snackBar);
+            }
+          },
+          child: Icon(
+            Icons.save,
+          ),
         ),
       ),
     );

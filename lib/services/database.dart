@@ -182,6 +182,8 @@ class DatabaseService {
   Future<void> addIndividualHealthStatus(uid, status) {
     return moduleHealth.doc(uid).set({
       'health': status,
+    }).catchError((e) {
+      print(e);
     });
   }
 
