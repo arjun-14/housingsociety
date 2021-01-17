@@ -1,5 +1,10 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:housingsociety/models/user.dart';
+import 'package:housingsociety/services/auth.dart';
+import 'package:housingsociety/services/database.dart';
 import 'package:housingsociety/shared/constants.dart';
+import 'package:provider/provider.dart';
 
 class Health extends StatefulWidget {
   static const String id = 'health';
@@ -11,8 +16,26 @@ class Health extends StatefulWidget {
 class _HealthState extends State<Health> {
   String groupvalue = 'Healthy';
 
+  DatabaseService db = DatabaseService();
+  AuthService _auth = AuthService();
+  @override
+  void initState() {
+    super.initState();
+    getInitialstatus();
+  }
+
+  void getInitialstatus() async {
+    DocumentSnapshot result =
+        await db.readIndividualHealthStatus(_auth.userId());
+    setState(() {
+      groupvalue = result.data()['health'];
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
+    final user = Provider.of<CurrentUser>(context);
+
     return Scaffold(
       appBar: AppBar(
         title: Text('Status'),
@@ -69,7 +92,9 @@ class _HealthState extends State<Health> {
         ],
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () {},
+        onPressed: () {
+          db.addIndividualHealthStatus(user.uid, groupvalue);
+        },
         child: Icon(
           Icons.save,
         ),

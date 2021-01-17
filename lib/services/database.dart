@@ -17,6 +17,8 @@ class DatabaseService {
       FirebaseFirestore.instance.collection('module_complaint_comments');
   CollectionReference moduleContatcsEmergencyContact =
       FirebaseFirestore.instance.collection('module_contacts_emergency');
+  CollectionReference moduleHealth =
+      FirebaseFirestore.instance.collection('module_health');
 
   Future<void> addMessage(message, sender, email, Timestamp timestamp) {
     return moduleChat.add(
@@ -176,22 +178,14 @@ class DatabaseService {
       'profile_picture': profilePicture,
     });
   }
+
+  Future<void> addIndividualHealthStatus(uid, status) {
+    return moduleHealth.doc(uid).set({
+      'health': status,
+    });
+  }
+
+  Future<DocumentSnapshot> readIndividualHealthStatus(uid) {
+    return moduleHealth.doc(uid).get();
+  }
 }
-
-// getCurrentUSerLikes() async {
-//   dynamic userid = AuthService().userId();
-//   Map<String, dynamic> likes;
-
-//   CollectionReference moduleComplaintUserLikes =
-//       FirebaseFirestore.instance.collection('module_complaint_user_likes');
-
-//   await moduleComplaintUserLikes
-//       .doc(userid)
-//       .get()
-//       .then((value) => likes = value.data());
-//   // moduleComplaintUserLikes
-//   //     .get()
-//   //     .then((value) => print(value.data()['asasa']));
-//   print(likes);
-//   return likes;
-// }
