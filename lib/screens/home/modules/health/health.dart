@@ -104,10 +104,12 @@ class _HealthState extends State<Health> {
         onTap: onItemTapped,
       ),
       floatingActionButton: Builder(
-        builder: (context) => FloatingActionButton(
-          onPressed: () {
-            dynamic result = db.addIndividualHealthStatus(user.uid, groupvalue);
-            if (result != null) {
+        builder: (context) => Visibility(
+          visible: selectedindex == 0,
+          child: FloatingActionButton(
+            onPressed: () {
+              db.addIndividualHealthStatus(user.uid, groupvalue);
+
               final snackBar = SnackBar(
                 backgroundColor: kXiketic,
                 duration: Duration(seconds: 1),
@@ -119,10 +121,10 @@ class _HealthState extends State<Health> {
                 ),
               );
               Scaffold.of(context).showSnackBar(snackBar);
-            }
-          },
-          child: Icon(
-            Icons.save,
+            },
+            child: Icon(
+              Icons.save,
+            ),
           ),
         ),
       ),

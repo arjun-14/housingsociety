@@ -17,8 +17,6 @@ class DatabaseService {
       FirebaseFirestore.instance.collection('module_complaint_comments');
   CollectionReference moduleContatcsEmergencyContact =
       FirebaseFirestore.instance.collection('module_contacts_emergency');
-  CollectionReference moduleHealth =
-      FirebaseFirestore.instance.collection('module_health');
 
   Future<void> addMessage(message, sender, email, Timestamp timestamp) {
     return moduleChat.add(
@@ -179,15 +177,21 @@ class DatabaseService {
     });
   }
 
-  Future<void> addIndividualHealthStatus(uid, status) {
-    return moduleHealth.doc(uid).set({
-      'health': status,
-    }).catchError((e) {
-      print(e);
-    });
+  void addIndividualHealthStatus(uid, status) {
+    if (status == 'Healthy') {
+      userProfile.doc(uid).update({
+        'health': FieldValue.delete(),
+      });
+    } else {
+      userProfile.doc(uid).update({
+        'health': status,
+      }).catchError((e) {
+        print(e);
+      });
+    }
   }
 
   Future<DocumentSnapshot> readIndividualHealthStatus(uid) {
-    return moduleHealth.doc(uid).get();
+    return userProfile.doc(uid).get();
   }
 }
