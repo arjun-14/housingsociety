@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:housingsociety/models/user.dart';
+import 'package:housingsociety/screens/home/modules/health/quarantinesummary.dart';
 import 'package:housingsociety/services/auth.dart';
 import 'package:housingsociety/services/database.dart';
 import 'package:housingsociety/shared/constants.dart';
@@ -18,6 +19,7 @@ class _HealthState extends State<Health> {
 
   DatabaseService db = DatabaseService();
   AuthService _auth = AuthService();
+  int selectedindex = 0;
   @override
   void initState() {
     super.initState();
@@ -32,49 +34,58 @@ class _HealthState extends State<Health> {
     });
   }
 
+  void onItemTapped(int index) {
+    setState(() {
+      selectedindex = index;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     final user = Provider.of<CurrentUser>(context);
 
     return Scaffold(
       appBar: AppBar(
-        title: Text('Status'),
+        title: selectedindex == 0 ? Text('Status') : Text('Quarantine Summary'),
       ),
-      body: Column(
-        children: [
-          RadioListTile(
-            title: Text('Home Quarantined'),
-            value: 'Home Quarantined',
-            groupValue: groupvalue,
-            onChanged: (value) {
-              setState(() {
-                groupvalue = value;
-              });
-            },
-          ),
-          RadioListTile(
-            title: Text('Hospitalized'),
-            value: 'Hospitalized',
-            groupValue: groupvalue,
-            onChanged: (value) {
-              setState(() {
-                groupvalue = value;
-              });
-            },
-          ),
-          RadioListTile(
-            title: Text('Healthy'),
-            value: 'Healthy',
-            groupValue: groupvalue,
-            onChanged: (value) {
-              setState(() {
-                groupvalue = value;
-              });
-            },
-          ),
-        ],
-      ),
+      body: selectedindex == 0
+          ? Column(
+              children: [
+                RadioListTile(
+                  title: Text('Home Quarantined'),
+                  value: 'Home Quarantined',
+                  groupValue: groupvalue,
+                  onChanged: (value) {
+                    setState(() {
+                      groupvalue = value;
+                    });
+                  },
+                ),
+                RadioListTile(
+                  title: Text('Hospitalized'),
+                  value: 'Hospitalized',
+                  groupValue: groupvalue,
+                  onChanged: (value) {
+                    setState(() {
+                      groupvalue = value;
+                    });
+                  },
+                ),
+                RadioListTile(
+                  title: Text('Healthy'),
+                  value: 'Healthy',
+                  groupValue: groupvalue,
+                  onChanged: (value) {
+                    setState(() {
+                      groupvalue = value;
+                    });
+                  },
+                ),
+              ],
+            )
+          : QuarantineSummary(),
       bottomNavigationBar: BottomNavigationBar(
+        currentIndex: selectedindex,
         backgroundColor: kXiketic,
         items: <BottomNavigationBarItem>[
           BottomNavigationBarItem(
@@ -90,6 +101,7 @@ class _HealthState extends State<Health> {
             ),
           ),
         ],
+        onTap: onItemTapped,
       ),
       floatingActionButton: Builder(
         builder: (context) => FloatingActionButton(
