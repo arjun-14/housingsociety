@@ -29,7 +29,6 @@ class _HealthState extends State<Health> {
   void getInitialstatus() async {
     DocumentSnapshot result =
         await db.readIndividualHealthStatus(_auth.userId());
-    print(result.data()['health']);
     if (result.data()['health'] != null) {
       setState(() {
         groupvalue = result.data()['health'];

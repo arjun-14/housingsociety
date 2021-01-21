@@ -5,6 +5,7 @@ import 'package:housingsociety/screens/home/modules/contacts/contacts.dart';
 import 'package:housingsociety/screens/home/modules/health/health.dart';
 import 'package:housingsociety/screens/home/modules/notice/notice.dart';
 import 'package:housingsociety/screens/home/modules/profile/profile.dart';
+import 'package:housingsociety/screens/home/modules/visitor/visitor.dart';
 import 'package:housingsociety/screens/home/modules/voting/voting.dart';
 import 'package:housingsociety/screens/home/reusableCard.dart';
 import 'package:housingsociety/services/auth.dart';
@@ -147,7 +148,7 @@ class Home extends StatelessWidget {
                     icon: Icons.face,
                     text: 'Visitor',
                     onpress: () {
-                      print('clikced');
+                      Navigator.pushNamed(context, Visitor.id);
                     },
                   ),
                 ],
