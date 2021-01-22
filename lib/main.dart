@@ -13,6 +13,7 @@ import 'package:housingsociety/screens/home/modules/profile/editName.dart';
 import 'package:housingsociety/screens/home/modules/profile/editPassword.dart';
 import 'package:housingsociety/screens/home/modules/profile/editPhoneNumber.dart';
 import 'package:housingsociety/screens/home/modules/profile/profile.dart';
+import 'package:housingsociety/screens/home/modules/visitor/addvisitor.dart';
 import 'package:housingsociety/screens/home/modules/visitor/visitor.dart';
 import 'package:housingsociety/screens/home/modules/voting/addvoting.dart';
 import 'package:housingsociety/screens/home/modules/voting/voting.dart';
@@ -57,6 +58,7 @@ class MyApp extends StatelessWidget {
           Health.id: (context) => Health(),
           QuarantineSummary.id: (context) => QuarantineSummary(),
           Visitor.id: (context) => Visitor(),
+          AddVisitor.id: (context) => AddVisitor(),
         },
       ),
     );
