@@ -85,7 +85,6 @@ class _RegisterState extends State<Register> {
                           Row(
                             children: [
                               Expanded(
-                                flex: 2,
                                 child: TextFormField(
                                   onChanged: (val) {
                                     wing = val;
@@ -100,7 +99,6 @@ class _RegisterState extends State<Register> {
                                 width: 10,
                               ),
                               Expanded(
-                                flex: 4,
                                 child: TextFormField(
                                   onChanged: (val) {
                                     flatno = val;

@@ -12,31 +12,60 @@ class AddVisitor extends StatelessWidget {
         padding: const EdgeInsets.symmetric(horizontal: 16.0),
         child: Column(
           children: [
-            TextFormField(
-              maxLines: null,
-              decoration: InputDecoration(
-                labelText: 'Name',
-              ),
+            ReusableTextField(
+              maxlines: null,
+              labelText: 'Name',
             ),
-            TextFormField(
-              keyboardType: TextInputType.phone,
-              decoration: InputDecoration(
-                labelText: 'Mobile No.',
-              ),
+            ReusableTextField(
+              labelText: 'Mobile No',
+              keyboardType: TextInputType.number,
             ),
-            TextFormField(
-              decoration: InputDecoration(
-                labelText: 'Flat No.',
-              ),
+            Row(
+              children: [
+                Expanded(
+                    child: ReusableTextField(
+                  labelText: 'Wing',
+                )),
+                SizedBox(
+                  width: 10,
+                ),
+                Expanded(
+                  child: ReusableTextField(
+                    labelText: 'Flat No.',
+                  ),
+                ),
+              ],
             ),
-            TextFormField(
-              maxLines: null,
-              decoration: InputDecoration(
-                labelText: 'Purpose',
-              ),
-            )
+            ReusableTextField(
+              labelText: 'Purpose',
+              maxlines: null,
+            ),
           ],
         ),
+      ),
+      floatingActionButton: FloatingActionButton(
+        child: Icon(
+          Icons.done,
+        ),
+        onPressed: () {},
+      ),
+    );
+  }
+}
+
+class ReusableTextField extends StatelessWidget {
+  final String labelText;
+  final dynamic maxlines;
+  final TextInputType keyboardType;
+  ReusableTextField(
+      {@required this.labelText, this.maxlines, this.keyboardType});
+  @override
+  Widget build(BuildContext context) {
+    return TextField(
+      maxLines: maxlines,
+      keyboardType: keyboardType,
+      decoration: InputDecoration(
+        labelText: labelText,
       ),
     );
   }
