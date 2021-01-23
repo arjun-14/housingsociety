@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:housingsociety/screens/home/modules/visitor/reusabletextfield.dart';
 
 class AddVisitor extends StatefulWidget {
   static const String id = 'add_visitor';
@@ -148,40 +149,6 @@ class _AddVisitorState extends State<AddVisitor> {
           Icons.done,
         ),
         onPressed: () {},
-      ),
-    );
-  }
-}
-
-class ReusableTextField extends StatelessWidget {
-  final String labelText;
-  final dynamic maxlines;
-  final TextInputType keyboardType;
-  final String initialValue;
-  final Function onTap;
-  final Icon prefixIcon;
-  final int maxLength;
-
-  ReusableTextField({
-    @required this.labelText,
-    this.maxlines,
-    this.keyboardType,
-    this.onTap,
-    this.initialValue,
-    this.prefixIcon,
-    this.maxLength,
-  });
-  @override
-  Widget build(BuildContext context) {
-    return TextFormField(
-      onTap: onTap,
-      maxLines: maxlines,
-      keyboardType: keyboardType,
-      initialValue: initialValue,
-      maxLength: maxLength,
-      decoration: InputDecoration(
-        prefixIcon: prefixIcon,
-        labelText: labelText,
       ),
     );
   }
