@@ -8,16 +8,26 @@ class AddVisitor extends StatefulWidget {
 }
 
 class _AddVisitorState extends State<AddVisitor> {
-  TimeOfDay selectedTime =
+  TimeOfDay selectedTimeIn =
       TimeOfDay(hour: DateTime.now().hour, minute: DateTime.now().minute);
+  TimeOfDay selectedTimeOut;
 
-  Future selectTime(BuildContext context) async {
+  Future selectTimeIn(BuildContext context) async {
     TimeOfDay picked =
-        await showTimePicker(context: context, initialTime: selectedTime);
+        await showTimePicker(context: context, initialTime: selectedTimeIn);
     if (picked != null) {
       setState(() {
-        selectedTime = picked;
-        print(selectedTime);
+        selectedTimeIn = picked;
+      });
+    }
+  }
+
+  Future selectTimeOut(BuildContext context) async {
+    TimeOfDay picked = await showTimePicker(
+        context: context, initialTime: TimeOfDay(hour: 0, minute: 0));
+    if (picked != null) {
+      setState(() {
+        selectedTimeOut = picked;
       });
     }
   }
@@ -30,7 +40,7 @@ class _AddVisitorState extends State<AddVisitor> {
       ),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 16.0),
-        child: Column(
+        child: ListView(
           children: [
             ReusableTextField(
               maxlines: null,
@@ -65,57 +75,71 @@ class _AddVisitorState extends State<AddVisitor> {
               maxlines: null,
               prefixIcon: Icon(Icons.work),
             ),
-            // Row(
-            //   children: [
-            //     Expanded(
-            //       child: ReusableTextField(
-            //         keyboardType: TextInputType.datetime,
-            //         labelText: 'In',
-            //         initialValue: selectedTime.hour.toString() +
-            //             ' : ' +
-            //             selectedTime.minute.toString(),
-            //         onTap: () {
-            //           selectTime(context);
-            //         },
-            //         prefixIcon: Icon(Icons.access_time),
-            //       ),
-            //     ),
-            //     SizedBox(
-            //       width: 10,
-            //     ),
-            //     Expanded(
-            //       child: ReusableTextField(
-            //         keyboardType: TextInputType.datetime,
-            //         labelText: 'Out',
-            //         onTap: () {
-            //           selectTime(context);
-            //         },
-            //         prefixIcon: Icon(Icons.time_to_leave),
-            //       ),
-            //     ),
-            //   ],
-            // ),
-            // TextButton(
-            //   onPressed: () {
-            //     selectTime(context);
-            //   },
-            //   child: Row(
-            //     children: [
-            //       Icon(
-            //         Icons.access_time,
-            //       ),
-            //       SizedBox(
-            //         width: 10,
-            //       ),
-            //       Text(
-            //         'In  ' +
-            //             selectedTime.hour.toString() +
-            //             ' : ' +
-            //             selectedTime.minute.toString(),
-            //       ),
-            //     ],
-            //   ),
-            // ),
+            SizedBox(
+              height: 5,
+            ),
+            Row(
+              children: [
+                Expanded(
+                  child: TextButton(
+                    onPressed: () {
+                      selectTimeIn(context);
+                    },
+                    child: Row(
+                      children: [
+                        Icon(
+                          Icons.access_time,
+                          color: Color(0xFF03DAC5),
+                        ),
+                        SizedBox(
+                          width: 10,
+                        ),
+                        Text(
+                          'In  ' + selectedTimeIn.format(context),
+                          style: TextStyle(
+                            fontSize: 16,
+                            color: Colors.white,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+                Expanded(
+                  child: TextButton(
+                    onPressed: () {
+                      selectTimeOut(context);
+                    },
+                    child: Row(
+                      children: [
+                        Icon(
+                          Icons.access_time,
+                          color: Color(0xFF03DAC5),
+                        ),
+                        SizedBox(
+                          width: 10,
+                        ),
+                        selectedTimeOut == null
+                            ? Text(
+                                'Out  ',
+                                style: TextStyle(
+                                  fontSize: 16,
+                                  color: Colors.white,
+                                ),
+                              )
+                            : Text(
+                                'Out  ' + selectedTimeOut.format(context),
+                                style: TextStyle(
+                                  fontSize: 16,
+                                  color: Colors.white,
+                                ),
+                              ),
+                      ],
+                    ),
+                  ),
+                ),
+              ],
+            ),
           ],
         ),
       ),
@@ -137,14 +161,16 @@ class ReusableTextField extends StatelessWidget {
   final Function onTap;
   final Icon prefixIcon;
   final int maxLength;
-  ReusableTextField(
-      {@required this.labelText,
-      this.maxlines,
-      this.keyboardType,
-      this.onTap,
-      this.initialValue,
-      this.prefixIcon,
-      this.maxLength});
+
+  ReusableTextField({
+    @required this.labelText,
+    this.maxlines,
+    this.keyboardType,
+    this.onTap,
+    this.initialValue,
+    this.prefixIcon,
+    this.maxLength,
+  });
   @override
   Widget build(BuildContext context) {
     return TextFormField(
