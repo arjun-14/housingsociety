@@ -205,7 +205,8 @@ class DatabaseService {
       'flatno': flatno,
       'purpose': purpose,
       'inTime': inTime,
-      'outTime': outTime
+      'outTime': outTime,
+      'timestamp': DateTime.now()
     });
   }
 }

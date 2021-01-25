@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:housingsociety/screens/home/modules/visitor/addvisitor.dart';
+import 'package:housingsociety/screens/home/modules/visitor/realtimevisitorupdate.dart';
 
 class Visitor extends StatelessWidget {
   static const String id = 'visitor';
@@ -15,6 +16,7 @@ class Visitor extends StatelessWidget {
           Navigator.pushNamed(context, AddVisitor.id);
         },
       ),
+      body: RealTimeVisitorUpdate(),
     );
   }
 }

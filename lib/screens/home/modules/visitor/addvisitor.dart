@@ -198,6 +198,7 @@ class _AddVisitorState extends State<AddVisitor> {
                 selectedTimeOut.format(context),
               );
             }
+            Navigator.pop(context);
           },
         ),
       ),
