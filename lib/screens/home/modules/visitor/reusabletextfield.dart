@@ -8,6 +8,7 @@ class ReusableTextField extends StatelessWidget {
   final Function onTap;
   final Icon prefixIcon;
   final int maxLength;
+  final Function onChanged;
 
   ReusableTextField({
     @required this.labelText,
@@ -17,6 +18,7 @@ class ReusableTextField extends StatelessWidget {
     this.initialValue,
     this.prefixIcon,
     this.maxLength,
+    this.onChanged,
   });
   @override
   Widget build(BuildContext context) {
@@ -26,6 +28,7 @@ class ReusableTextField extends StatelessWidget {
       keyboardType: keyboardType,
       initialValue: initialValue,
       maxLength: maxLength,
+      onChanged: onChanged,
       decoration: InputDecoration(
         prefixIcon: prefixIcon,
         labelText: labelText,

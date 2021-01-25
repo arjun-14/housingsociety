@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:housingsociety/screens/home/modules/visitor/reusabletextfield.dart';
+import 'package:housingsociety/services/database.dart';
+import 'package:housingsociety/shared/constants.dart';
 
 class AddVisitor extends StatefulWidget {
   static const String id = 'add_visitor';
@@ -9,6 +11,8 @@ class AddVisitor extends StatefulWidget {
 }
 
 class _AddVisitorState extends State<AddVisitor> {
+  String name = '', wing = '', flatno = '', purpose = '', mobileNo = '';
+
   TimeOfDay selectedTimeIn =
       TimeOfDay(hour: DateTime.now().hour, minute: DateTime.now().minute);
   TimeOfDay selectedTimeOut;
@@ -47,12 +51,22 @@ class _AddVisitorState extends State<AddVisitor> {
               maxlines: null,
               labelText: 'Name',
               prefixIcon: Icon(Icons.perm_identity),
+              onChanged: (val) {
+                setState(() {
+                  name = val;
+                });
+              },
             ),
             ReusableTextField(
               labelText: 'Mobile No',
               keyboardType: TextInputType.number,
               prefixIcon: Icon(Icons.call),
               maxLength: 10,
+              onChanged: (val) {
+                setState(() {
+                  mobileNo = val;
+                });
+              },
             ),
             Row(
               children: [
@@ -60,6 +74,11 @@ class _AddVisitorState extends State<AddVisitor> {
                     child: ReusableTextField(
                   labelText: 'Wing',
                   prefixIcon: Icon(Icons.apartment),
+                  onChanged: (val) {
+                    setState(() {
+                      wing = val;
+                    });
+                  },
                 )),
                 SizedBox(
                   width: 10,
@@ -67,6 +86,11 @@ class _AddVisitorState extends State<AddVisitor> {
                 Expanded(
                   child: ReusableTextField(
                     labelText: 'Flat No.',
+                    onChanged: (val) {
+                      setState(() {
+                        flatno = val;
+                      });
+                    },
                   ),
                 ),
               ],
@@ -75,6 +99,11 @@ class _AddVisitorState extends State<AddVisitor> {
               labelText: 'Purpose',
               maxlines: null,
               prefixIcon: Icon(Icons.work),
+              onChanged: (val) {
+                setState(() {
+                  purpose = val;
+                });
+              },
             ),
             SizedBox(
               height: 5,
@@ -90,7 +119,7 @@ class _AddVisitorState extends State<AddVisitor> {
                       children: [
                         Icon(
                           Icons.access_time,
-                          color: Color(0xFF03DAC5),
+                          color: kTurquoise,
                         ),
                         SizedBox(
                           width: 10,
@@ -115,7 +144,7 @@ class _AddVisitorState extends State<AddVisitor> {
                       children: [
                         Icon(
                           Icons.access_time,
-                          color: Color(0xFF03DAC5),
+                          color: kTurquoise,
                         ),
                         SizedBox(
                           width: 10,
@@ -144,11 +173,33 @@ class _AddVisitorState extends State<AddVisitor> {
           ],
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-        child: Icon(
-          Icons.done,
+      floatingActionButton: Visibility(
+        visible: name != '' &&
+            wing != '' &&
+            flatno != '' &&
+            purpose != '' &&
+            mobileNo.length > 9,
+        child: FloatingActionButton(
+          child: Icon(
+            Icons.done,
+          ),
+          onPressed: () {
+            if (selectedTimeOut == null) {
+              DatabaseService().addVisitor(name, mobileNo, wing, flatno,
+                  purpose, selectedTimeIn.format(context), '');
+            } else {
+              DatabaseService().addVisitor(
+                name,
+                mobileNo,
+                wing,
+                flatno,
+                purpose,
+                selectedTimeIn.format(context),
+                selectedTimeOut.format(context),
+              );
+            }
+          },
         ),
-        onPressed: () {},
       ),
     );
   }

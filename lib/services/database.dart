@@ -17,6 +17,8 @@ class DatabaseService {
       FirebaseFirestore.instance.collection('module_complaint_comments');
   CollectionReference moduleContatcsEmergencyContact =
       FirebaseFirestore.instance.collection('module_contacts_emergency');
+  CollectionReference moduleVisitor =
+      FirebaseFirestore.instance.collection('module_visitor');
 
   Future<void> addMessage(message, sender, email, Timestamp timestamp) {
     return moduleChat.add(
@@ -193,5 +195,17 @@ class DatabaseService {
 
   Future<DocumentSnapshot> readIndividualHealthStatus(uid) {
     return userProfile.doc(uid).get();
+  }
+
+  Future addVisitor(name, mobileNo, wing, flatno, purpose, inTime, outTime) {
+    return moduleVisitor.add({
+      'name': name,
+      'mobileNo': mobileNo,
+      'wing': wing,
+      'flatno': flatno,
+      'purpose': purpose,
+      'inTime': inTime,
+      'outTime': outTime
+    });
   }
 }
