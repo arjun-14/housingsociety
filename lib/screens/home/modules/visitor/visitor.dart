@@ -18,21 +18,9 @@ class _VisitorState extends State<Visitor> {
       appBar: AppBar(
         title: Text('Visitor History'),
         actions: [
-          DropdownButton(
-            // value: dropdownValue,
-            icon: Icon(
-              Icons.more_vert,
-              color: Colors.white,
-            ),
-            underline: Container(
-              color: kXiketic,
-            ),
-            items: [
-              DropdownMenuItem(
-                value: 'Clear History',
-                child: Text('Clear History'),
-                onTap: () {
-                  print('clicked');
+          PopupMenuButton(
+              onSelected: (value) {
+                if (value == 'Clear History') {
                   showDialog(
                     context: context,
                     builder: (BuildContext context) {
@@ -50,11 +38,51 @@ class _VisitorState extends State<Visitor> {
                       );
                     },
                   );
-                },
-              ),
-            ],
-            onChanged: (value) {},
-          ),
+                }
+              },
+              itemBuilder: (BuildContext context) => [
+                    PopupMenuItem(
+                      child: Text('Clear History'),
+                      value: 'Clear History',
+                    ),
+                  ])
+          // DropdownButton(
+          //   // value: dropdownValue,
+          //   icon: Icon(
+          //     Icons.more_vert,
+          //     color: Colors.white,
+          //   ),
+          //   underline: Container(
+          //     color: kXiketic,
+          //   ),
+          //   items: [
+          //     DropdownMenuItem(
+          //       value: 'Clear History',
+          //       child: Text('Clear History'),
+          //       onTap: () {
+          //         Navigator.pop(context);
+          //         showDialog(
+          //           context: context,
+          //           builder: (BuildContext context) {
+          //             return AlertDialog(
+          //               title: Text(
+          //                   'Are you sure you want to clear visitor history?'),
+          //               actions: [
+          //                 TextButton(
+          //                   onPressed: () {
+          //                     Navigator.pop(context);
+          //                   },
+          //                   child: Text('Yes'),
+          //                 )
+          //               ],
+          //             );
+          //           },
+          //         );
+          //       },
+          //     ),
+          // ],
+
+          // ),
         ],
       ),
       floatingActionButton: FloatingActionButton(
