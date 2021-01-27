@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:housingsociety/screens/home/modules/visitor/addvisitor.dart';
 import 'package:housingsociety/screens/home/modules/visitor/realtimevisitorupdate.dart';
+import 'package:housingsociety/services/database.dart';
 import 'package:housingsociety/shared/constants.dart';
 
 class Visitor extends StatefulWidget {
@@ -29,7 +30,8 @@ class _VisitorState extends State<Visitor> {
                             'Are you sure you want to clear visitor history?'),
                         actions: [
                           TextButton(
-                            onPressed: () {
+                            onPressed: () async {
+                              await DatabaseService().deleteVisitorHistory();
                               Navigator.pop(context);
                             },
                             child: Text('Yes'),

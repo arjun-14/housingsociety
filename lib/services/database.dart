@@ -209,4 +209,12 @@ class DatabaseService {
       'timestamp': DateTime.now()
     });
   }
+
+  Future deleteVisitorHistory() {
+    return moduleVisitor.get().then((QuerySnapshot querySnapshot) {
+      querySnapshot.docs.forEach((doc) {
+        doc.reference.delete();
+      });
+    });
+  }
 }
