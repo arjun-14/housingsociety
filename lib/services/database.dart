@@ -210,6 +210,19 @@ class DatabaseService {
     });
   }
 
+  Future updateVisitor(
+      name, mobileNo, wing, flatno, purpose, inTime, outTime, docid) {
+    return moduleVisitor.doc(docid).update({
+      'name': name,
+      'mobileNo': mobileNo,
+      'wing': wing,
+      'flatno': flatno,
+      'purpose': purpose,
+      'inTime': inTime,
+      'outTime': outTime,
+    });
+  }
+
   Future deleteVisitorHistory() {
     return moduleVisitor.get().then((QuerySnapshot querySnapshot) {
       querySnapshot.docs.forEach((doc) {

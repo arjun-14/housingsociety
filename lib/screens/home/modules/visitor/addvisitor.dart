@@ -5,6 +5,25 @@ import 'package:housingsociety/shared/constants.dart';
 
 class AddVisitor extends StatefulWidget {
   static const String id = 'add_visitor';
+  final String name;
+  final String wing;
+  final String flatno;
+  final String purpose;
+  final String mobileNo;
+  final int flag;
+  final TimeOfDay selectedTimeIn;
+  final TimeOfDay selectedTimeOut;
+  final String docid;
+  AddVisitor(
+      {this.name,
+      this.wing,
+      this.flatno,
+      this.purpose,
+      this.mobileNo,
+      this.flag,
+      this.selectedTimeIn,
+      this.selectedTimeOut,
+      this.docid});
 
   @override
   _AddVisitorState createState() => _AddVisitorState();
@@ -12,9 +31,7 @@ class AddVisitor extends StatefulWidget {
 
 class _AddVisitorState extends State<AddVisitor> {
   String name = '', wing = '', flatno = '', purpose = '', mobileNo = '';
-
-  TimeOfDay selectedTimeIn =
-      TimeOfDay(hour: DateTime.now().hour, minute: DateTime.now().minute);
+  TimeOfDay selectedTimeIn = TimeOfDay.now();
   TimeOfDay selectedTimeOut;
 
   Future selectTimeIn(BuildContext context) async {
@@ -29,11 +46,26 @@ class _AddVisitorState extends State<AddVisitor> {
 
   Future selectTimeOut(BuildContext context) async {
     TimeOfDay picked = await showTimePicker(
-        context: context, initialTime: TimeOfDay(hour: 0, minute: 0));
+        context: context,
+        initialTime: selectedTimeOut ?? TimeOfDay(hour: 0, minute: 0));
     if (picked != null) {
       setState(() {
         selectedTimeOut = picked;
       });
+    }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    if (widget.flag == 0) {
+      name = widget.name;
+      wing = widget.name;
+      flatno = widget.flatno;
+      purpose = widget.purpose;
+      mobileNo = widget.mobileNo;
+      selectedTimeIn = widget.selectedTimeIn;
+      selectedTimeOut = TimeOfDay.now();
     }
   }
 
@@ -51,6 +83,7 @@ class _AddVisitorState extends State<AddVisitor> {
               maxlines: null,
               labelText: 'Name',
               prefixIcon: Icon(Icons.perm_identity),
+              initialValue: widget.flag == 0 ? widget.name : name,
               onChanged: (val) {
                 setState(() {
                   name = val;
@@ -61,6 +94,7 @@ class _AddVisitorState extends State<AddVisitor> {
               labelText: 'Mobile No',
               keyboardType: TextInputType.number,
               prefixIcon: Icon(Icons.call),
+              initialValue: widget.flag == 0 ? widget.mobileNo : mobileNo,
               maxLength: 10,
               onChanged: (val) {
                 setState(() {
@@ -74,6 +108,7 @@ class _AddVisitorState extends State<AddVisitor> {
                     child: ReusableTextField(
                   labelText: 'Wing',
                   prefixIcon: Icon(Icons.apartment),
+                  initialValue: widget.flag == 0 ? widget.wing : wing,
                   onChanged: (val) {
                     setState(() {
                       wing = val;
@@ -86,6 +121,7 @@ class _AddVisitorState extends State<AddVisitor> {
                 Expanded(
                   child: ReusableTextField(
                     labelText: 'Flat No.',
+                    initialValue: widget.flag == 0 ? widget.flatno : flatno,
                     onChanged: (val) {
                       setState(() {
                         flatno = val;
@@ -99,6 +135,7 @@ class _AddVisitorState extends State<AddVisitor> {
               labelText: 'Purpose',
               maxlines: null,
               prefixIcon: Icon(Icons.work),
+              initialValue: widget.flag == 0 ? widget.purpose : purpose,
               onChanged: (val) {
                 setState(() {
                   purpose = val;
@@ -184,20 +221,33 @@ class _AddVisitorState extends State<AddVisitor> {
             Icons.done,
           ),
           onPressed: () {
-            if (selectedTimeOut == null) {
-              DatabaseService().addVisitor(name, mobileNo, wing, flatno,
-                  purpose, selectedTimeIn.format(context), '');
+            if (widget.flag == 0) {
+              DatabaseService().updateVisitor(
+                  name,
+                  mobileNo,
+                  wing,
+                  flatno,
+                  purpose,
+                  selectedTimeIn.format(context),
+                  selectedTimeOut.format(context),
+                  widget.docid);
             } else {
-              DatabaseService().addVisitor(
-                name,
-                mobileNo,
-                wing,
-                flatno,
-                purpose,
-                selectedTimeIn.format(context),
-                selectedTimeOut.format(context),
-              );
+              if (selectedTimeOut == null) {
+                DatabaseService().addVisitor(name, mobileNo, wing, flatno,
+                    purpose, selectedTimeIn.format(context), '');
+              } else {
+                DatabaseService().addVisitor(
+                  name,
+                  mobileNo,
+                  wing,
+                  flatno,
+                  purpose,
+                  selectedTimeIn.format(context),
+                  selectedTimeOut.format(context),
+                );
+              }
             }
+
             Navigator.pop(context);
           },
         ),

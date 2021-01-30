@@ -26,16 +26,34 @@ class _VisitorState extends State<Visitor> {
                     context: context,
                     builder: (BuildContext context) {
                       return AlertDialog(
+                        backgroundColor: kSpaceCadet,
                         title: Text(
-                            'Are you sure you want to clear visitor history?'),
+                          'Are you sure you want to clear visitor history?',
+                        ),
                         actions: [
+                          TextButton(
+                            onPressed: () {
+                              Navigator.pop(context);
+                            },
+                            child: Text(
+                              'Cancel',
+                              style: TextStyle(
+                                color: kMediumAquamarine,
+                              ),
+                            ),
+                          ),
                           TextButton(
                             onPressed: () async {
                               await DatabaseService().deleteVisitorHistory();
                               Navigator.pop(context);
                             },
-                            child: Text('Yes'),
-                          )
+                            child: Text(
+                              'Clear History',
+                              style: TextStyle(
+                                color: kMediumAquamarine,
+                              ),
+                            ),
+                          ),
                         ],
                       );
                     },
@@ -48,43 +66,6 @@ class _VisitorState extends State<Visitor> {
                       value: 'Clear History',
                     ),
                   ])
-          // DropdownButton(
-          //   // value: dropdownValue,
-          //   icon: Icon(
-          //     Icons.more_vert,
-          //     color: Colors.white,
-          //   ),
-          //   underline: Container(
-          //     color: kXiketic,
-          //   ),
-          //   items: [
-          //     DropdownMenuItem(
-          //       value: 'Clear History',
-          //       child: Text('Clear History'),
-          //       onTap: () {
-          //         Navigator.pop(context);
-          //         showDialog(
-          //           context: context,
-          //           builder: (BuildContext context) {
-          //             return AlertDialog(
-          //               title: Text(
-          //                   'Are you sure you want to clear visitor history?'),
-          //               actions: [
-          //                 TextButton(
-          //                   onPressed: () {
-          //                     Navigator.pop(context);
-          //                   },
-          //                   child: Text('Yes'),
-          //                 )
-          //               ],
-          //             );
-          //           },
-          //         );
-          //       },
-          //     ),
-          // ],
-
-          // ),
         ],
       ),
       floatingActionButton: FloatingActionButton(
