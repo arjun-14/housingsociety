@@ -60,7 +60,7 @@ class _AddVisitorState extends State<AddVisitor> {
     super.initState();
     if (widget.flag == 0) {
       name = widget.name;
-      wing = widget.name;
+      wing = widget.wing;
       flatno = widget.flatno;
       purpose = widget.purpose;
       mobileNo = widget.mobileNo;
