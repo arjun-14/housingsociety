@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:housingsociety/screens/home/modules/visitor/addvisitor.dart';
+import 'package:housingsociety/services/database.dart';
 import 'package:housingsociety/shared/constants.dart';
 import 'package:housingsociety/shared/loading.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -39,40 +40,63 @@ class RealTimeVisitorUpdate extends StatelessWidget {
                         color: kMediumAquamarine,
                       ),
                       title: Text(document.data()['name']),
-                      trailing: IconButton(
-                        icon: Icon(
-                          Icons.edit,
-                        ),
-                        onPressed: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => AddVisitor(
-                                name: document.data()['name'],
-                                wing: document.data()['wing'],
-                                flatno: document.data()['flatno'],
-                                purpose: document.data()['purpose'],
-                                mobileNo: document.data()['mobileNo'],
-                                selectedTimeIn: TimeOfDay(
-                                  hour: ((document.data()['inTime'])
-                                                  .split(':')[1])
-                                              .split(' ')[1] ==
-                                          'PM'
-                                      ? 12 +
-                                          int.parse((document.data()['inTime'])
-                                              .split(':')[0])
-                                      : int.parse((document.data()['inTime'])
-                                          .split(':')[0]),
-                                  minute: int.parse(((document.data()['inTime'])
-                                          .split(':')[1])
-                                      .split(' ')[0]),
-                                ),
-                                flag: 0,
-                                docid: document.id,
+                      trailing: PopupMenuButton(
+                        itemBuilder: (BuildContext context) => [
+                          PopupMenuItem(
+                            child: TextButton(
+                              child: Container(
+                                width: 40,
+                                child: Text('Edit'),
                               ),
+                              onPressed: () {
+                                Navigator.pop(context);
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => AddVisitor(
+                                      name: document.data()['name'],
+                                      wing: document.data()['wing'],
+                                      flatno: document.data()['flatno'],
+                                      purpose: document.data()['purpose'],
+                                      mobileNo: document.data()['mobileNo'],
+                                      selectedTimeIn: TimeOfDay(
+                                        hour: ((document.data()['inTime'])
+                                                        .split(':')[1])
+                                                    .split(' ')[1] ==
+                                                'PM'
+                                            ? 12 +
+                                                int.parse(
+                                                    (document.data()['inTime'])
+                                                        .split(':')[0])
+                                            : int.parse(
+                                                (document.data()['inTime'])
+                                                    .split(':')[0]),
+                                        minute: int.parse(
+                                            ((document.data()['inTime'])
+                                                    .split(':')[1])
+                                                .split(' ')[0]),
+                                      ),
+                                      flag: 0,
+                                      docid: document.id,
+                                    ),
+                                  ),
+                                );
+                              },
                             ),
-                          );
-                        },
+                          ),
+                          PopupMenuItem(
+                            child: TextButton(
+                              child: Container(
+                                width: 40,
+                                child: Text('Delete'),
+                              ),
+                              onPressed: () {
+                                Navigator.pop(context);
+                                DatabaseService().deleteVisitor(document.id);
+                              },
+                            ),
+                          )
+                        ],
                       ),
                     ),
                     ListTile(

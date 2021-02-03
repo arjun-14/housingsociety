@@ -223,6 +223,10 @@ class DatabaseService {
     });
   }
 
+  Future deleteVisitor(docid) {
+    return moduleVisitor.doc(docid).delete();
+  }
+
   Future deleteVisitorHistory() {
     return moduleVisitor.get().then((QuerySnapshot querySnapshot) {
       querySnapshot.docs.forEach((doc) {

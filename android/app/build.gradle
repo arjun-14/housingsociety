@@ -65,7 +65,7 @@ dependencies {
     implementation platform('com.google.firebase:firebase-bom:26.2.0')
     implementation 'com.google.firebase:firebase-analytics'
 
-    implementation 'com.google.firebase:firebase-auth'
+  //  implementation 'com.google.firebase:firebase-auth'
   //  implementation 'com.android.support:customtabs:28.0.0'
 
     }
