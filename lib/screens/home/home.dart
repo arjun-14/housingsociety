@@ -42,7 +42,7 @@ class Home extends StatelessWidget {
         drawer: Drawer(
           child: ListView(
             padding: EdgeInsets.zero,
-            children: <Widget>[
+            children: [
               DrawerHeader(
                 decoration: BoxDecoration(
                   color: Color(0xFF1D1E33),

@@ -12,6 +12,7 @@ class AddVoting extends StatefulWidget {
 
 class _AddVotingState extends State<AddVoting> {
   List<TextEditingController> _controllers = List();
+  List<String> participantsname = [];
   List<DynamicParticipants> dynamicparticipants = [
     DynamicParticipants(
       index: 1,
@@ -30,7 +31,8 @@ class _AddVotingState extends State<AddVoting> {
         actions: [
           IconButton(
             onPressed: () {
-              print(_controllers[1].text);
+              //  print(_controllers[1].text);
+              print(participantsname);
             },
             icon: Icon(
               Icons.done,
@@ -57,7 +59,9 @@ class _AddVotingState extends State<AddVoting> {
                 _controllers.add(TextEditingController());
                 return Row(
                   children: [
-                    Expanded(child: dynamicparticipants[index]),
+                    Expanded(
+                      child: dynamicparticipants[index],
+                    ),
                     IconButton(
                         icon: Icon(
                           Icons.remove_circle_outline,
@@ -65,9 +69,12 @@ class _AddVotingState extends State<AddVoting> {
                         ),
                         onPressed: () {
                           setState(() {
-                            print(_controllers[index].text);
-                            // dynamicparticipants.removeAt(index);
+                            dynamicparticipants.removeAt(index);
                           });
+
+                          _controllers[index].clear();
+                          print(_controllers.length);
+                          //  print(_controllers[index]);
                         }),
                   ],
                 );
@@ -85,6 +92,11 @@ class _AddVotingState extends State<AddVoting> {
                       dynamicparticipants.add(
                         DynamicParticipants(
                           index: dynamicparticipants.length + 1,
+                          onpressed: (val) {
+                            setState(() {
+                              participantsname.add(val);
+                            });
+                          },
                         ),
                       );
                     });
