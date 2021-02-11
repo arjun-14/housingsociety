@@ -11,16 +11,10 @@ class AddVoting extends StatefulWidget {
 }
 
 class _AddVotingState extends State<AddVoting> {
-  List<TextEditingController> _controllers = [];
-  TextEditingController controller = TextEditingController();
   List<String> participantsname = [];
   List<DynamicParticipants> dynamicparticipants = [
-    DynamicParticipants(
-      index: 1,
-    ),
-    DynamicParticipants(
-      index: 2,
-    )
+    DynamicParticipants(),
+    DynamicParticipants()
   ];
   ScrollController _scrollController = ScrollController();
 
@@ -30,9 +24,11 @@ class _AddVotingState extends State<AddVoting> {
     for (participant = 0;
         participant < dynamicparticipants.length;
         participant++) {
-      // print(dynamicparticipants[participant].controller2.text);
-      participantsname.add(dynamicparticipants[participant].controller2.text);
+      if (dynamicparticipants[participant].controller2.text != '') {
+        participantsname.add(dynamicparticipants[participant].controller2.text);
+      }
     }
+
     return participantsname;
   }
 
@@ -44,9 +40,6 @@ class _AddVotingState extends State<AddVoting> {
         actions: [
           IconButton(
             onPressed: () {
-              // print(dynamicparticipants[0].controller2.text);
-              // //  print(_controllers[1].text);
-              // print(_controllers.length);
               collectParticipantsName();
               print(participantsname);
             },
@@ -72,7 +65,6 @@ class _AddVotingState extends State<AddVoting> {
               physics: ClampingScrollPhysics(),
               itemCount: dynamicparticipants.length,
               itemBuilder: (context, index) {
-                // _controllers.add(TextEditingController());
                 return Row(
                   children: [
                     Expanded(
@@ -87,10 +79,6 @@ class _AddVotingState extends State<AddVoting> {
                           setState(() {
                             dynamicparticipants.removeAt(index);
                           });
-
-                          // _controllers[index].clear();
-
-                          //  print(_controllers[index]);
                         }),
                   ],
                 );
@@ -105,17 +93,8 @@ class _AddVotingState extends State<AddVoting> {
                   ),
                   onPressed: () {
                     setState(() {
-                      _controllers.add(TextEditingController());
                       dynamicparticipants.add(
-                        DynamicParticipants(
-                          controller: _controllers[_controllers.length - 1],
-                          index: dynamicparticipants.length + 1,
-                          // onpressed: (val) {
-                          //   setState(() {
-                          //     participantsname.add(val);
-                          //   });
-                          // },
-                        ),
+                        DynamicParticipants(),
                       );
                     });
                     SchedulerBinding.instance.addPostFrameCallback((_) {
