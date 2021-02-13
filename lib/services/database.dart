@@ -19,6 +19,8 @@ class DatabaseService {
       FirebaseFirestore.instance.collection('module_contacts_emergency');
   CollectionReference moduleVisitor =
       FirebaseFirestore.instance.collection('module_visitor');
+  CollectionReference moduleVoting =
+      FirebaseFirestore.instance.collection('module_voting');
 
   Future<void> addMessage(message, sender, email, Timestamp timestamp) {
     return moduleChat.add(
@@ -232,6 +234,13 @@ class DatabaseService {
       querySnapshot.docs.forEach((doc) {
         doc.reference.delete();
       });
+    });
+  }
+
+  Future addVoting(String title, List participants) {
+    return moduleVoting.add({
+      'title': title,
+      'participants': participants,
     });
   }
 }

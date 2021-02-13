@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:housingsociety/screens/home/modules/voting/dynamicparticipants.dart';
+import 'package:housingsociety/services/database.dart';
 import 'package:housingsociety/shared/constants.dart';
 
 class AddVoting extends StatefulWidget {
@@ -11,7 +12,8 @@ class AddVoting extends StatefulWidget {
 }
 
 class _AddVotingState extends State<AddVoting> {
-  List<String> participantsname = [];
+  String title = '';
+  List<String> participants = [];
   List<DynamicParticipants> dynamicparticipants = [
     DynamicParticipants(),
     DynamicParticipants()
@@ -19,17 +21,18 @@ class _AddVotingState extends State<AddVoting> {
   ScrollController _scrollController = ScrollController();
 
   List<String> collectParticipantsName() {
-    participantsname.clear();
+    participants.clear();
     var participant;
     for (participant = 0;
         participant < dynamicparticipants.length;
         participant++) {
-      if (dynamicparticipants[participant].controller2.text != '') {
-        participantsname.add(dynamicparticipants[participant].controller2.text);
+      if (dynamicparticipants[participant].controller.text != null &&
+          dynamicparticipants[participant].controller.text != '') {
+        participants.add(dynamicparticipants[participant].controller.text);
       }
     }
 
-    return participantsname;
+    return participants;
   }
 
   @override
@@ -41,7 +44,9 @@ class _AddVotingState extends State<AddVoting> {
           IconButton(
             onPressed: () {
               collectParticipantsName();
-              print(participantsname);
+              DatabaseService().addVoting(title, participants);
+              print(title);
+              print(participants);
             },
             icon: Icon(
               Icons.done,
@@ -56,6 +61,9 @@ class _AddVotingState extends State<AddVoting> {
           controller: _scrollController,
           children: [
             TextFormField(
+              onChanged: (val) {
+                title = val;
+              },
               decoration: InputDecoration(
                 labelText: 'Title',
               ),
@@ -73,13 +81,17 @@ class _AddVotingState extends State<AddVoting> {
                     IconButton(
                         icon: Icon(
                           Icons.remove_circle_outline,
-                          color: kAmaranth,
+                          color: dynamicparticipants.length < 3
+                              ? Colors.grey
+                              : kAmaranth,
                         ),
-                        onPressed: () {
-                          setState(() {
-                            dynamicparticipants.removeAt(index);
-                          });
-                        }),
+                        onPressed: dynamicparticipants.length < 3
+                            ? null
+                            : () {
+                                setState(() {
+                                  dynamicparticipants.removeAt(index);
+                                });
+                              }),
                   ],
                 );
               },
