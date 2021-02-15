@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:housingsociety/screens/home/modules/voting/addvoting.dart';
+import 'package:housingsociety/screens/home/modules/voting/realtimevotingupdate.dart';
+import 'package:housingsociety/shared/constants.dart';
 
 class Voting extends StatelessWidget {
   static const String id = 'voting';
@@ -8,15 +10,16 @@ class Voting extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text('Voting'),
+        actions: [
+          IconButton(
+              icon: Icon(Icons.add),
+              color: kAmaranth,
+              onPressed: () {
+                Navigator.pushNamed(context, AddVoting.id);
+              })
+        ],
       ),
-      floatingActionButton: FloatingActionButton(
-        child: Icon(
-          Icons.add,
-        ),
-        onPressed: () {
-          Navigator.pushNamed(context, AddVoting.id);
-        },
-      ),
+      body: RealTimeVotingUpdate(),
     );
   }
 }

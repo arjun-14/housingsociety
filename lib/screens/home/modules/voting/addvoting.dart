@@ -41,16 +41,34 @@ class _AddVotingState extends State<AddVoting> {
       appBar: AppBar(
         title: Text('Add Participants'),
         actions: [
-          IconButton(
-            onPressed: () {
-              collectParticipantsName();
-              DatabaseService().addVoting(title, participants);
-              print(title);
-              print(participants);
-            },
-            icon: Icon(
-              Icons.done,
-              color: kAmaranth,
+          Builder(
+            builder: (BuildContext context) => IconButton(
+              onPressed: title == ''
+                  ? null
+                  : () {
+                      participants = collectParticipantsName();
+                      if (participants.length < 2) {
+                        Scaffold.of(context).showSnackBar(
+                          SnackBar(
+                            content: Text(
+                              'There must be atleast two participants',
+                              style: TextStyle(
+                                color: Colors.white,
+                              ),
+                            ),
+                            backgroundColor: kOxfordBlue,
+                            duration: Duration(seconds: 1),
+                          ),
+                        );
+                      } else {
+                        DatabaseService().addVoting(title, participants);
+                        Navigator.pop(context);
+                      }
+                    },
+              icon: Icon(
+                Icons.done,
+                color: title == '' ? Colors.grey : kAmaranth,
+              ),
             ),
           ),
         ],
@@ -62,7 +80,9 @@ class _AddVotingState extends State<AddVoting> {
           children: [
             TextFormField(
               onChanged: (val) {
-                title = val;
+                setState(() {
+                  title = val;
+                });
               },
               decoration: InputDecoration(
                 labelText: 'Title',

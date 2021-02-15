@@ -241,6 +241,7 @@ class DatabaseService {
     return moduleVoting.add({
       'title': title,
       'participants': participants,
+      'timestamp': Timestamp.now(),
     });
   }
 }
