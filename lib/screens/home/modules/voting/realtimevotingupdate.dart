@@ -1,6 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:housingsociety/shared/constants.dart';
 import 'package:housingsociety/shared/loading.dart';
+import 'package:percent_indicator/percent_indicator.dart';
 
 class RealTimeVotingUpdate extends StatelessWidget {
   @override
@@ -22,7 +24,6 @@ class RealTimeVotingUpdate extends StatelessWidget {
 
         return ListView(
           children: snapshot.data.docs.map((DocumentSnapshot document) {
-            var participant;
             List<Widget> participants = [
               RichText(
                 text: TextSpan(children: [
@@ -41,37 +42,55 @@ class RealTimeVotingUpdate extends StatelessWidget {
                 height: 10,
               ),
             ];
-            for (participant = 0;
-                participant < (document.data()['participants']).length;
-                participant++) {
+
+            (document.data()['participants']).forEach((participant, vote) {
               participants.add(
-                Container(
-                  width: double.infinity,
-                  child: OutlinedButton(
-                    onPressed: () {},
-                    child: Align(
-                        alignment: Alignment.topLeft,
-                        child:
-                            Text(document.data()['participants'][participant])),
+                  // LinearPercentIndicator(
+                  //   animation: true,
+                  //   percent: 0.2,
+                  //   lineHeight: 15.0,
+                  //   leading: Text(document.data()['participants'][participant]),
+                  //   progressColor: kAmaranth,
+                  //   center: Text(
+                  //     '50%',
+                  //     style: TextStyle(
+                  //       color: Colors.black,
+                  //     ),
+                  //   ),
+                  // ),
+                  Container(
+                width: double.infinity,
+                child: OutlinedButton(
+                  onPressed: () {},
+                  child: Align(
+                    alignment: Alignment.topLeft,
+                    child: Text(participant),
                   ),
                 ),
-              );
-            }
+              ));
+            });
 
-            return Container(
-              child: Column(
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: participants,
-                    ),
+            return Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Container(
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(10.0),
+                  color: kOxfordBlue,
+                ),
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Column(
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: participants,
+                        ),
+                      ),
+                    ],
                   ),
-                  Divider(
-                    color: Colors.grey,
-                  ),
-                ],
+                ),
               ),
             );
           }).toList(),

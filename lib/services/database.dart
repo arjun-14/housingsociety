@@ -237,7 +237,7 @@ class DatabaseService {
     });
   }
 
-  Future addVoting(String title, List participants) {
+  Future addVoting(String title, Map participants) {
     return moduleVoting.add({
       'title': title,
       'participants': participants,

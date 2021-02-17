@@ -13,14 +13,14 @@ class AddVoting extends StatefulWidget {
 
 class _AddVotingState extends State<AddVoting> {
   String title = '';
-  List<String> participants = [];
+  Map<String, int> participants = {};
   List<DynamicParticipants> dynamicparticipants = [
     DynamicParticipants(),
     DynamicParticipants()
   ];
   ScrollController _scrollController = ScrollController();
 
-  List<String> collectParticipantsName() {
+  Map<String, int> collectParticipantsName() {
     participants.clear();
     var participant;
     for (participant = 0;
@@ -28,7 +28,8 @@ class _AddVotingState extends State<AddVoting> {
         participant++) {
       if (dynamicparticipants[participant].controller.text != null &&
           dynamicparticipants[participant].controller.text != '') {
-        participants.add(dynamicparticipants[participant].controller.text);
+        participants[dynamicparticipants[participant].controller.text] = 0;
+        // participants.add(dynamicparticipants[participant].controller.text);
       }
     }
 
