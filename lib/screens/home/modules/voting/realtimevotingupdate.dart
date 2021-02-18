@@ -1,5 +1,7 @@
+import 'package:adaptive_dialog/adaptive_dialog.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:housingsociety/services/database.dart';
 import 'package:housingsociety/shared/constants.dart';
 import 'package:housingsociety/shared/loading.dart';
 import 'package:percent_indicator/percent_indicator.dart';
@@ -61,7 +63,32 @@ class RealTimeVotingUpdate extends StatelessWidget {
                   Container(
                 width: double.infinity,
                 child: OutlinedButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    showDialog(
+                        context: context,
+                        builder: (BuildContext context) {
+                          return AlertDialog(
+                            content: Text(
+                                'Confirm vote for candidate: ' + participant),
+                            actions: [
+                              TextButton(
+                                onPressed: () {
+                                  DatabaseService().voteForCandidate(
+                                      document.id, participant, vote + 1);
+                                  Navigator.pop(context);
+                                },
+                                child: Text('Yes'),
+                              ),
+                              TextButton(
+                                onPressed: () {
+                                  Navigator.pop(context);
+                                },
+                                child: Text('Cancel'),
+                              ),
+                            ],
+                          );
+                        });
+                  },
                   child: Align(
                     alignment: Alignment.topLeft,
                     child: Text(participant),

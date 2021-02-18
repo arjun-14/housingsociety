@@ -244,4 +244,10 @@ class DatabaseService {
       'timestamp': Timestamp.now(),
     });
   }
+
+  Future voteForCandidate(String uid, String participant, int vote) {
+    return moduleVoting.doc(uid).set({
+      'participants': {participant: vote}
+    }, SetOptions(merge: true));
+  }
 }
