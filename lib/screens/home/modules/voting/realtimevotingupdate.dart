@@ -1,12 +1,20 @@
 import 'package:adaptive_dialog/adaptive_dialog.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:housingsociety/services/auth.dart';
 import 'package:housingsociety/services/database.dart';
 import 'package:housingsociety/shared/constants.dart';
 import 'package:housingsociety/shared/loading.dart';
 import 'package:percent_indicator/percent_indicator.dart';
 
-class RealTimeVotingUpdate extends StatelessWidget {
+class RealTimeVotingUpdate extends StatefulWidget {
+  @override
+  _RealTimeVotingUpdateState createState() => _RealTimeVotingUpdateState();
+}
+
+class _RealTimeVotingUpdateState extends State<RealTimeVotingUpdate> {
+  dynamic result;
+  int totalVotes = 0;
   @override
   Widget build(BuildContext context) {
     Query moduleVoting = FirebaseFirestore.instance
@@ -26,6 +34,7 @@ class RealTimeVotingUpdate extends StatelessWidget {
 
         return ListView(
           children: snapshot.data.docs.map((DocumentSnapshot document) {
+            // voteStatus(document.id);
             List<Widget> participants = [
               RichText(
                 text: TextSpan(children: [
@@ -46,56 +55,85 @@ class RealTimeVotingUpdate extends StatelessWidget {
             ];
 
             (document.data()['participants']).forEach((participant, vote) {
+              try {
+                result = document.data()['users'][AuthService().userId()];
+                totalVotes = document.data()['users'].length;
+                print(totalVotes);
+              } on NoSuchMethodError {
+                result = null;
+              }
               participants.add(
-                  // LinearPercentIndicator(
-                  //   animation: true,
-                  //   percent: 0.2,
-                  //   lineHeight: 15.0,
-                  //   leading: Text(document.data()['participants'][participant]),
-                  //   progressColor: kAmaranth,
-                  //   center: Text(
-                  //     '50%',
-                  //     style: TextStyle(
-                  //       color: Colors.black,
-                  //     ),
-                  //   ),
-                  // ),
-                  Container(
-                width: double.infinity,
-                child: OutlinedButton(
-                  onPressed: () {
-                    showDialog(
-                        context: context,
-                        builder: (BuildContext context) {
-                          return AlertDialog(
-                            content: Text(
-                                'Confirm vote for candidate: ' + participant),
-                            actions: [
-                              TextButton(
-                                onPressed: () {
-                                  DatabaseService().voteForCandidate(
-                                      document.id, participant, vote + 1);
-                                  Navigator.pop(context);
-                                },
-                                child: Text('Yes'),
+                result == true
+                    ? Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Column(
+                          children: [
+                            LinearPercentIndicator(
+                              animation: true,
+                              percent: vote / totalVotes,
+                              lineHeight: 15.0,
+                              trailing:
+                                  Text((vote / totalVotes * 100).toString()),
+                              //  leading: Text(participant),
+                              progressColor: kAmaranth,
+                              center: Text(
+                                participant,
+                                style: TextStyle(
+                                  color: Colors.black,
+                                  fontWeight: FontWeight.bold,
+                                ),
                               ),
-                              TextButton(
-                                onPressed: () {
-                                  Navigator.pop(context);
-                                },
-                                child: Text('Cancel'),
-                              ),
-                            ],
-                          );
-                        });
-                  },
-                  child: Align(
-                    alignment: Alignment.topLeft,
-                    child: Text(participant),
-                  ),
-                ),
-              ));
+                            ),
+                          ],
+                        ),
+                      )
+                    : Container(
+                        width: double.infinity,
+                        child: OutlinedButton(
+                          onPressed: () {
+                            showDialog(
+                                context: context,
+                                builder: (BuildContext context) {
+                                  return AlertDialog(
+                                    content: Text(
+                                        'Confirm vote for candidate: ' +
+                                            participant),
+                                    actions: [
+                                      TextButton(
+                                        onPressed: () {
+                                          DatabaseService().voteForCandidate(
+                                            document.id,
+                                            participant,
+                                            vote + 1,
+                                            AuthService().userId(),
+                                          );
+                                          Navigator.pop(context);
+                                        },
+                                        child: Text('Yes'),
+                                      ),
+                                      TextButton(
+                                        onPressed: () {
+                                          Navigator.pop(context);
+                                        },
+                                        child: Text('Cancel'),
+                                      ),
+                                    ],
+                                  );
+                                });
+                          },
+                          child: Align(
+                            alignment: Alignment.topLeft,
+                            child: Text(participant),
+                          ),
+                        ),
+                      ),
+              );
             });
+            participants.add(
+              totalVotes < 2
+                  ? Text(totalVotes.toString() + ' vote')
+                  : Text(totalVotes.toString() + ' votes'),
+            );
 
             return Padding(
               padding: const EdgeInsets.all(8.0),

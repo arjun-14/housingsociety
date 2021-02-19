@@ -245,9 +245,14 @@ class DatabaseService {
     });
   }
 
-  Future voteForCandidate(String uid, String participant, int vote) {
-    return moduleVoting.doc(uid).set({
+  Future voteForCandidate(
+      String docid, String participant, int vote, String uid) {
+    moduleVoting.doc(docid).set({
       'participants': {participant: vote}
+    }, SetOptions(merge: true));
+
+    return moduleVoting.doc(docid).set({
+      'users': {uid: true}
     }, SetOptions(merge: true));
   }
 }
