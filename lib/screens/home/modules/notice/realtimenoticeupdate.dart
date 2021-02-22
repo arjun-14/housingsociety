@@ -4,8 +4,26 @@ import 'package:housingsociety/screens/home/modules/notice/addnotice.dart';
 import 'package:housingsociety/services/database.dart';
 import 'package:housingsociety/shared/constants.dart';
 import 'package:housingsociety/shared/loading.dart';
+import 'package:flutter_tts/flutter_tts.dart';
 
-class RealTimeNoticeUpdate extends StatelessWidget {
+class RealTimeNoticeUpdate extends StatefulWidget {
+  @override
+  _RealTimeNoticeUpdateState createState() => _RealTimeNoticeUpdateState();
+}
+
+enum TtsState { playing, stopped, paused, continued }
+
+class _RealTimeNoticeUpdateState extends State<RealTimeNoticeUpdate> {
+  FlutterTts flutterTts = FlutterTts();
+  TtsState ttsState = TtsState.stopped;
+
+  Future _speak(String notice) async {
+    print(flutterTts.getLanguages);
+    await flutterTts.setLanguage("hi-IN");
+    await flutterTts.speak(notice);
+    // if (result == 1) setState(() => ttsState = TtsState.playing);
+  }
+
   @override
   Widget build(BuildContext context) {
     Query notice = FirebaseFirestore.instance
@@ -66,6 +84,11 @@ class RealTimeNoticeUpdate extends StatelessWidget {
                                 ),
                               ),
                             ),
+                            IconButton(
+                                icon: Icon(Icons.volume_up),
+                                onPressed: () {
+                                  _speak(document.data()['notice']);
+                                }),
                             IconButton(
                               iconSize: 20,
                               icon: Icon(

@@ -255,4 +255,8 @@ class DatabaseService {
       'users': {uid: true}
     }, SetOptions(merge: true));
   }
+
+  Future deleteVote(String docid) {
+    return moduleVoting.doc(docid).delete();
+  }
 }

@@ -1,4 +1,3 @@
-import 'package:adaptive_dialog/adaptive_dialog.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:housingsociety/services/auth.dart';
@@ -36,18 +35,36 @@ class _RealTimeVotingUpdateState extends State<RealTimeVotingUpdate> {
           children: snapshot.data.docs.map((DocumentSnapshot document) {
             // voteStatus(document.id);
             List<Widget> participants = [
-              RichText(
-                text: TextSpan(children: [
-                  TextSpan(text: 'Cast your vote for the position: '),
-                  TextSpan(
-                    text: document.data()['title'],
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontStyle: FontStyle.italic,
+              Row(
+                children: [
+                  Expanded(
+                    child: RichText(
+                      text: TextSpan(children: [
+                        TextSpan(text: 'Cast your vote for the position: '),
+                        TextSpan(
+                          text: document.data()['title'],
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontStyle: FontStyle.italic,
+                          ),
+                        ),
+                        TextSpan(text: ' below'),
+                      ]),
                     ),
                   ),
-                  TextSpan(text: ' below'),
-                ]),
+                  GestureDetector(
+                    onTap: () {
+                      DatabaseService().deleteVote(document.id);
+                    },
+                    child: Tooltip(
+                      message: 'Delete',
+                      child: Icon(
+                        Icons.delete,
+                        size: 20,
+                      ),
+                    ),
+                  ),
+                ],
               ),
               SizedBox(
                 height: 10,
@@ -60,6 +77,7 @@ class _RealTimeVotingUpdateState extends State<RealTimeVotingUpdate> {
                 totalVotes = document.data()['users'].length;
                 print(totalVotes);
               } on NoSuchMethodError {
+                totalVotes = 0;
                 result = null;
               }
               participants.add(
@@ -137,23 +155,23 @@ class _RealTimeVotingUpdateState extends State<RealTimeVotingUpdate> {
 
             return Padding(
               padding: const EdgeInsets.all(8.0),
-              child: Container(
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(10.0),
-                  color: kOxfordBlue,
-                ),
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Column(
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: participants,
-                        ),
-                      ),
-                    ],
+              child: GestureDetector(
+                onLongPress: () {
+                  print('hello');
+                },
+                child: AnimatedContainer(
+                  duration: Duration(seconds: 1),
+                  curve: Curves.bounceIn,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10.0),
+                    color: kOxfordBlue,
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.all(16.0),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: participants,
+                    ),
                   ),
                 ),
               ),
