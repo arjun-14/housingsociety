@@ -5,6 +5,7 @@ import 'package:housingsociety/services/database.dart';
 import 'package:housingsociety/shared/constants.dart';
 import 'package:housingsociety/shared/loading.dart';
 import 'package:flutter_tts/flutter_tts.dart';
+import 'package:translator/translator.dart';
 
 class RealTimeNoticeUpdate extends StatefulWidget {
   @override
@@ -16,12 +17,17 @@ enum TtsState { playing, stopped, paused, continued }
 class _RealTimeNoticeUpdateState extends State<RealTimeNoticeUpdate> {
   FlutterTts flutterTts = FlutterTts();
   TtsState ttsState = TtsState.stopped;
+  final translator = GoogleTranslator();
 
   Future _speak(String notice) async {
     print(flutterTts.getLanguages);
     await flutterTts.setLanguage("hi-IN");
     await flutterTts.speak(notice);
     // if (result == 1) setState(() => ttsState = TtsState.playing);
+  }
+
+  void translate(String input) {
+    translator.translate(input, to: 'ml').then((result) => print(result));
   }
 
   @override
@@ -84,6 +90,11 @@ class _RealTimeNoticeUpdateState extends State<RealTimeNoticeUpdate> {
                                 ),
                               ),
                             ),
+                            IconButton(
+                                icon: Icon(Icons.translate),
+                                onPressed: () {
+                                  translate(document.data()['notice']);
+                                }),
                             IconButton(
                                 icon: Icon(Icons.volume_up),
                                 onPressed: () {

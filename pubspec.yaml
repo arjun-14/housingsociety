@@ -43,6 +43,7 @@ dependencies:
   polls: ^0.2.2
   percent_indicator: ^2.1.9+1
   flutter_tts: ^2.1.0
+  translator: ^0.1.5
 
 
 dev_dependencies:
