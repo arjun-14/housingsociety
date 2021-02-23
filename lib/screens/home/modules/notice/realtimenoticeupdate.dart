@@ -91,22 +91,84 @@ class _RealTimeNoticeUpdateState extends State<RealTimeNoticeUpdate> {
                               ),
                             ),
                             IconButton(
-                                icon: Icon(Icons.translate),
-                                onPressed: () {
-                                  translate(document.data()['notice']);
-                                }),
-                            IconButton(
-                                icon: Icon(Icons.volume_up),
-                                onPressed: () {
-                                  _speak(document.data()['notice']);
-                                }),
-                            IconButton(
                               iconSize: 20,
+                              color: kAmaranth,
                               icon: Icon(
-                                Icons.delete,
+                                Icons.more_vert,
                               ),
                               onPressed: () {
-                                DatabaseService().deleteNotice(document.id);
+                                showModalBottomSheet(
+                                    context: context,
+                                    builder: (BuildContext context) {
+                                      return Wrap(
+                                        children: [
+                                          Container(
+                                            color: kOxfordBlue,
+                                            child: Column(
+                                              children: [
+                                                GestureDetector(
+                                                    child: ListTile(
+                                                      leading: Icon(
+                                                        Icons.volume_up,
+                                                        color: kAmaranth,
+                                                      ),
+                                                      title: Text(
+                                                        'Text-to-speech',
+                                                        style: TextStyle(
+                                                          color: kAmaranth,
+                                                        ),
+                                                      ),
+                                                    ),
+                                                    onTap: () {
+                                                      _speak(
+                                                        document
+                                                            .data()['notice'],
+                                                      );
+                                                      Navigator.pop(context);
+                                                    }),
+                                                GestureDetector(
+                                                    child: ListTile(
+                                                      leading: Icon(
+                                                        Icons.translate,
+                                                        color: kAmaranth,
+                                                      ),
+                                                      title: Text(
+                                                        'Translate',
+                                                        style: TextStyle(
+                                                          color: kAmaranth,
+                                                        ),
+                                                      ),
+                                                    ),
+                                                    onTap: () {
+                                                      translate(document
+                                                          .data()['notice']);
+                                                      Navigator.pop(context);
+                                                    }),
+                                                GestureDetector(
+                                                    child: ListTile(
+                                                      leading: Icon(
+                                                        Icons.delete,
+                                                        color: kAmaranth,
+                                                      ),
+                                                      title: Text(
+                                                        'Delete Notice',
+                                                        style: TextStyle(
+                                                          color: kAmaranth,
+                                                        ),
+                                                      ),
+                                                    ),
+                                                    onTap: () {
+                                                      DatabaseService()
+                                                          .deleteNotice(
+                                                              document.id);
+                                                      Navigator.pop(context);
+                                                    }),
+                                              ],
+                                            ),
+                                          ),
+                                        ],
+                                      );
+                                    });
                               },
                             )
                           ],
