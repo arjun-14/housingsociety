@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:housingsociety/screens/home/modules/notice/addnotice.dart';
+import 'package:housingsociety/screens/home/modules/notice/translation.dart';
 import 'package:housingsociety/services/database.dart';
 import 'package:housingsociety/shared/constants.dart';
 import 'package:housingsociety/shared/loading.dart';
@@ -17,7 +18,6 @@ enum TtsState { playing, stopped, paused, continued }
 class _RealTimeNoticeUpdateState extends State<RealTimeNoticeUpdate> {
   FlutterTts flutterTts = FlutterTts();
   TtsState ttsState = TtsState.stopped;
-  final translator = GoogleTranslator();
 
   Future _speak(String notice) async {
     print(flutterTts.getLanguages);
@@ -26,17 +26,13 @@ class _RealTimeNoticeUpdateState extends State<RealTimeNoticeUpdate> {
     // if (result == 1) setState(() => ttsState = TtsState.playing);
   }
 
-  void translate(String input) {
-    translator.translate(input, to: 'ml').then((result) => print(result));
-  }
-
   @override
   Widget build(BuildContext context) {
-    Query notice = FirebaseFirestore.instance
+    Query moduleNotice = FirebaseFirestore.instance
         .collection('module_notice')
         .orderBy('timestamp', descending: true);
     return StreamBuilder<QuerySnapshot>(
-        stream: notice.snapshots(),
+        stream: moduleNotice.snapshots(),
         builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
           if (snapshot.hasError) {
             return Text('Something went wrong');
@@ -49,6 +45,7 @@ class _RealTimeNoticeUpdateState extends State<RealTimeNoticeUpdate> {
             children: snapshot.data.docs.map((DocumentSnapshot document) {
               Timestamp timestamp = document.data()['timestamp'];
               DateTime dateTime = timestamp.toDate();
+
               return Padding(
                 padding:
                     const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
@@ -107,6 +104,139 @@ class _RealTimeNoticeUpdateState extends State<RealTimeNoticeUpdate> {
                                             child: Column(
                                               children: [
                                                 GestureDetector(
+                                                  child: ListTile(
+                                                    leading: Icon(
+                                                      Icons.translate,
+                                                      color: kAmaranth,
+                                                    ),
+                                                    title: Text(
+                                                      'Translate',
+                                                      style: TextStyle(
+                                                        color: kAmaranth,
+                                                      ),
+                                                    ),
+                                                  ),
+                                                  onTap: () {
+                                                    Navigator.pop(context);
+                                                    showDialog(
+                                                        context: context,
+                                                        builder: (BuildContext
+                                                            context) {
+                                                          return Center(
+                                                            child: Wrap(
+                                                              children: [
+                                                                Container(
+                                                                  decoration:
+                                                                      BoxDecoration(
+                                                                    color:
+                                                                        kOxfordBlue,
+                                                                    borderRadius:
+                                                                        BorderRadius
+                                                                            .all(
+                                                                      Radius.circular(
+                                                                          8.0),
+                                                                    ),
+                                                                  ),
+                                                                  child: Column(
+                                                                    children: [
+                                                                      ReusableFlatButton(
+                                                                        outputLanguage:
+                                                                            'Bengali',
+                                                                        title: document
+                                                                            .data()['title'],
+                                                                        notice:
+                                                                            document.data()['notice'],
+                                                                      ),
+                                                                      ReusableFlatButton(
+                                                                        outputLanguage:
+                                                                            'English',
+                                                                        title: document
+                                                                            .data()['title'],
+                                                                        notice:
+                                                                            document.data()['notice'],
+                                                                      ),
+                                                                      ReusableFlatButton(
+                                                                        outputLanguage:
+                                                                            'Gujarati',
+                                                                        title: document
+                                                                            .data()['title'],
+                                                                        notice:
+                                                                            document.data()['notice'],
+                                                                      ),
+                                                                      ReusableFlatButton(
+                                                                        outputLanguage:
+                                                                            'Hindi',
+                                                                        title: document
+                                                                            .data()['title'],
+                                                                        notice:
+                                                                            document.data()['notice'],
+                                                                      ),
+                                                                      ReusableFlatButton(
+                                                                        outputLanguage:
+                                                                            'Kannada',
+                                                                        title: document
+                                                                            .data()['title'],
+                                                                        notice:
+                                                                            document.data()['notice'],
+                                                                      ),
+                                                                      ReusableFlatButton(
+                                                                        outputLanguage:
+                                                                            'Malayalam',
+                                                                        title: document
+                                                                            .data()['title'],
+                                                                        notice:
+                                                                            document.data()['notice'],
+                                                                      ),
+                                                                      ReusableFlatButton(
+                                                                        outputLanguage:
+                                                                            'Marathi',
+                                                                        title: document
+                                                                            .data()['title'],
+                                                                        notice:
+                                                                            document.data()['notice'],
+                                                                      ),
+                                                                      ReusableFlatButton(
+                                                                        outputLanguage:
+                                                                            'Punjabi',
+                                                                        title: document
+                                                                            .data()['title'],
+                                                                        notice:
+                                                                            document.data()['notice'],
+                                                                      ),
+                                                                      ReusableFlatButton(
+                                                                        outputLanguage:
+                                                                            'Sindhi',
+                                                                        title: document
+                                                                            .data()['title'],
+                                                                        notice:
+                                                                            document.data()['notice'],
+                                                                      ),
+                                                                      ReusableFlatButton(
+                                                                        outputLanguage:
+                                                                            'Tamil',
+                                                                        title: document
+                                                                            .data()['title'],
+                                                                        notice:
+                                                                            document.data()['notice'],
+                                                                      ),
+                                                                      ReusableFlatButton(
+                                                                        outputLanguage:
+                                                                            'Telugu',
+                                                                        title: document
+                                                                            .data()['title'],
+                                                                        notice:
+                                                                            document.data()['notice'],
+                                                                      ),
+                                                                    ],
+                                                                  ),
+                                                                ),
+                                                              ],
+                                                            ),
+                                                          );
+                                                        });
+                                                  },
+                                                ),
+                                                GestureDetector(
                                                     child: ListTile(
                                                       leading: Icon(
                                                         Icons.volume_up,
@@ -124,24 +254,6 @@ class _RealTimeNoticeUpdateState extends State<RealTimeNoticeUpdate> {
                                                         document
                                                             .data()['notice'],
                                                       );
-                                                      Navigator.pop(context);
-                                                    }),
-                                                GestureDetector(
-                                                    child: ListTile(
-                                                      leading: Icon(
-                                                        Icons.translate,
-                                                        color: kAmaranth,
-                                                      ),
-                                                      title: Text(
-                                                        'Translate',
-                                                        style: TextStyle(
-                                                          color: kAmaranth,
-                                                        ),
-                                                      ),
-                                                    ),
-                                                    onTap: () {
-                                                      translate(document
-                                                          .data()['notice']);
                                                       Navigator.pop(context);
                                                     }),
                                                 GestureDetector(
@@ -214,5 +326,32 @@ class _RealTimeNoticeUpdateState extends State<RealTimeNoticeUpdate> {
             }).toList(),
           );
         });
+  }
+}
+
+class ReusableFlatButton extends StatelessWidget {
+  final String outputLanguage;
+  final String title;
+  final String notice;
+
+  ReusableFlatButton({this.outputLanguage, this.title, this.notice});
+
+  Widget build(BuildContext context) {
+    return FlatButton(
+      onPressed: () {
+        Navigator.pop(context);
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (BuildContext context) {
+            return Translate(
+              title: title,
+              notice: notice,
+              outputLanguage: outputLanguage,
+            );
+          }),
+        );
+      },
+      child: Text(outputLanguage),
+    );
   }
 }
