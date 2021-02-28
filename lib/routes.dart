@@ -7,6 +7,7 @@ import 'package:housingsociety/screens/home/modules/health/health.dart';
 import 'package:housingsociety/screens/home/modules/health/quarantinesummary.dart';
 import 'package:housingsociety/screens/home/modules/notice/addnotice.dart';
 import 'package:housingsociety/screens/home/modules/notice/notice.dart';
+import 'package:housingsociety/screens/home/modules/notice/translation.dart';
 import 'package:housingsociety/screens/home/modules/profile/editEmail.dart';
 import 'package:housingsociety/screens/home/modules/profile/editName.dart';
 import 'package:housingsociety/screens/home/modules/profile/editPassword.dart';
@@ -27,6 +28,7 @@ Map<String, Widget Function(BuildContext)> routes = <String, WidgetBuilder>{
   EditPassword.id: (context) => EditPassword(),
   Notice.id: (context) => Notice(),
   AddNotice.id: (context) => AddNotice(),
+  Translate.id: (context) => Translate(),
   Voting.id: (context) => Voting(),
   AddVoting.id: (context) => AddVoting(),
   Complaint.id: (context) => Complaint(),

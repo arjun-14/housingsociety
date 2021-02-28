@@ -6,6 +6,7 @@ class Translate extends StatefulWidget {
   final String title;
   final String notice;
   final String outputLanguage;
+  static const String id = 'translate';
   Translate({this.title, this.notice, this.outputLanguage});
   @override
   _TranslateState createState() => _TranslateState();
@@ -34,8 +35,8 @@ class _TranslateState extends State<Translate> {
     translate(widget.title, widget.notice, widget.outputLanguage);
   }
 
-  void translate(String title, String notice, String outputLanguage) async {
-    await translator
+  void translate(String title, String notice, String outputLanguage) {
+    translator
         .translate(title, to: outputLanguageCode[outputLanguage])
         .then((result) {
       setState(() {
@@ -44,7 +45,7 @@ class _TranslateState extends State<Translate> {
 
       print(title);
     });
-    await translator
+    translator
         .translate(notice, to: outputLanguageCode[outputLanguage])
         .then((result) {
       setState(() {
@@ -61,12 +62,27 @@ class _TranslateState extends State<Translate> {
       return Loading();
     }
     return Scaffold(
-      appBar: AppBar(),
-      body: Container(
-        child: Column(
+      appBar: AppBar(
+        title: Text('Translation to : ${widget.outputLanguage}'),
+      ),
+      body: Padding(
+        padding: const EdgeInsets.all(15.0),
+        child: ListView(
           children: [
-            Text(translatedTitle),
-            Text(translatedNotice),
+            Text(
+              translatedTitle,
+              style: TextStyle(
+                fontSize: 25,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            SizedBox(
+              height: 15,
+            ),
+            Text(
+              translatedNotice,
+              style: TextStyle(fontSize: 16),
+            ),
           ],
         ),
       ),

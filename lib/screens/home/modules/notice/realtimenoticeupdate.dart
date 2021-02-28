@@ -341,15 +341,13 @@ class ReusableFlatButton extends StatelessWidget {
       onPressed: () {
         Navigator.pop(context);
         Navigator.push(
-          context,
-          MaterialPageRoute(builder: (BuildContext context) {
-            return Translate(
-              title: title,
-              notice: notice,
-              outputLanguage: outputLanguage,
-            );
-          }),
-        );
+            context,
+            MaterialPageRoute(
+                builder: (BuildContext context) => Translate(
+                      notice: notice,
+                      title: title,
+                      outputLanguage: outputLanguage,
+                    )));
       },
       child: Text(outputLanguage),
     );
