@@ -1,12 +1,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:housingsociety/screens/home/modules/notice/addnotice.dart';
-import 'package:housingsociety/screens/home/modules/notice/translation.dart';
 import 'package:housingsociety/services/database.dart';
 import 'package:housingsociety/shared/constants.dart';
 import 'package:housingsociety/shared/loading.dart';
 import 'package:flutter_tts/flutter_tts.dart';
-import 'package:translator/translator.dart';
+import 'package:housingsociety/screens/home/modules/notice/reusableflatbutton.dart';
 
 class RealTimeNoticeUpdate extends StatefulWidget {
   @override
@@ -22,8 +21,8 @@ class _RealTimeNoticeUpdateState extends State<RealTimeNoticeUpdate> {
   Future _speak(String notice) async {
     print(flutterTts.getLanguages);
     await flutterTts.setLanguage("hi-IN");
-    await flutterTts.speak(notice);
-    // if (result == 1) setState(() => ttsState = TtsState.playing);
+    var result = await flutterTts.speak(notice);
+    if (result == 1) setState(() => ttsState = TtsState.playing);
   }
 
   @override
@@ -250,10 +249,11 @@ class _RealTimeNoticeUpdateState extends State<RealTimeNoticeUpdate> {
                                                       ),
                                                     ),
                                                     onTap: () {
-                                                      _speak(
-                                                        document
-                                                            .data()['notice'],
-                                                      );
+                                                      _speak(document
+                                                              .data()['title'] +
+                                                          '  ' +
+                                                          document.data()[
+                                                              'notice']);
                                                       Navigator.pop(context);
                                                     }),
                                                 GestureDetector(
@@ -326,30 +326,5 @@ class _RealTimeNoticeUpdateState extends State<RealTimeNoticeUpdate> {
             }).toList(),
           );
         });
-  }
-}
-
-class ReusableFlatButton extends StatelessWidget {
-  final String outputLanguage;
-  final String title;
-  final String notice;
-
-  ReusableFlatButton({this.outputLanguage, this.title, this.notice});
-
-  Widget build(BuildContext context) {
-    return FlatButton(
-      onPressed: () {
-        Navigator.pop(context);
-        Navigator.push(
-            context,
-            MaterialPageRoute(
-                builder: (BuildContext context) => Translate(
-                      notice: notice,
-                      title: title,
-                      outputLanguage: outputLanguage,
-                    )));
-      },
-      child: Text(outputLanguage),
-    );
   }
 }
