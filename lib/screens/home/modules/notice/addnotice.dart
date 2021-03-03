@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:housingsociety/services/database.dart';
+import 'package:housingsociety/shared/constants.dart';
 
 class AddNotice extends StatefulWidget {
   static const String id = 'add_notice';
@@ -16,11 +17,12 @@ class AddNotice extends StatefulWidget {
 
 class _AddNoticeState extends State<AddNotice> {
   FocusNode myFocusNode;
+  String title = '';
+  String notice = '';
 
   @override
   void initState() {
     super.initState();
-
     myFocusNode = FocusNode();
   }
 
@@ -28,14 +30,11 @@ class _AddNoticeState extends State<AddNotice> {
   void dispose() {
     // Clean up the focus node when the Form is disposed.
     myFocusNode.dispose();
-
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    String title = 'Title';
-    String notice = 'Notice';
     if (widget.flag == 0) {
       title = widget.editTitle;
       notice = widget.editNotice;
@@ -46,18 +45,22 @@ class _AddNoticeState extends State<AddNotice> {
       },
       child: Scaffold(
         appBar: AppBar(
-            //  title: Text('Add Notice'),
-            ),
-        floatingActionButton: FloatingActionButton(
-          onPressed: () {
-            widget.flag == 0
-                ? DatabaseService().editNotice(widget.uid, title, notice)
-                : DatabaseService().addNotice(title, notice);
-            Navigator.pop(context);
-          },
-          child: Icon(
-            Icons.save,
-          ),
+          title: Text('Add Notice'),
+          actions: [
+            Visibility(
+              visible: title != '' && notice != '',
+              child: IconButton(
+                icon: Icon(Icons.save),
+                color: kAmaranth,
+                onPressed: () {
+                  widget.flag == 0
+                      ? DatabaseService().editNotice(widget.uid, title, notice)
+                      : DatabaseService().addNotice(title, notice);
+                  Navigator.pop(context);
+                },
+              ),
+            )
+          ],
         ),
         body: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 15),
@@ -78,7 +81,9 @@ class _AddNoticeState extends State<AddNotice> {
                       hintText: 'Title',
                     ),
                     onChanged: (val) {
-                      title = val;
+                      setState(() {
+                        title = val;
+                      });
                     },
                   ),
                   TextFormField(
@@ -94,7 +99,9 @@ class _AddNoticeState extends State<AddNotice> {
                       hintText: 'Notice',
                     ),
                     onChanged: (val) {
-                      notice = val;
+                      setState(() {
+                        notice = val;
+                      });
                     },
                   ),
                 ],
