@@ -17,12 +17,27 @@ enum TtsState { playing, stopped, paused, continued }
 class _RealTimeNoticeUpdateState extends State<RealTimeNoticeUpdate> {
   FlutterTts flutterTts = FlutterTts();
   TtsState ttsState = TtsState.stopped;
+  String currentPlayingDocId;
 
-  Future _speak(String notice) async {
+  Future _speak(String notice, String docid) async {
     print(flutterTts.getLanguages);
     await flutterTts.setLanguage("hi-IN");
     var result = await flutterTts.speak(notice);
-    if (result == 1) setState(() => ttsState = TtsState.playing);
+    if (result == 1)
+      setState(() {
+        ttsState = TtsState.playing;
+        currentPlayingDocId = docid;
+      });
+    flutterTts.setCompletionHandler(() {
+      setState(() {
+        ttsState = TtsState.stopped;
+      });
+    });
+  }
+
+  Future _stop() async {
+    var result = await flutterTts.stop();
+    if (result == 1) setState(() => ttsState = TtsState.stopped);
   }
 
   @override
@@ -84,6 +99,18 @@ class _RealTimeNoticeUpdateState extends State<RealTimeNoticeUpdate> {
                                     fontWeight: FontWeight.bold,
                                   ),
                                 ),
+                              ),
+                            ),
+                            Visibility(
+                              visible: ttsState == TtsState.playing &&
+                                  currentPlayingDocId == document.id,
+                              child: IconButton(
+                                iconSize: 25,
+                                color: kAmaranth,
+                                icon: Icon(Icons.stop),
+                                onPressed: () {
+                                  _stop();
+                                },
                               ),
                             ),
                             IconButton(
@@ -249,11 +276,13 @@ class _RealTimeNoticeUpdateState extends State<RealTimeNoticeUpdate> {
                                                       ),
                                                     ),
                                                     onTap: () {
-                                                      _speak(document
-                                                              .data()['title'] +
-                                                          '  ' +
+                                                      _speak(
                                                           document.data()[
-                                                              'notice']);
+                                                                  'title'] +
+                                                              '  ' +
+                                                              document.data()[
+                                                                  'notice'],
+                                                          document.id);
                                                       Navigator.pop(context);
                                                     }),
                                                 GestureDetector(
