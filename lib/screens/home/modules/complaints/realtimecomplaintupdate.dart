@@ -158,6 +158,7 @@ class _RealTimeComplaintUpdateState extends State<RealTimeComplaintUpdate> {
                                   ),
                                   label: Text(
                                     document.data()['likes'].toString(),
+                                    style: TextStyle(color: Colors.white),
                                   ),
                                 ),
                               ),
@@ -173,8 +174,14 @@ class _RealTimeComplaintUpdateState extends State<RealTimeComplaintUpdate> {
                                   },
                                   icon: Icon(
                                     Icons.comment_outlined,
+                                    color: kAmaranth,
                                   ),
-                                  label: Text('Comment'),
+                                  label: Text(
+                                    'Comment',
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                    ),
+                                  ),
                                 ),
                               )
                             ],

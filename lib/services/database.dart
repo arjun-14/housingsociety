@@ -111,24 +111,30 @@ class DatabaseService {
         .doc(useruid)
         .get()
         .then((DocumentSnapshot documentSnapshot) {
-      result = (documentSnapshot.data()[docuid]);
-      if (result == true) {
-        moduleComplaintUserLikes.doc(useruid).update({
-          docuid: FieldValue.delete(),
-        });
-        moduleComplaint.doc(docuid).update({
-          'likes': likes - 1,
-        }).catchError((e) {
-          print(e);
-        });
+      if (documentSnapshot.exists) {
+        result = (documentSnapshot.data()[docuid]);
+        if (result == true) {
+          moduleComplaintUserLikes.doc(useruid).update({
+            docuid: FieldValue.delete(),
+          });
+          moduleComplaint.doc(docuid).update({
+            'likes': likes - 1,
+          }).catchError((e) {
+            print(e);
+          });
+        } else {
+          moduleComplaintUserLikes.doc(useruid).update({
+            docuid: true,
+          });
+          moduleComplaint.doc(docuid).update({
+            'likes': likes + 1,
+          }).catchError((e) {
+            print(e);
+          });
+        }
       } else {
-        moduleComplaintUserLikes.doc(useruid).update({
+        moduleComplaintUserLikes.doc(useruid).set({
           docuid: true,
-        });
-        moduleComplaint.doc(docuid).update({
-          'likes': likes + 1,
-        }).catchError((e) {
-          print(e);
         });
       }
     });
