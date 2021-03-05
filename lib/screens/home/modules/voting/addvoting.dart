@@ -49,7 +49,7 @@ class _AddVotingState extends State<AddVoting> {
                   : () {
                       participants = collectParticipantsName();
                       if (participants.length < 2) {
-                        Scaffold.of(context).showSnackBar(
+                        ScaffoldMessenger.of(context).showSnackBar(
                           SnackBar(
                             content: Text(
                               'There must be atleast two participants',

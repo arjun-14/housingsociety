@@ -142,7 +142,8 @@ class _EditPasswordState extends State<EditPassword> {
                   duration: Duration(seconds: 1, milliseconds: 50),
                   behavior: SnackBarBehavior.floating,
                 );
-                Scaffold.of(context).showSnackBar(snackbar);
+
+                ScaffoldMessenger.of(context).showSnackBar(snackbar);
               } else if (updatedPassword.length < 4) {
                 final snackbar = SnackBar(
                   content: Text('Password must be atleast 4 charachters long'),
@@ -150,7 +151,7 @@ class _EditPasswordState extends State<EditPassword> {
                   duration: Duration(seconds: 1, milliseconds: 50),
                   behavior: SnackBarBehavior.floating,
                 );
-                Scaffold.of(context).showSnackBar(snackbar);
+                ScaffoldMessenger.of(context).showSnackBar(snackbar);
               } else {
                 setState(() {
                   loading = true;
@@ -173,7 +174,7 @@ class _EditPasswordState extends State<EditPassword> {
                         ),
                       ),
                       actions: [
-                        FlatButton(
+                        TextButton(
                           onPressed: () {
                             Navigator.popUntil(
                               context,
@@ -195,7 +196,7 @@ class _EditPasswordState extends State<EditPassword> {
                     duration: Duration(seconds: 1, milliseconds: 50),
                     behavior: SnackBarBehavior.floating,
                   );
-                  Scaffold.of(context).showSnackBar(snackbar);
+                  ScaffoldMessenger.of(context).showSnackBar(snackbar);
                 }
               }
             },

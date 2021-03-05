@@ -163,8 +163,10 @@ class _RegisterState extends State<Register> {
                           ),
                           SizedBox(
                             width: double.infinity,
-                            child: RaisedButton(
-                              color: kAmaranth,
+                            child: ElevatedButton(
+                              style: ElevatedButton.styleFrom(
+                                primary: kAmaranth,
+                              ),
                               onPressed: () async {
                                 if (_formkey.currentState.validate()) {
                                   setState(() {
@@ -195,7 +197,7 @@ class _RegisterState extends State<Register> {
                               child: Text('Continue'),
                             ),
                           ),
-                          FlatButton(
+                          TextButton(
                             onPressed: () {
                               widget.toggle();
                             },

@@ -24,6 +24,10 @@ class _AddNoticeState extends State<AddNotice> {
   void initState() {
     super.initState();
     myFocusNode = FocusNode();
+    if (widget.flag == 0) {
+      title = widget.editTitle;
+      notice = widget.editNotice;
+    }
   }
 
   @override
@@ -35,10 +39,6 @@ class _AddNoticeState extends State<AddNotice> {
 
   @override
   Widget build(BuildContext context) {
-    if (widget.flag == 0) {
-      title = widget.editTitle;
-      notice = widget.editNotice;
-    }
     return GestureDetector(
       onTap: () {
         myFocusNode.requestFocus();

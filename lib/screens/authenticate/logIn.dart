@@ -108,8 +108,11 @@ class _LogInState extends State<LogIn> {
                           ),
                           SizedBox(
                             width: double.infinity,
-                            child: RaisedButton(
-                              color: kAmaranth,
+                            child: ElevatedButton(
+                              style: ElevatedButton.styleFrom(
+                                primary: kAmaranth,
+                              ),
+                              // color: kAmaranth,
                               onPressed: () async {
                                 if (_formkey.currentState.validate()) {
                                   setState(() {
@@ -141,7 +144,7 @@ class _LogInState extends State<LogIn> {
                               child: Text('Continue'),
                             ),
                           ),
-                          FlatButton(
+                          TextButton(
                             onPressed: () {
                               widget.toggle();
                             },

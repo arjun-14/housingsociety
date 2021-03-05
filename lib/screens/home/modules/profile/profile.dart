@@ -167,7 +167,7 @@ class _ProfileState extends State<Profile> {
                       children: [
                         Padding(
                           padding: const EdgeInsets.all(8.0),
-                          child: FlatButton(
+                          child: TextButton(
                             onPressed: () {},
                             child: Text(
                               'Delete account',

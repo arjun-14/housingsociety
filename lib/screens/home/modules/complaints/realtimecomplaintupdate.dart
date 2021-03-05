@@ -34,21 +34,32 @@ class _RealTimeComplaintUpdateState extends State<RealTimeComplaintUpdate> {
   }
 
   void getCurrentUSerLikes() async {
-    DocumentSnapshot value = await moduleComplaintUserLikes.doc(userid).get();
-    setState(() {
-      likes = value.data();
+    moduleComplaintUserLikes
+        .doc(userid)
+        .get()
+        .then((DocumentSnapshot documentSnapshot) {
+      if (documentSnapshot.exists) {
+        setState(() {
+          likes = documentSnapshot.data();
+        });
+      } else {
+        setState(() {
+          likes = {};
+        });
+      }
     });
+    // DocumentSnapshot value = await moduleComplaintUserLikes.doc(userid).get();
+    // setState(() {
+    //   likes = value.data();
+    // });
 
-    // moduleComplaintUserLikes
-    //     .get()
-    //     .then((value) => print(value.data()['asasa']));
     print(likes);
   }
 
   @override
   Widget build(BuildContext context) {
     final user = Provider.of<CurrentUser>(context);
-    BuildContext maincontext = context;
+
     Query notice = FirebaseFirestore.instance
         .collection('module_complaint')
         .orderBy('likes', descending: true);
@@ -127,7 +138,7 @@ class _RealTimeComplaintUpdateState extends State<RealTimeComplaintUpdate> {
                           Row(
                             children: [
                               Expanded(
-                                child: FlatButton.icon(
+                                child: TextButton.icon(
                                   onPressed: () async {
                                     await db.updateLikes(document.id,
                                         document.data()['likes'], user.uid);
@@ -151,7 +162,7 @@ class _RealTimeComplaintUpdateState extends State<RealTimeComplaintUpdate> {
                                 ),
                               ),
                               Expanded(
-                                child: FlatButton.icon(
+                                child: TextButton.icon(
                                   onPressed: () {
                                     showBarModalBottomSheet(
                                       context: context,

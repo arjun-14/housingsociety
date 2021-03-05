@@ -74,7 +74,7 @@ class _AddEmergencyContactState extends State<AddEmergencyContact> {
                         ),
                       ),
                       actions: [
-                        FlatButton(
+                        TextButton(
                           onPressed: () {
                             Navigator.popUntil(
                               context,
@@ -88,7 +88,7 @@ class _AddEmergencyContactState extends State<AddEmergencyContact> {
                             ),
                           ),
                         ),
-                        FlatButton(
+                        TextButton(
                           onPressed: () {
                             Navigator.pop(context);
                           },
@@ -109,7 +109,7 @@ class _AddEmergencyContactState extends State<AddEmergencyContact> {
         actions: [
           Visibility(
             visible: true,
-            child: FlatButton(
+            child: TextButton(
               onPressed: () async {
                 if (formkey.currentState.validate()) {
                   await DatabaseService().addEmergencyContact(name, phoneNo,

@@ -9,7 +9,7 @@ class ReusableFlatButton extends StatelessWidget {
   ReusableFlatButton({this.outputLanguage, this.title, this.notice});
 
   Widget build(BuildContext context) {
-    return FlatButton(
+    return TextButton(
       onPressed: () {
         Navigator.pop(context);
         Navigator.push(

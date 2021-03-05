@@ -7,7 +7,7 @@ class ReusableProfileTile extends StatelessWidget {
   ReusableProfileTile({this.label, this.value, this.onpress});
   @override
   Widget build(BuildContext context) {
-    return FlatButton(
+    return TextButton(
       onPressed: onpress,
       child: Row(
         children: [

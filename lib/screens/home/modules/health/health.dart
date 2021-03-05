@@ -122,7 +122,7 @@ class _HealthState extends State<Health> {
                   ),
                 ),
               );
-              Scaffold.of(context).showSnackBar(snackBar);
+              ScaffoldMessenger.of(context).showSnackBar(snackBar);
             },
             child: Icon(
               Icons.save,
