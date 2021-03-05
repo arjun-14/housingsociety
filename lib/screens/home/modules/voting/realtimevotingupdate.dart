@@ -90,8 +90,8 @@ class _RealTimeVotingUpdateState extends State<RealTimeVotingUpdate> {
                               animation: true,
                               percent: vote / totalVotes,
                               lineHeight: 15.0,
-                              trailing:
-                                  Text((vote / totalVotes * 100).toString()),
+                              trailing: Text(
+                                  (vote / totalVotes * 100).toStringAsFixed(2)),
                               //  leading: Text(participant),
                               progressColor: kAmaranth,
                               center: Text(
