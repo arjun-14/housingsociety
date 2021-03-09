@@ -1,36 +1,47 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:housingsociety/screens/home/modules/complaints/addcomplaint.dart';
 import 'package:housingsociety/screens/home/modules/complaints/realtimecomplaintupdate.dart';
 import 'package:housingsociety/shared/constants.dart';
-import 'package:http/http.dart' as http;
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:pie_chart/pie_chart.dart';
 import 'package:rake/rake.dart';
 
 class Complaint extends StatelessWidget {
   static const String id = 'complaint';
 
-  @override
   Widget build(BuildContext context) {
+    Map<String, int> keywords = {};
     return Scaffold(
       appBar: AppBar(
         title: Text('Complaints'),
         actions: [
           TextButton(
-            onPressed: () {
-              final exampleText = "The lift in c-wing is not working.";
+            onPressed: () async {
+              keywords = {};
               final rake = Rake();
-             
-              print(rake.rank(exampleText));
-
-            
+              await FirebaseFirestore.instance
+                  .collection('module_complaint')
+                  .get()
+                  .then((QuerySnapshot querySnapshot) {
+                querySnapshot.docs.forEach((document) {
+                  List documentKeywords =
+                      rake.rank(document.data()['description']);
+                  for (var keyword in documentKeywords) {
+                    if (keywords.containsKey(keyword)) {
+                      keywords[keyword] += 1;
+                    } else {
+                      keywords[keyword] = 0;
+                    }
+                  }
+                });
+              });
+              print(keywords);
             },
             child: Text(
               'Analyze',
               style: TextStyle(color: kAmaranth),
             ),
           ),
-          
         ],
       ),
       floatingActionButton: FloatingActionButton(

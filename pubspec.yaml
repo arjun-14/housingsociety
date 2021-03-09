@@ -44,8 +44,8 @@ dependencies:
   percent_indicator: ^2.1.9+1
   flutter_tts: ^2.1.0
   translator: ^0.1.5
-  http:
   rake: ^1.0.1
+  pie_chart: ^5.0.0
 
 
 dev_dependencies:
