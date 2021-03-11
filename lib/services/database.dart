@@ -96,6 +96,12 @@ class DatabaseService {
     });
   }
 
+  Future<void> updateComplaintStatus(docid, status) {
+    return moduleComplaint.doc(docid).update({
+      'status': status,
+    });
+  }
+
   Future<void> deleteComplaint(uid) {
     moduleComplaint.doc(uid).delete().catchError((e) {
       print(e);

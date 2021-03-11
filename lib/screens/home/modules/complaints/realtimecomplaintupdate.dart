@@ -201,6 +201,11 @@ class _RealTimeComplaintUpdateState extends State<RealTimeComplaintUpdate> {
                                                                     kAmaranth,
                                                               ),
                                                               onPressed: () {
+                                                                DatabaseService()
+                                                                    .updateComplaintStatus(
+                                                                        document
+                                                                            .id,
+                                                                        complaintstatus);
                                                                 Navigator.pop(
                                                                     context);
                                                               },
@@ -224,7 +229,7 @@ class _RealTimeComplaintUpdateState extends State<RealTimeComplaintUpdate> {
                                   style: TextStyle(
                                     color: document.data()['status'] == 'open'
                                         ? Colors.green
-                                        : document.data()['status'] == 'onHold'
+                                        : document.data()['status'] == 'on hold'
                                             ? Colors.yellow
                                             : Colors.red,
                                   ),
