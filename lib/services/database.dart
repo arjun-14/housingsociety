@@ -91,6 +91,7 @@ class DatabaseService {
       'username': userName,
       'description': description,
       'likes': likes,
+      'status': 'open',
       'timestamp': Timestamp.now(),
     });
   }

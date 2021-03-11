@@ -141,19 +141,28 @@ class _AddVotingState extends State<AddVoting> {
             ),
             TextButton(
               onPressed: () async {
-                dynamic date = await showDatePicker(
+                DateTime date = await showDatePicker(
                     context: context,
                     initialDate: DateTime.now(),
                     firstDate: DateTime(DateTime.now().year,
                         DateTime.now().month, DateTime.now().day),
                     lastDate: DateTime(2100));
-                print(date.toString());
-                dynamic time = await showTimePicker(
+                TimeOfDay time = await showTimePicker(
                     context: context,
                     initialTime: TimeOfDay(
                         hour: DateTime.now().hour,
                         minute: DateTime.now().minute));
-                print(time.toString());
+                DateTime now = DateTime.now();
+                print(now.month - date.month);
+
+                DateTime dateAndTime = DateTime(
+                    now.year - date.year,
+                    now.month - date.month,
+                    now.day - date.day,
+                    now.hour - time.hour,
+                    now.minute - time.minute);
+
+                print(dateAndTime);
               },
               child: Text('Set Timer'),
             ),

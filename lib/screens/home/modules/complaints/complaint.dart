@@ -6,11 +6,23 @@ import 'package:housingsociety/shared/constants.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:rake/rake.dart';
 
-class Complaint extends StatelessWidget {
+class Complaint extends StatefulWidget {
   static const String id = 'complaint';
 
+  @override
+  _ComplaintState createState() => _ComplaintState();
+}
+
+class _ComplaintState extends State<Complaint> with TickerProviderStateMixin {
+  Map<String, double> keywords = {};
+  TabController _tabController;
+  @override
+  void initState() {
+    super.initState();
+    _tabController = TabController(length: 3, vsync: this);
+  }
+
   Widget build(BuildContext context) {
-    Map<String, double> keywords = {};
     return Scaffold(
       appBar: AppBar(
         title: Text('Complaints'),
@@ -67,6 +79,20 @@ class Complaint extends StatelessWidget {
             ),
           ),
         ],
+        bottom: TabBar(
+          controller: _tabController,
+          tabs: [
+            Tab(
+              text: 'Open',
+            ),
+            Tab(
+              text: 'On Hold',
+            ),
+            Tab(
+              text: 'Closed',
+            ),
+          ],
+        ),
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
@@ -76,7 +102,20 @@ class Complaint extends StatelessWidget {
           Icons.add,
         ),
       ),
-      body: RealTimeComplaintUpdate(),
+      body: TabBarView(
+        controller: _tabController,
+        children: [
+          RealTimeComplaintUpdate(
+            complaintStatus: 'open',
+          ),
+          RealTimeComplaintUpdate(
+            complaintStatus: 'on hold',
+          ),
+          RealTimeComplaintUpdate(
+            complaintStatus: 'closed',
+          ),
+        ],
+      ),
     );
   }
 }

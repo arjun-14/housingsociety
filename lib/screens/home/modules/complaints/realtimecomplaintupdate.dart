@@ -10,6 +10,8 @@ import 'package:provider/provider.dart';
 import 'package:housingsociety/services/auth.dart';
 
 class RealTimeComplaintUpdate extends StatefulWidget {
+  final String complaintStatus;
+  RealTimeComplaintUpdate({this.complaintStatus});
   // final Map<String, dynamic> likes;
   // RealTimeComplaintUpdate({this.likes});
   @override
@@ -20,16 +22,16 @@ class RealTimeComplaintUpdate extends StatefulWidget {
 class _RealTimeComplaintUpdateState extends State<RealTimeComplaintUpdate> {
   bool liked = false;
   DatabaseService db = DatabaseService();
-  dynamic status;
   Map<String, dynamic> likes;
   dynamic userid = AuthService().userId();
-
+  String complaintstatus;
   CollectionReference moduleComplaintUserLikes =
       FirebaseFirestore.instance.collection('module_complaint_user_likes');
 
   @override
   void initState() {
     super.initState();
+
     getCurrentUSerLikes();
   }
 
@@ -62,7 +64,8 @@ class _RealTimeComplaintUpdateState extends State<RealTimeComplaintUpdate> {
 
     Query notice = FirebaseFirestore.instance
         .collection('module_complaint')
-        .orderBy('likes', descending: true);
+        .orderBy('likes', descending: true)
+        .where('status', isEqualTo: widget.complaintStatus);
     return likes == null
         ? Loading()
         : StreamBuilder<QuerySnapshot>(
@@ -74,7 +77,7 @@ class _RealTimeComplaintUpdateState extends State<RealTimeComplaintUpdate> {
               }
 
               if (snapshot.connectionState == ConnectionState.waiting) {
-                return Text('Loading');
+                return Loading();
               }
               return ListView(
                 children: snapshot.data.docs.map((DocumentSnapshot document) {
@@ -82,7 +85,7 @@ class _RealTimeComplaintUpdateState extends State<RealTimeComplaintUpdate> {
                   // DateTime dateTime = timestamp.toDate();
 
                   // status = db.getstatusofLikeOnStartup(document.id, user.uid);
-                  print(status);
+
                   return Padding(
                     padding: const EdgeInsets.symmetric(
                         vertical: 8.0, horizontal: 16.0),
@@ -107,6 +110,123 @@ class _RealTimeComplaintUpdateState extends State<RealTimeComplaintUpdate> {
                                       fontSize: 18,
                                       fontWeight: FontWeight.bold,
                                     ),
+                                  ),
+                                ),
+                              ),
+                              TextButton(
+                                onPressed: () {
+                                  showModalBottomSheet(
+                                      backgroundColor: kSpaceCadet,
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.vertical(
+                                            top: Radius.circular(10.0)),
+                                      ),
+                                      context: context,
+                                      builder: (BuildContext context) {
+                                        complaintstatus =
+                                            widget.complaintStatus;
+                                        return StatefulBuilder(
+                                          builder: (BuildContext context,
+                                                  StateSetter setState) =>
+                                              Wrap(
+                                            children: [
+                                              Container(
+                                                child: Column(
+                                                  children: [
+                                                    RadioListTile(
+                                                      title: Text('Open'),
+                                                      value: 'open',
+                                                      groupValue:
+                                                          complaintstatus,
+                                                      onChanged: (value) {
+                                                        setState(() {
+                                                          complaintstatus =
+                                                              value;
+                                                        });
+                                                      },
+                                                    ),
+                                                    RadioListTile(
+                                                      title: Text('On Hold'),
+                                                      value: 'on hold',
+                                                      groupValue:
+                                                          complaintstatus,
+                                                      onChanged: (value) {
+                                                        setState(() {
+                                                          complaintstatus =
+                                                              value;
+                                                        });
+                                                      },
+                                                    ),
+                                                    RadioListTile(
+                                                      title: Text('Closed'),
+                                                      value: 'closed',
+                                                      groupValue:
+                                                          complaintstatus,
+                                                      onChanged: (value) {
+                                                        setState(() {
+                                                          complaintstatus =
+                                                              value;
+                                                        });
+                                                      },
+                                                    ),
+                                                    Padding(
+                                                      padding:
+                                                          const EdgeInsets.all(
+                                                              8.0),
+                                                      child: Row(
+                                                        children: [
+                                                          Expanded(
+                                                            child: TextButton(
+                                                              onPressed: () {
+                                                                Navigator.pop(
+                                                                    context);
+                                                              },
+                                                              child: Text(
+                                                                'Skip',
+                                                                style:
+                                                                    TextStyle(
+                                                                  color:
+                                                                      kAmaranth,
+                                                                ),
+                                                              ),
+                                                            ),
+                                                          ),
+                                                          Expanded(
+                                                            child:
+                                                                ElevatedButton(
+                                                              style:
+                                                                  ElevatedButton
+                                                                      .styleFrom(
+                                                                primary:
+                                                                    kAmaranth,
+                                                              ),
+                                                              onPressed: () {
+                                                                Navigator.pop(
+                                                                    context);
+                                                              },
+                                                              child: Text(
+                                                                  'Update'),
+                                                            ),
+                                                          )
+                                                        ],
+                                                      ),
+                                                    ),
+                                                  ],
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        );
+                                      });
+                                },
+                                child: Text(
+                                  (document.data()['status']).toUpperCase(),
+                                  style: TextStyle(
+                                    color: document.data()['status'] == 'open'
+                                        ? Colors.green
+                                        : document.data()['status'] == 'onHold'
+                                            ? Colors.yellow
+                                            : Colors.red,
                                   ),
                                 ),
                               ),
