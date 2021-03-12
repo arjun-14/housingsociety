@@ -13,6 +13,7 @@ class AddVoting extends StatefulWidget {
 
 class _AddVotingState extends State<AddVoting> {
   String title = '';
+  List timer;
   Map<String, int> participants = {};
   List<DynamicParticipants> dynamicparticipants = [
     DynamicParticipants(),
@@ -139,32 +140,86 @@ class _AddVotingState extends State<AddVoting> {
                     });
                   }),
             ),
-            TextButton(
-              onPressed: () async {
-                DateTime date = await showDatePicker(
-                    context: context,
-                    initialDate: DateTime.now(),
-                    firstDate: DateTime(DateTime.now().year,
-                        DateTime.now().month, DateTime.now().day),
-                    lastDate: DateTime(2100));
-                TimeOfDay time = await showTimePicker(
-                    context: context,
-                    initialTime: TimeOfDay(
-                        hour: DateTime.now().hour,
-                        minute: DateTime.now().minute));
-                DateTime now = DateTime.now();
-                print(now.month - date.month);
+            Row(
+              children: [
+                Expanded(
+                  child: TextButton(
+                    onPressed: () async {
+                      DateTime date = await showDatePicker(
+                        context: context,
+                        initialDate: DateTime.now(),
+                        firstDate: DateTime(DateTime.now().year,
+                            DateTime.now().month, DateTime.now().day),
+                        lastDate: DateTime(2100),
+                      );
 
-                DateTime dateAndTime = DateTime(
-                    now.year - date.year,
-                    now.month - date.month,
-                    now.day - date.day,
-                    now.hour - time.hour,
-                    now.minute - time.minute);
+                      if (date != null) {
+                        TimeOfDay time = await showTimePicker(
+                            context: context,
+                            initialTime: TimeOfDay(
+                                hour: DateTime.now().hour,
+                                minute: DateTime.now().minute));
+                        if (time != null) {
+                          DateTime now = DateTime.now();
 
-                print(dateAndTime);
-              },
-              child: Text('Set Timer'),
+                          DateTime dateAndTime = DateTime(
+                            date.year,
+                            date.month,
+                            date.day,
+                            time.hour,
+                            time.minute,
+                          );
+
+                          print(dateAndTime);
+
+                          Duration difference = dateAndTime.difference(now);
+                          print(difference.toString().split(':'));
+
+                          if (difference.isNegative) {
+                            final snackBar = SnackBar(
+                                backgroundColor: kSpaceCadet,
+                                content: Text(
+                                  'Timer cannot be set for time that has already passed.',
+                                  style: TextStyle(color: Colors.white),
+                                ));
+                            ScaffoldMessenger.of(context)
+                                .showSnackBar(snackBar);
+                          } else {
+                            setState(() {
+                              timer = difference.toString().split(':');
+                            });
+                          }
+                        }
+                      }
+                    },
+                    child: Text(
+                      'Set Timer',
+                      style: TextStyle(
+                        color: kAmaranth,
+                        fontSize: 18,
+                      ),
+                    ),
+                  ),
+                ),
+                Visibility(
+                  visible: timer != null,
+                  child: Expanded(
+                    child: timer != null
+                        ? Center(
+                            child: Text(
+                              timer[0] +
+                                  'h ' +
+                                  timer[1] +
+                                  'm ' +
+                                  (timer[2]).split('.')[0] +
+                                  's ',
+                              style: TextStyle(fontSize: 18),
+                            ),
+                          )
+                        : null,
+                  ),
+                ),
+              ],
             ),
           ],
         ),
