@@ -5,6 +5,7 @@ import 'package:housingsociety/services/database.dart';
 import 'package:housingsociety/shared/constants.dart';
 import 'package:housingsociety/shared/loading.dart';
 import 'package:percent_indicator/percent_indicator.dart';
+import 'package:intl/intl.dart';
 
 class RealTimeVotingUpdate extends StatefulWidget {
   @override
@@ -75,7 +76,6 @@ class _RealTimeVotingUpdateState extends State<RealTimeVotingUpdate> {
               try {
                 result = document.data()['users'][AuthService().userId()];
                 totalVotes = document.data()['users'].length;
-                print(totalVotes);
               } on NoSuchMethodError {
                 totalVotes = 0;
                 result = null;
@@ -149,8 +149,28 @@ class _RealTimeVotingUpdateState extends State<RealTimeVotingUpdate> {
             });
             participants.add(
               totalVotes < 2
-                  ? Text(totalVotes.toString() + ' vote')
-                  : Text(totalVotes.toString() + ' votes'),
+                  ? Row(
+                      children: [
+                        Expanded(child: Text(totalVotes.toString() + ' vote')),
+                        document.data()['timer'] != null
+                            ? Text(
+                                'Ends on ${DateFormat('dd/mm/yy H:m').format((document.data()['timer']).toDate())}')
+                            : SizedBox(
+                                width: 0,
+                              )
+                      ],
+                    )
+                  : Row(
+                      children: [
+                        Expanded(child: Text(totalVotes.toString() + ' votes')),
+                        document.data()['timer'] != null
+                            ? Text(
+                                'Ends on ${DateFormat('dd/mm/yy H:m').format((document.data()['timer']).toDate())}')
+                            : SizedBox(
+                                width: 0,
+                              )
+                      ],
+                    ),
             );
 
             return Padding(

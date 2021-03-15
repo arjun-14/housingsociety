@@ -14,6 +14,7 @@ class AddVoting extends StatefulWidget {
 class _AddVotingState extends State<AddVoting> {
   String title = '';
   List timer;
+  DateTime dateAndTime;
   Map<String, int> participants = {};
   List<DynamicParticipants> dynamicparticipants = [
     DynamicParticipants(),
@@ -63,7 +64,8 @@ class _AddVotingState extends State<AddVoting> {
                           ),
                         );
                       } else {
-                        DatabaseService().addVoting(title, participants);
+                        DatabaseService()
+                            .addVoting(title, participants, dateAndTime);
                         Navigator.pop(context);
                       }
                     },
@@ -162,7 +164,7 @@ class _AddVotingState extends State<AddVoting> {
                         if (time != null) {
                           DateTime now = DateTime.now();
 
-                          DateTime dateAndTime = DateTime(
+                          dateAndTime = DateTime(
                             date.year,
                             date.month,
                             date.day,

@@ -250,10 +250,11 @@ class DatabaseService {
     });
   }
 
-  Future addVoting(String title, Map participants) {
+  Future addVoting(String title, Map participants, DateTime dateAndTime) {
     return moduleVoting.add({
       'title': title,
       'participants': participants,
+      'timer': dateAndTime,
       'timestamp': Timestamp.now(),
     });
   }
