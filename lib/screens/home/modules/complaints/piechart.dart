@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:housingsociety/shared/constants.dart';
 import 'package:pie_chart/pie_chart.dart';
+import 'dart:collection';
 
 class PieChartComplaints extends StatefulWidget {
   final Map<String, double> dataMap;
@@ -12,11 +13,19 @@ class PieChartComplaints extends StatefulWidget {
 
 class _PieChartComplaintsState extends State<PieChartComplaints> {
   dynamic noOfProblems;
+  Map<String, double> sortedMap = {};
   Map<String, double> newDataMap = {};
   @override
   void initState() {
     super.initState();
-    newDataMap = widget.dataMap;
+    //newDataMap = widget.dataMap;
+    print(widget.dataMap);
+    var sortedKeys = widget.dataMap.keys.toList(growable: false)
+      ..sort((k2, k1) => widget.dataMap[k1].compareTo(widget.dataMap[k2]));
+    sortedMap = new LinkedHashMap.fromIterable(sortedKeys,
+        key: (k) => k, value: (k) => widget.dataMap[k]);
+    newDataMap = sortedMap;
+    print(sortedMap);
   }
 
   @override
@@ -76,7 +85,8 @@ class _PieChartComplaintsState extends State<PieChartComplaints> {
                               //     .showSnackBar(snackBar);
                             } else {
                               newDataMap = {};
-                              dynamic keys = widget.dataMap.keys;
+
+                              dynamic keys = sortedMap.keys;
                               print(keys);
 
                               for (var i = 0;
@@ -84,7 +94,7 @@ class _PieChartComplaintsState extends State<PieChartComplaints> {
                                   i++) {
                                 setState(() {
                                   newDataMap[keys.elementAt(i)] =
-                                      widget.dataMap[keys.elementAt(i)];
+                                      sortedMap[keys.elementAt(i)];
                                 });
                               }
                               print(newDataMap);

@@ -44,12 +44,12 @@ class _ChatState extends State<Chat> {
                         message = val;
                       },
                       decoration: InputDecoration(
-                        prefixIcon: IconButton(
-                          onPressed: () {},
-                          icon: Icon(
-                            Icons.emoji_emotions,
-                          ),
-                        ),
+                        // prefixIcon: IconButton(
+                        //   onPressed: () {},
+                        //   icon: Icon(
+                        //     Icons.emoji_emotions,
+                        //   ),
+                        // ),
                         fillColor: kSpaceCadet,
                         filled: true,
                         hintText: 'Type a message...',
@@ -73,6 +73,7 @@ class _ChatState extends State<Chat> {
                                 user.email,
                                 Timestamp.now())
                             : print('null');
+                        _textController.clear();
                       },
                       icon: Icon(Icons.send),
                     ),
