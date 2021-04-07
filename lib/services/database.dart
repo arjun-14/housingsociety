@@ -273,4 +273,14 @@ class DatabaseService {
   Future deleteVote(String docid) {
     return moduleVoting.doc(docid).delete();
   }
+
+  Future setAdmin(String docid, String userType) {
+    return userType == 'admin'
+        ? userProfile.doc(docid).update({
+            'userType': 'admin',
+          })
+        : userProfile.doc(docid).update({
+            'userType': FieldValue.delete(),
+          });
+  }
 }

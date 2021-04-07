@@ -18,6 +18,7 @@ import 'package:housingsociety/screens/home/modules/visitor/visitor.dart';
 import 'package:housingsociety/screens/home/modules/voting/addvoting.dart';
 import 'package:housingsociety/screens/home/modules/voting/voting.dart';
 import 'package:housingsociety/screens/home/modules/chat/chat.dart';
+import 'package:housingsociety/screens/home/admin/residents.dart';
 
 Map<String, Widget Function(BuildContext)> routes = <String, WidgetBuilder>{
   Chat.id: (context) => Chat(),
@@ -39,4 +40,5 @@ Map<String, Widget Function(BuildContext)> routes = <String, WidgetBuilder>{
   QuarantineSummary.id: (context) => QuarantineSummary(),
   Visitor.id: (context) => Visitor(),
   AddVisitor.id: (context) => AddVisitor(),
+  Residents.id: (context) => Residents(),
 };

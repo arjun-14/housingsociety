@@ -7,6 +7,7 @@ import 'package:housingsociety/screens/home/modules/notice/notice.dart';
 import 'package:housingsociety/screens/home/modules/profile/profile.dart';
 import 'package:housingsociety/screens/home/modules/visitor/visitor.dart';
 import 'package:housingsociety/screens/home/modules/voting/voting.dart';
+import 'package:housingsociety/screens/home/admin/residents.dart';
 import 'package:housingsociety/screens/home/reusableCard.dart';
 import 'package:housingsociety/services/auth.dart';
 
@@ -74,6 +75,14 @@ class Home extends StatelessWidget {
               ListTile(
                 leading: Icon(Icons.settings),
                 title: Text('Settings'),
+              ),
+              ListTile(
+                leading: Icon(Icons.account_circle),
+                onTap: () {
+                  Navigator.pop(context);
+                  Navigator.pushNamed(context, Residents.id);
+                },
+                title: Text('Manage Residents'),
               ),
             ],
           ),
