@@ -62,7 +62,15 @@ class ResidentClassification extends StatelessWidget {
                     });
               },
               child: ListTile(
+                leading: CircleAvatar(
+                  backgroundImage: document.data()['profile_picture'] == ''
+                      ? AssetImage('assets/images/default_profile_pic.jpg')
+                      : NetworkImage(document.data()['profile_picture']),
+                ),
                 title: Text(document.data()['name']),
+                subtitle: Text(document.data()['wing'] +
+                    ' - ' +
+                    document.data()['flatno']),
               ),
             );
           }).toList(),

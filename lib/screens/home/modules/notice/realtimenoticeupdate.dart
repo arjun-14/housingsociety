@@ -18,7 +18,7 @@ class _RealTimeNoticeUpdateState extends State<RealTimeNoticeUpdate> {
   FlutterTts flutterTts = FlutterTts();
   TtsState ttsState = TtsState.stopped;
   String currentPlayingDocId;
-
+  String userType;
   Future _speak(String notice, String docid) async {
     print(flutterTts.getLanguages);
     await flutterTts.setLanguage("hi-IN");
@@ -38,6 +38,17 @@ class _RealTimeNoticeUpdateState extends State<RealTimeNoticeUpdate> {
   Future _stop() async {
     var result = await flutterTts.stop();
     if (result == 1) setState(() => ttsState = TtsState.stopped);
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    getuserdata();
+  }
+
+  Future getuserdata() async {
+    dynamic userdata = await DatabaseService().getuserdata();
+    userType = userdata.data()['userType'];
   }
 
   @override
@@ -129,19 +140,7 @@ class _RealTimeNoticeUpdateState extends State<RealTimeNoticeUpdate> {
                                             color: kOxfordBlue,
                                             child: Column(
                                               children: [
-                                                GestureDetector(
-                                                  child: ListTile(
-                                                    leading: Icon(
-                                                      Icons.translate,
-                                                      color: kAmaranth,
-                                                    ),
-                                                    title: Text(
-                                                      'Translate',
-                                                      style: TextStyle(
-                                                        color: kAmaranth,
-                                                      ),
-                                                    ),
-                                                  ),
+                                                ListTile(
                                                   onTap: () {
                                                     Navigator.pop(context);
                                                     showDialog(
@@ -261,49 +260,60 @@ class _RealTimeNoticeUpdateState extends State<RealTimeNoticeUpdate> {
                                                           );
                                                         });
                                                   },
+                                                  leading: Icon(
+                                                    Icons.translate,
+                                                    color: kAmaranth,
+                                                  ),
+                                                  title: Text(
+                                                    'Translate',
+                                                    style: TextStyle(
+                                                      color: kAmaranth,
+                                                    ),
+                                                  ),
                                                 ),
-                                                GestureDetector(
-                                                    child: ListTile(
-                                                      leading: Icon(
-                                                        Icons.volume_up,
-                                                        color: kAmaranth,
-                                                      ),
-                                                      title: Text(
-                                                        'Text-to-speech',
-                                                        style: TextStyle(
-                                                          color: kAmaranth,
-                                                        ),
-                                                      ),
+                                                ListTile(
+                                                  onTap: () {
+                                                    _speak(
+                                                        document.data()[
+                                                                'title'] +
+                                                            '  ' +
+                                                            document.data()[
+                                                                'notice'],
+                                                        document.id);
+                                                    Navigator.pop(context);
+                                                  },
+                                                  leading: Icon(
+                                                    Icons.volume_up,
+                                                    color: kAmaranth,
+                                                  ),
+                                                  title: Text(
+                                                    'Text-to-speech',
+                                                    style: TextStyle(
+                                                      color: kAmaranth,
                                                     ),
-                                                    onTap: () {
-                                                      _speak(
-                                                          document.data()[
-                                                                  'title'] +
-                                                              '  ' +
-                                                              document.data()[
-                                                                  'notice'],
-                                                          document.id);
-                                                      Navigator.pop(context);
-                                                    }),
-                                                GestureDetector(
-                                                    child: ListTile(
-                                                      leading: Icon(
-                                                        Icons.delete,
-                                                        color: kAmaranth,
-                                                      ),
-                                                      title: Text(
-                                                        'Delete Notice',
-                                                        style: TextStyle(
-                                                          color: kAmaranth,
-                                                        ),
-                                                      ),
-                                                    ),
+                                                  ),
+                                                ),
+                                                Visibility(
+                                                  visible: userType == 'admin',
+                                                  child: ListTile(
                                                     onTap: () {
                                                       DatabaseService()
                                                           .deleteNotice(
                                                               document.id);
                                                       Navigator.pop(context);
-                                                    }),
+                                                    },
+                                                    leading: Icon(
+                                                      Icons.delete,
+                                                      color: kAmaranth,
+                                                    ),
+                                                    title: Text(
+                                                      'Delete Notice',
+                                                      style: TextStyle(
+                                                        color: kAmaranth,
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ),
                                               ],
                                             ),
                                           ),

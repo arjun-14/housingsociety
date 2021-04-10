@@ -5,6 +5,7 @@ import 'package:housingsociety/screens/home/modules/contacts/emergencycontacts.d
 import 'package:housingsociety/shared/constants.dart';
 import 'package:housingsociety/shared/loading.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:housingsociety/services/database.dart';
 
 class Contacts extends StatefulWidget {
   static const String id = 'contacts';
@@ -15,11 +16,25 @@ class Contacts extends StatefulWidget {
 
 class _ContactsState extends State<Contacts> {
   int _selectedIndex = 0;
+  String userType;
 
   void _onItemTapped(int index) {
     setState(() {
       _selectedIndex = index;
     });
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    getuserdata();
+  }
+
+  Future getuserdata() async {
+    dynamic userdata = await DatabaseService().getuserdata();
+    userType = userdata.data()['userType'];
+    print(userType);
   }
 
   @override
@@ -34,14 +49,17 @@ class _ContactsState extends State<Contacts> {
         actions: [
           Visibility(
             visible: _selectedIndex == 0 ? false : true,
-            child: IconButton(
-              icon: Icon(Icons.add),
-              onPressed: () {
-                Navigator.pushNamed(
-                  context,
-                  AddEmergencyContact.id,
-                );
-              },
+            child: Visibility(
+              visible: userType == 'admin',
+              child: IconButton(
+                icon: Icon(Icons.add),
+                onPressed: () {
+                  Navigator.pushNamed(
+                    context,
+                    AddEmergencyContact.id,
+                  );
+                },
+              ),
             ),
           ),
         ],
@@ -69,7 +87,7 @@ class _ContactsState extends State<Contacts> {
                             leading: CircleAvatar(
                               backgroundImage: document
                                           .data()['profile_picture'] ==
-                                      ' '
+                                      ''
                                   ? AssetImage(
                                       'assets/images/default_profile_pic.jpg')
                                   : NetworkImage(

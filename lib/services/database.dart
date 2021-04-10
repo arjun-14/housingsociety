@@ -283,4 +283,10 @@ class DatabaseService {
             'userType': FieldValue.delete(),
           });
   }
+
+  Future getuserdata() async {
+    String currentuserid = AuthService().userId();
+    dynamic userdata = await userProfile.doc(currentuserid).get();
+    return userdata;
+  }
 }

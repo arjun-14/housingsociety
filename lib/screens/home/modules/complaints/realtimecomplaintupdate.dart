@@ -25,14 +25,20 @@ class _RealTimeComplaintUpdateState extends State<RealTimeComplaintUpdate> {
   Map<String, dynamic> likes;
   dynamic userid = AuthService().userId();
   String complaintstatus;
+  String userType;
   CollectionReference moduleComplaintUserLikes =
       FirebaseFirestore.instance.collection('module_complaint_user_likes');
 
   @override
   void initState() {
     super.initState();
-
     getCurrentUSerLikes();
+    getuserdata();
+  }
+
+  Future getuserdata() async {
+    dynamic userdata = await DatabaseService().getuserdata();
+    userType = userdata.data()['userType'];
   }
 
   void getCurrentUSerLikes() async {
@@ -113,136 +119,164 @@ class _RealTimeComplaintUpdateState extends State<RealTimeComplaintUpdate> {
                                   ),
                                 ),
                               ),
-                              TextButton(
-                                onPressed: () {
-                                  showModalBottomSheet(
-                                      backgroundColor: kSpaceCadet,
-                                      shape: RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.vertical(
-                                            top: Radius.circular(10.0)),
-                                      ),
-                                      context: context,
-                                      builder: (BuildContext context) {
-                                        complaintstatus =
-                                            widget.complaintStatus;
-                                        return StatefulBuilder(
-                                          builder: (BuildContext context,
-                                                  StateSetter setState) =>
-                                              Wrap(
-                                            children: [
-                                              Container(
-                                                child: Column(
+                              userType == 'admin'
+                                  ? TextButton(
+                                      onPressed: () {
+                                        showModalBottomSheet(
+                                            backgroundColor: kSpaceCadet,
+                                            shape: RoundedRectangleBorder(
+                                              borderRadius:
+                                                  BorderRadius.vertical(
+                                                      top: Radius.circular(
+                                                          10.0)),
+                                            ),
+                                            context: context,
+                                            builder: (BuildContext context) {
+                                              complaintstatus =
+                                                  widget.complaintStatus;
+                                              return StatefulBuilder(
+                                                builder: (BuildContext context,
+                                                        StateSetter setState) =>
+                                                    Wrap(
                                                   children: [
-                                                    RadioListTile(
-                                                      title: Text('Open'),
-                                                      value: 'open',
-                                                      groupValue:
-                                                          complaintstatus,
-                                                      onChanged: (value) {
-                                                        setState(() {
-                                                          complaintstatus =
-                                                              value;
-                                                        });
-                                                      },
-                                                    ),
-                                                    RadioListTile(
-                                                      title: Text('On Hold'),
-                                                      value: 'on hold',
-                                                      groupValue:
-                                                          complaintstatus,
-                                                      onChanged: (value) {
-                                                        setState(() {
-                                                          complaintstatus =
-                                                              value;
-                                                        });
-                                                      },
-                                                    ),
-                                                    RadioListTile(
-                                                      title: Text('Closed'),
-                                                      value: 'closed',
-                                                      groupValue:
-                                                          complaintstatus,
-                                                      onChanged: (value) {
-                                                        setState(() {
-                                                          complaintstatus =
-                                                              value;
-                                                        });
-                                                      },
-                                                    ),
-                                                    Padding(
-                                                      padding:
-                                                          const EdgeInsets.all(
-                                                              8.0),
-                                                      child: Row(
+                                                    Container(
+                                                      child: Column(
                                                         children: [
-                                                          Expanded(
-                                                            child: TextButton(
-                                                              onPressed: () {
-                                                                Navigator.pop(
-                                                                    context);
-                                                              },
-                                                              child: Text(
-                                                                'Skip',
-                                                                style:
-                                                                    TextStyle(
-                                                                  color:
-                                                                      kAmaranth,
+                                                          RadioListTile(
+                                                            title: Text('Open'),
+                                                            value: 'open',
+                                                            groupValue:
+                                                                complaintstatus,
+                                                            onChanged: (value) {
+                                                              setState(() {
+                                                                complaintstatus =
+                                                                    value;
+                                                              });
+                                                            },
+                                                          ),
+                                                          RadioListTile(
+                                                            title:
+                                                                Text('On Hold'),
+                                                            value: 'on hold',
+                                                            groupValue:
+                                                                complaintstatus,
+                                                            onChanged: (value) {
+                                                              setState(() {
+                                                                complaintstatus =
+                                                                    value;
+                                                              });
+                                                            },
+                                                          ),
+                                                          RadioListTile(
+                                                            title:
+                                                                Text('Closed'),
+                                                            value: 'closed',
+                                                            groupValue:
+                                                                complaintstatus,
+                                                            onChanged: (value) {
+                                                              setState(() {
+                                                                complaintstatus =
+                                                                    value;
+                                                              });
+                                                            },
+                                                          ),
+                                                          Padding(
+                                                            padding:
+                                                                const EdgeInsets
+                                                                    .all(8.0),
+                                                            child: Row(
+                                                              children: [
+                                                                Expanded(
+                                                                  child:
+                                                                      TextButton(
+                                                                    onPressed:
+                                                                        () {
+                                                                      Navigator.pop(
+                                                                          context);
+                                                                    },
+                                                                    child: Text(
+                                                                      'Skip',
+                                                                      style:
+                                                                          TextStyle(
+                                                                        color:
+                                                                            kAmaranth,
+                                                                      ),
+                                                                    ),
+                                                                  ),
                                                                 ),
-                                                              ),
+                                                                Expanded(
+                                                                  child:
+                                                                      ElevatedButton(
+                                                                    style: ElevatedButton
+                                                                        .styleFrom(
+                                                                      primary:
+                                                                          kAmaranth,
+                                                                    ),
+                                                                    onPressed:
+                                                                        () {
+                                                                      DatabaseService().updateComplaintStatus(
+                                                                          document
+                                                                              .id,
+                                                                          complaintstatus);
+                                                                      Navigator.pop(
+                                                                          context);
+                                                                    },
+                                                                    child: Text(
+                                                                        'Update'),
+                                                                  ),
+                                                                )
+                                                              ],
                                                             ),
                                                           ),
-                                                          Expanded(
-                                                            child:
-                                                                ElevatedButton(
-                                                              style:
-                                                                  ElevatedButton
-                                                                      .styleFrom(
-                                                                primary:
-                                                                    kAmaranth,
-                                                              ),
-                                                              onPressed: () {
-                                                                DatabaseService()
-                                                                    .updateComplaintStatus(
-                                                                        document
-                                                                            .id,
-                                                                        complaintstatus);
-                                                                Navigator.pop(
-                                                                    context);
-                                                              },
-                                                              child: Text(
-                                                                  'Update'),
-                                                            ),
-                                                          )
                                                         ],
                                                       ),
                                                     ),
                                                   ],
                                                 ),
-                                              ),
-                                            ],
-                                          ),
-                                        );
-                                      });
-                                },
-                                child: Text(
-                                  (document.data()['status']).toUpperCase(),
-                                  style: TextStyle(
-                                    color: document.data()['status'] == 'open'
-                                        ? Colors.green
-                                        : document.data()['status'] == 'on hold'
-                                            ? Colors.yellow
-                                            : Colors.red,
+                                              );
+                                            });
+                                      },
+                                      child: Text(
+                                        (document.data()['status'])
+                                            .toUpperCase(),
+                                        style: TextStyle(
+                                          color: document.data()['status'] ==
+                                                  'open'
+                                              ? Colors.green
+                                              : document.data()['status'] ==
+                                                      'on hold'
+                                                  ? Colors.yellow
+                                                  : Colors.red,
+                                        ),
+                                      ),
+                                    )
+                                  : Padding(
+                                      padding: const EdgeInsets.all(16.0),
+                                      child: Text(
+                                        (document.data()['status'])
+                                            .toUpperCase(),
+                                        style: TextStyle(
+                                          color: document.data()['status'] ==
+                                                  'open'
+                                              ? Colors.green
+                                              : document.data()['status'] ==
+                                                      'on hold'
+                                                  ? Colors.yellow
+                                                  : Colors.red,
+                                        ),
+                                      ),
+                                    ),
+                              Visibility(
+                                visible: userType == 'admin',
+                                child: IconButton(
+                                  iconSize: 20,
+                                  icon: Icon(
+                                    Icons.delete,
                                   ),
+                                  onPressed: () {
+                                    db.deleteComplaint(document.id);
+                                  },
                                 ),
-                              ),
-                              IconButton(
-                                iconSize: 20,
-                                icon: Icon(
-                                  Icons.delete,
-                                ),
-                                onPressed: () {
-                                  db.deleteComplaint(document.id);
-                                },
                               )
                             ],
                           ),

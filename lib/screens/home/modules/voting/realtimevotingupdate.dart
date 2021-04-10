@@ -15,6 +15,20 @@ class RealTimeVotingUpdate extends StatefulWidget {
 class _RealTimeVotingUpdateState extends State<RealTimeVotingUpdate> {
   dynamic result;
   int totalVotes = 0;
+  String userType;
+
+  @override
+  void initState() {
+    super.initState();
+    getuserdata();
+  }
+
+  Future getuserdata() async {
+    dynamic userdata = await DatabaseService().getuserdata();
+    userType = userdata.data()['userType'];
+    print(userType);
+  }
+
   @override
   Widget build(BuildContext context) {
     Query moduleVoting = FirebaseFirestore.instance
@@ -53,15 +67,18 @@ class _RealTimeVotingUpdateState extends State<RealTimeVotingUpdate> {
                       ]),
                     ),
                   ),
-                  GestureDetector(
-                    onTap: () {
-                      DatabaseService().deleteVote(document.id);
-                    },
-                    child: Tooltip(
-                      message: 'Delete',
-                      child: Icon(
-                        Icons.delete,
-                        size: 20,
+                  Visibility(
+                    visible: userType == 'admin',
+                    child: GestureDetector(
+                      onTap: () {
+                        DatabaseService().deleteVote(document.id);
+                      },
+                      child: Tooltip(
+                        message: 'Delete',
+                        child: Icon(
+                          Icons.delete,
+                          size: 20,
+                        ),
                       ),
                     ),
                   ),
