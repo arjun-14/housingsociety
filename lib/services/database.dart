@@ -21,6 +21,8 @@ class DatabaseService {
       FirebaseFirestore.instance.collection('module_visitor');
   CollectionReference moduleVoting =
       FirebaseFirestore.instance.collection('module_voting');
+  CollectionReference moduleSocial =
+      FirebaseFirestore.instance.collection('module_social');
 
   Future<void> addMessage(message, sender, email, Timestamp timestamp) {
     return moduleChat.add(
@@ -34,6 +36,12 @@ class DatabaseService {
   }
 
   Future<void> setProfileonRegistration(uid, name, wing, flatno) {
+    moduleSocial.doc(uid).set({
+      'profile_picture': '',
+      'posts': 0,
+      'friends': 0,
+    });
+
     return userProfile.doc(uid).set(
       {
         'name': name,
@@ -53,6 +61,9 @@ class DatabaseService {
   }
 
   Future<void> updateProfilePicture(uid, profilePicture) {
+    moduleSocial.doc(uid).update({
+      'profile_picture': profilePicture,
+    });
     userProfile.doc(uid).update({
       'profile_picture': profilePicture,
     });
