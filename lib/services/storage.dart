@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
 import 'package:firebase_core/firebase_core.dart' as firebase_core;
 
@@ -30,6 +31,19 @@ class StorageService {
       String downloadURL =
           await storage.ref('emergency_contact/$docid').getDownloadURL();
       db.updateEmergencyContact(downloadURL, docid);
+    } on firebase_core.FirebaseException catch (e) {
+      print(e);
+    }
+  }
+
+  Future<void> uploadPhoto(String filepath, uid) async {
+    File file = File(filepath);
+    Timestamp timestamp = Timestamp.now();
+    try {
+      await storage.ref('social/$uid/$timestamp').putFile(file);
+      String downloadURL =
+          await storage.ref('social/$uid/$timestamp').getDownloadURL();
+      db.uploadPhotodetails(uid, timestamp, downloadURL);
     } on firebase_core.FirebaseException catch (e) {
       print(e);
     }

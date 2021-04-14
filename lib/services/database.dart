@@ -300,4 +300,11 @@ class DatabaseService {
     dynamic userdata = await userProfile.doc(currentuserid).get();
     return userdata;
   }
+
+  Future uploadPhotodetails(uid, timestamp, String url) async {
+    return moduleSocial
+        .doc(uid)
+        .collection('photos')
+        .add({'timestamp': timestamp, 'url': url});
+  }
 }

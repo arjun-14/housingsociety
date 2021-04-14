@@ -67,7 +67,7 @@ class _ProfileState extends State<Profile> {
                       child: CircleAvatar(
                         radius: 65.0,
                         //backgroundColor: Colors.white,
-                        backgroundImage: user.profilePicture == null
+                        backgroundImage: snapshot.data['profile_picture'] == ''
                             ? AssetImage(
                                 'assets/images/default_profile_pic.jpg')
                             : NetworkImage(snapshot.data['profile_picture']),
@@ -80,43 +80,43 @@ class _ProfileState extends State<Profile> {
                               backgroundColor: kAmaranth,
                               onPressed: () {
                                 showModalBottomSheet(
-                                    backgroundColor: Colors.transparent,
-                                    context: context,
-                                    builder: (context) {
-                                      return Container(
-                                        height: 130,
-                                        decoration: BoxDecoration(
-                                          color: kSpaceCadet,
-                                          borderRadius: BorderRadius.vertical(
-                                            top: Radius.circular(15),
+                                  backgroundColor: Colors.transparent,
+                                  context: context,
+                                  builder: (context) {
+                                    return Container(
+                                      height: 130,
+                                      decoration: BoxDecoration(
+                                        color: kSpaceCadet,
+                                        borderRadius: BorderRadius.vertical(
+                                          top: Radius.circular(15),
+                                        ),
+                                      ),
+                                      child: ListView(
+                                        children: [
+                                          ListTile(
+                                            leading: Icon(Icons.camera_alt),
+                                            title: Text('Choose from Camera'),
+                                            onTap: () {
+                                              getImage(
+                                                  ImageSource.camera, user.uid);
+                                              Navigator.pop(context);
+                                            },
                                           ),
-                                        ),
-                                        child: ListView(
-                                          children: [
-                                            ListTile(
-                                              leading: Icon(Icons.camera_alt),
-                                              title: Text('Choose from Camera'),
-                                              onTap: () {
-                                                getImage(ImageSource.camera,
-                                                    user.uid);
-                                                Navigator.pop(context);
-                                              },
-                                            ),
-                                            Divider(),
-                                            ListTile(
-                                              leading: Icon(Icons.collections),
-                                              title:
-                                                  Text('Choose from gallery'),
-                                              onTap: () {
-                                                getImage(ImageSource.gallery,
-                                                    user.uid);
-                                                Navigator.pop(context);
-                                              },
-                                            )
-                                          ],
-                                        ),
-                                      );
-                                    });
+                                          Divider(),
+                                          ListTile(
+                                            leading: Icon(Icons.collections),
+                                            title: Text('Choose from gallery'),
+                                            onTap: () {
+                                              getImage(ImageSource.gallery,
+                                                  user.uid);
+                                              Navigator.pop(context);
+                                            },
+                                          )
+                                        ],
+                                      ),
+                                    );
+                                  },
+                                );
                               },
                               child: Icon(
                                 Icons.add_a_photo,
