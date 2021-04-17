@@ -1,9 +1,12 @@
 import 'dart:io';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:housingsociety/models/user.dart';
 import 'package:housingsociety/screens/home/modules/social/profilepage.dart';
+import 'package:housingsociety/screens/home/modules/social/setusername.dart';
 import 'package:housingsociety/services/storage.dart';
 import 'package:housingsociety/shared/constants.dart';
+import 'package:housingsociety/shared/loading.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 
@@ -56,7 +59,8 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     final user = Provider.of<CurrentUser>(context);
-
+    DocumentReference moduleSocial =
+        FirebaseFirestore.instance.collection('module_social').doc(user.uid);
     void addPhoto() {
       showModalBottomSheet(
         backgroundColor: Colors.transparent,
@@ -96,53 +100,68 @@ class _HomePageState extends State<HomePage> {
       );
     }
 
-    return Scaffold(
-      appBar: AppBar(
-        title: _appbartitleoptions.elementAt(_selectedIndex),
-        actions: [
-          Visibility(
-            visible: _selectedIndex == 3,
-            child: IconButton(
-              icon: Icon(Icons.add_box),
-              color: kAmaranth,
-              onPressed: () {
-                addPhoto();
-              },
+    return StreamBuilder<DocumentSnapshot>(
+        stream: moduleSocial.snapshots(),
+        builder:
+            (BuildContext context, AsyncSnapshot<DocumentSnapshot> snapshot) {
+          if (snapshot.hasError) {
+            return Text('Something went wrong');
+          }
+
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return Loading();
+          }
+          if (snapshot.data['username'] == '') {
+            return SetUserName();
+          }
+          return Scaffold(
+            appBar: AppBar(
+              title: _appbartitleoptions.elementAt(_selectedIndex),
+              actions: [
+                Visibility(
+                  visible: _selectedIndex == 3,
+                  child: IconButton(
+                    icon: Icon(Icons.add_box),
+                    color: kAmaranth,
+                    onPressed: () {
+                      addPhoto();
+                    },
+                  ),
+                ),
+              ],
             ),
-          ),
-        ],
-      ),
-      body: _widgetoptions.elementAt(_selectedIndex),
-      bottomNavigationBar: BottomNavigationBar(
-        items: [
-          BottomNavigationBarItem(
-            icon: Icon(Icons.home),
-            label: 'Home',
-            backgroundColor: kOxfordBlue,
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.search),
-            label: 'Search',
-            backgroundColor: kOxfordBlue,
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.favorite),
-            label: 'Like',
-            backgroundColor: kOxfordBlue,
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.account_circle),
-            label: 'Profile',
-            backgroundColor: kOxfordBlue,
-          ),
-        ],
-        currentIndex: _selectedIndex,
-        showSelectedLabels: false,
-        showUnselectedLabels: false,
-        type: BottomNavigationBarType.shifting,
-        onTap: _onItemTapped,
-        selectedItemColor: kAmaranth,
-      ),
-    );
+            body: _widgetoptions.elementAt(_selectedIndex),
+            bottomNavigationBar: BottomNavigationBar(
+              items: [
+                BottomNavigationBarItem(
+                  icon: Icon(Icons.home),
+                  label: 'Home',
+                  backgroundColor: kOxfordBlue,
+                ),
+                BottomNavigationBarItem(
+                  icon: Icon(Icons.search),
+                  label: 'Search',
+                  backgroundColor: kOxfordBlue,
+                ),
+                BottomNavigationBarItem(
+                  icon: Icon(Icons.favorite),
+                  label: 'Like',
+                  backgroundColor: kOxfordBlue,
+                ),
+                BottomNavigationBarItem(
+                  icon: Icon(Icons.account_circle),
+                  label: 'Profile',
+                  backgroundColor: kOxfordBlue,
+                ),
+              ],
+              currentIndex: _selectedIndex,
+              showSelectedLabels: false,
+              showUnselectedLabels: false,
+              type: BottomNavigationBarType.shifting,
+              onTap: _onItemTapped,
+              selectedItemColor: kAmaranth,
+            ),
+          );
+        });
   }
 }

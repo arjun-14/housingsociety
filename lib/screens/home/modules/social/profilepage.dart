@@ -13,7 +13,6 @@ class _ProfilePageState extends State<ProfilePage> {
   @override
   Widget build(BuildContext context) {
     final user = Provider.of<CurrentUser>(context);
-    int noOfPosts = 0;
     DocumentReference moduleSocial =
         FirebaseFirestore.instance.collection('module_social').doc(user.uid);
     Query moduleSocialphotos = FirebaseFirestore.instance
@@ -32,6 +31,7 @@ class _ProfilePageState extends State<ProfilePage> {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return Loading();
         }
+
         return ListView(
           children: [
             Column(
