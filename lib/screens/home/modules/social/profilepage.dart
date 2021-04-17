@@ -1,15 +1,19 @@
 import 'package:flutter/material.dart';
-import 'dart:io';
-import 'package:image_picker/image_picker.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:housingsociety/shared/loading.dart';
 import 'package:provider/provider.dart';
 import 'package:housingsociety/models/user.dart';
 
-class ProfilePage extends StatelessWidget {
+class ProfilePage extends StatefulWidget {
+  @override
+  _ProfilePageState createState() => _ProfilePageState();
+}
+
+class _ProfilePageState extends State<ProfilePage> {
   @override
   Widget build(BuildContext context) {
     final user = Provider.of<CurrentUser>(context);
+    int noOfPosts = 0;
     DocumentReference moduleSocial =
         FirebaseFirestore.instance.collection('module_social').doc(user.uid);
     Query moduleSocialphotos = FirebaseFirestore.instance
@@ -46,7 +50,7 @@ class ProfilePage extends StatelessWidget {
                     Expanded(
                       child: Center(
                         child: Text(
-                          snapshot.data['posts'],
+                          snapshot.data['posts'].toString(),
                           style: TextStyle(fontSize: 18),
                         ),
                       ),
@@ -98,33 +102,33 @@ class ProfilePage extends StatelessWidget {
                     if (snapshot.connectionState == ConnectionState.waiting) {
                       return Loading();
                     }
-
+                    // setState(() {
+                    //   noOfPosts = snapshot.data.docs.length;
+                    // });
                     return GridView.count(
                       shrinkWrap: true,
                       physics: NeverScrollableScrollPhysics(),
                       crossAxisCount: 3,
-                      mainAxisSpacing: 20,
-                      crossAxisSpacing: 0,
+                      mainAxisSpacing: 5,
+                      crossAxisSpacing: 5,
                       children:
                           snapshot.data.docs.map((DocumentSnapshot document) {
-                        return Image.network(
-                          document.data()['url'],
-                          loadingBuilder: (context, child, progress) {
-                            return progress == null
-                                ? child
-                                : LinearProgressIndicator();
+                        return GestureDetector(
+                          onTap: () {
+                            print(document.data()['url']);
                           },
+                          child: Image.network(
+                            document.data()['url'],
+                            semanticLabel: 'User uploads',
+                            loadingBuilder: (context, child, progress) {
+                              return progress == null ? child : Loading();
+                            },
+                          ),
                         );
                       }).toList(),
                     );
                   },
                 ),
-                // Expanded(
-                //   child: GridView.count(
-                //     crossAxisCount: 3,
-                //     children: snapshot.data['photos'],
-                //   ),
-                // )
               ],
             ),
           ],

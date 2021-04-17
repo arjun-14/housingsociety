@@ -302,9 +302,17 @@ class DatabaseService {
   }
 
   Future uploadPhotodetails(uid, timestamp, String url) async {
-    return moduleSocial
+    moduleSocial
         .doc(uid)
         .collection('photos')
         .add({'timestamp': timestamp, 'url': url});
+
+    QuerySnapshot querysnapshot =
+        await moduleSocial.doc(uid).collection('photos').get();
+    int noOfPhotos = querysnapshot.docs.length;
+
+    moduleSocial.doc(uid).update({
+      'posts': noOfPhotos,
+    });
   }
 }
