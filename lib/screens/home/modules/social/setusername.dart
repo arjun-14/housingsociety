@@ -63,19 +63,3 @@ class SetUserName extends StatelessWidget {
     );
   }
 }
-
-// Padding(
-//               padding: const EdgeInsets.symmetric(horizontal: 20.0),
-//               child: SizedBox(
-//                 width: 100,
-//                 child: ElevatedButton(
-//                   onPressed: () {
-//                       DatabaseService().setUserNameSocial(username, uid);
-//                   },
-//                   child: Text('Continue'),
-//                   style: ElevatedButton.styleFrom(
-//                     primary: kAmaranth,
-//                   ),
-//                 ),
-//               ),
-//             ),

@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:housingsociety/models/user.dart';
 import 'package:housingsociety/screens/home/modules/social/profilepage.dart';
 import 'package:housingsociety/screens/home/modules/social/setusername.dart';
+import 'package:housingsociety/services/auth.dart';
 import 'package:housingsociety/services/storage.dart';
 import 'package:housingsociety/shared/constants.dart';
 import 'package:housingsociety/shared/loading.dart';
@@ -22,6 +23,11 @@ class _HomePageState extends State<HomePage> {
   File photo;
   final picker = ImagePicker();
   StorageService storage = StorageService();
+  String username = '';
+  DocumentReference moduleSocial = FirebaseFirestore.instance
+      .collection('module_social')
+      .doc(AuthService().userId());
+
   Future getImage(source, uid) async {
     final pickedFile = await picker.getImage(source: source);
     String photoPath;
@@ -31,7 +37,6 @@ class _HomePageState extends State<HomePage> {
         photo = File(pickedFile.path);
         photoPath = pickedFile.path;
         storage.uploadPhoto(photoPath, uid);
-        //storage.uploadProfilePicture(profileImagePath, uid);
       }
     });
   }
@@ -42,13 +47,6 @@ class _HomePageState extends State<HomePage> {
     });
   }
 
-  List<Widget> _appbartitleoptions = [
-    Text('Home'),
-    Text('Search'),
-    Text('Activity'),
-    Text('Profile')
-  ];
-
   List<Widget> _widgetoptions = [
     Text('a'),
     Text('b'),
@@ -57,10 +55,27 @@ class _HomePageState extends State<HomePage> {
   ];
 
   @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    moduleSocial.get().then((document) {
+      setState(() {
+        username = document.data()['username'];
+      });
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
     final user = Provider.of<CurrentUser>(context);
-    DocumentReference moduleSocial =
-        FirebaseFirestore.instance.collection('module_social').doc(user.uid);
+
+    List<Widget> _appbartitleoptions = [
+      Text('Home'),
+      Text('Search'),
+      Text('Activity'),
+      Text(username),
+    ];
+
     void addPhoto() {
       showModalBottomSheet(
         backgroundColor: Colors.transparent,
@@ -149,7 +164,12 @@ class _HomePageState extends State<HomePage> {
                   backgroundColor: kOxfordBlue,
                 ),
                 BottomNavigationBarItem(
-                  icon: Icon(Icons.account_circle),
+                  icon: CircleAvatar(
+                    backgroundImage: user.profilePicture == null
+                        ? AssetImage('assets/images/default_profile_pic.jpg')
+                        : NetworkImage(user.profilePicture),
+                    radius: 12,
+                  ),
                   label: 'Profile',
                   backgroundColor: kOxfordBlue,
                 ),
