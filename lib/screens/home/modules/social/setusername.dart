@@ -45,6 +45,10 @@ class SetUserName extends StatelessWidget {
         onPressed: () async {
           if (username.trim() == '') {
             showSnackbar('Username cannot be empty');
+          } else if (username.contains(' ')) {
+            showSnackbar('Username should not contain spaces');
+          } else if (username.toLowerCase() != username) {
+            showSnackbar('Username should not contain uppercase characters');
           } else {
             DocumentReference documentReference =
                 moduleSocialUserNames.doc(username);
