@@ -44,6 +44,7 @@ class DatabaseService {
       'friends': 0,
       'username': '',
       'searchKey': '',
+      'uid': uid,
     });
 
     return userProfile.doc(uid).set(

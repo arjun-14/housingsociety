@@ -5,6 +5,8 @@ import 'package:provider/provider.dart';
 import 'package:housingsociety/models/user.dart';
 
 class ProfilePage extends StatefulWidget {
+  final String uid;
+  ProfilePage({this.uid});
   @override
   _ProfilePageState createState() => _ProfilePageState();
 }
@@ -13,13 +15,18 @@ class _ProfilePageState extends State<ProfilePage> {
   @override
   Widget build(BuildContext context) {
     final user = Provider.of<CurrentUser>(context);
+    String uid;
+    widget.uid == null ? uid = user.uid : uid = widget.uid;
+    print(uid);
+
     DocumentReference moduleSocial =
-        FirebaseFirestore.instance.collection('module_social').doc(user.uid);
+        FirebaseFirestore.instance.collection('module_social').doc(uid);
     Query moduleSocialphotos = FirebaseFirestore.instance
         .collection('module_social')
-        .doc(user.uid)
+        .doc(uid)
         .collection('photos')
         .orderBy('timestamp', descending: true);
+
     return StreamBuilder<DocumentSnapshot>(
       stream: moduleSocial.snapshots(),
       builder:
@@ -39,7 +46,7 @@ class _ProfilePageState extends State<ProfilePage> {
                 Padding(
                   padding: const EdgeInsets.all(10.0),
                   child: CircleAvatar(
-                    backgroundImage: user.profilePicture == null
+                    backgroundImage: snapshot.data['profile_picture'] == ''
                         ? AssetImage('assets/images/default_profile_pic.jpg')
                         : NetworkImage(snapshot.data['profile_picture']),
                     radius: 65,

@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:housingsociety/screens/home/modules/social/loggedinuserprofilepage.dart';
+import 'package:housingsociety/screens/home/modules/social/defaultprofilepage.dart';
+import 'package:housingsociety/screens/home/modules/social/userprofilepage.dart';
 
 class SearchPage extends StatefulWidget {
   @override
@@ -85,7 +86,10 @@ class _SearchPageState extends State<SearchPage> {
                 onTap: () {
                   Navigator.push(context,
                       MaterialPageRoute(builder: (BuildContext context) {
-                    return ProfilePage();
+                    return UserProfilePage(
+                      uid: element['uid'],
+                      username: element['username'],
+                    );
                   }));
                 },
                 leading: CircleAvatar(
