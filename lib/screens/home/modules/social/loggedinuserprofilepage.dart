@@ -58,7 +58,7 @@ class _ProfilePageState extends State<ProfilePage> {
                     Expanded(
                       child: Center(
                         child: Text(
-                          snapshot.data['friends'],
+                          snapshot.data['friends'].toString(),
                           style: TextStyle(fontSize: 18),
                         ),
                       ),

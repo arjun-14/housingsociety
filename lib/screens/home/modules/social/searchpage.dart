@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:housingsociety/screens/home/modules/social/loggedinuserprofilepage.dart';
 
 class SearchPage extends StatefulWidget {
   @override
@@ -25,15 +26,21 @@ class _SearchPageState extends State<SearchPage> {
       searchByUserName(value).then((QuerySnapshot querySnapshot) {
         for (int i = 0; i < querySnapshot.docs.length; i++) {
           queryResultSet.add(querySnapshot.docs[i].data());
+          tempSearchStore.add(querySnapshot.docs[i].data());
         }
+        setState(() {});
         // print(queryResultSet);
-        setState(() {
-          tempSearchStore.add(queryResultSet[0]);
-        });
-        print(tempSearchStore);
+        // setState(() {
+        //   tempSearchStore.add(queryResultSet);
+        // });
+        //print(tempSearchStore);
       });
     } else {
-      tempSearchStore = [];
+      print(queryResultSet);
+      setState(() {
+        tempSearchStore = [];
+      });
+
       queryResultSet.forEach((element) {
         if (element['username'].startsWith(lowercaseValue)) {
           setState(() {
@@ -41,6 +48,7 @@ class _SearchPageState extends State<SearchPage> {
           });
         }
       });
+      // print(tempSearchStore);
     }
   }
 
@@ -74,7 +82,12 @@ class _SearchPageState extends State<SearchPage> {
               child: ListView(
             children: tempSearchStore.map((element) {
               return ListTile(
-                onTap: () {},
+                onTap: () {
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (BuildContext context) {
+                    return ProfilePage();
+                  }));
+                },
                 leading: CircleAvatar(
                   backgroundImage: element['profile_picture'] == ''
                       ? AssetImage('assets/images/default_profile_pic.jpg')

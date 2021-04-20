@@ -2,7 +2,7 @@ import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:housingsociety/models/user.dart';
-import 'package:housingsociety/screens/home/modules/social/profilepage.dart';
+import 'package:housingsociety/screens/home/modules/social/loggedinuserprofilepage.dart';
 import 'package:housingsociety/screens/home/modules/social/searchpage.dart';
 import 'package:housingsociety/screens/home/modules/social/setusername.dart';
 import 'package:housingsociety/services/auth.dart';

@@ -42,6 +42,8 @@ class DatabaseService {
       'profile_picture': '',
       'posts': 0,
       'friends': 0,
+      'username': '',
+      'searchKey': '',
     });
 
     return userProfile.doc(uid).set(
@@ -327,6 +329,7 @@ class DatabaseService {
 
     return moduleSocial.doc(uid).update({
       'username': username,
+      'searchKey': username[0],
     });
   }
 }
