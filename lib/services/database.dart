@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:housingsociety/services/auth.dart';
 import 'package:housingsociety/services/storage.dart';
@@ -41,7 +43,8 @@ class DatabaseService {
     moduleSocial.doc(uid).set({
       'profile_picture': '',
       'posts': 0,
-      'friends': 0,
+      'followers': 0,
+      'following': 0,
       'username': '',
       'searchKey': '',
       'uid': uid,
@@ -331,6 +334,43 @@ class DatabaseService {
     return moduleSocial.doc(uid).update({
       'username': username,
       'searchKey': username[0],
+    });
+  }
+
+  Future<void> followUser(String loggedinUserUid, String toFollowUserUid) {
+    moduleSocial
+        .doc(loggedinUserUid)
+        .collection('following')
+        .doc(toFollowUserUid)
+        .set({
+      'uid': toFollowUserUid,
+    });
+    moduleSocial
+        .doc(toFollowUserUid)
+        .collection('followers')
+        .doc(loggedinUserUid)
+        .set({
+      'uid': loggedinUserUid,
+    });
+
+    moduleSocial
+        .doc(loggedinUserUid)
+        .collection('following')
+        .get()
+        .then((QuerySnapshot querySnapshot) {
+      moduleSocial.doc(loggedinUserUid).update({
+        'following': querySnapshot.docs.length,
+      });
+    });
+
+    moduleSocial
+        .doc(toFollowUserUid)
+        .collection('followers')
+        .get()
+        .then((QuerySnapshot querySnapshot) {
+      moduleSocial.doc(toFollowUserUid).update({
+        'followers': querySnapshot.docs.length,
+      });
     });
   }
 }

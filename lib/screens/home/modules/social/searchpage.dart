@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:housingsociety/screens/home/modules/social/defaultprofilepage.dart';
 import 'package:housingsociety/screens/home/modules/social/userprofilepage.dart';
+import 'package:housingsociety/services/auth.dart';
 
 class SearchPage extends StatefulWidget {
   @override
@@ -13,6 +13,7 @@ class _SearchPageState extends State<SearchPage> {
   List tempSearchStore = [];
   CollectionReference moduleSocial =
       FirebaseFirestore.instance.collection('module_social');
+  String loggedinUserUid = AuthService().userId();
 
   void initiateSearch(String value) {
     if (value.length == 0) {
@@ -29,6 +30,8 @@ class _SearchPageState extends State<SearchPage> {
           queryResultSet.add(querySnapshot.docs[i].data());
           tempSearchStore.add(querySnapshot.docs[i].data());
         }
+        tempSearchStore
+            .removeWhere((element) => element['uid'] == loggedinUserUid);
         setState(() {});
         // print(queryResultSet);
         // setState(() {
@@ -41,7 +44,8 @@ class _SearchPageState extends State<SearchPage> {
       setState(() {
         tempSearchStore = [];
       });
-
+      queryResultSet
+          .removeWhere((element) => element['uid'] == loggedinUserUid);
       queryResultSet.forEach((element) {
         if (element['username'].startsWith(lowercaseValue)) {
           setState(() {

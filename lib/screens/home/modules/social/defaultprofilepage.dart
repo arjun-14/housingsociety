@@ -65,7 +65,15 @@ class _ProfilePageState extends State<ProfilePage> {
                     Expanded(
                       child: Center(
                         child: Text(
-                          snapshot.data['friends'].toString(),
+                          snapshot.data['followers'].toString(),
+                          style: TextStyle(fontSize: 18),
+                        ),
+                      ),
+                    ),
+                    Expanded(
+                      child: Center(
+                        child: Text(
+                          snapshot.data['following'].toString(),
                           style: TextStyle(fontSize: 18),
                         ),
                       ),
@@ -85,7 +93,15 @@ class _ProfilePageState extends State<ProfilePage> {
                     Expanded(
                       child: Center(
                         child: Text(
-                          'Friends',
+                          'Followers',
+                          style: TextStyle(fontSize: 18),
+                        ),
+                      ),
+                    ),
+                    Expanded(
+                      child: Center(
+                        child: Text(
+                          'Following',
                           style: TextStyle(fontSize: 18),
                         ),
                       ),
