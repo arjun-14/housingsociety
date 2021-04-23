@@ -13,7 +13,7 @@ import 'package:housingsociety/screens/home/modules/profile/editName.dart';
 import 'package:housingsociety/screens/home/modules/profile/editPassword.dart';
 import 'package:housingsociety/screens/home/modules/profile/editPhoneNumber.dart';
 import 'package:housingsociety/screens/home/modules/profile/profile.dart';
-import 'package:housingsociety/screens/home/modules/social/homepage.dart';
+import 'package:housingsociety/screens/home/modules/social/wrappersocial.dart';
 import 'package:housingsociety/screens/home/modules/visitor/addvisitor.dart';
 import 'package:housingsociety/screens/home/modules/visitor/visitor.dart';
 import 'package:housingsociety/screens/home/modules/voting/addvoting.dart';
@@ -42,5 +42,5 @@ Map<String, Widget Function(BuildContext)> routes = <String, WidgetBuilder>{
   Visitor.id: (context) => Visitor(),
   AddVisitor.id: (context) => AddVisitor(),
   Residents.id: (context) => Residents(),
-  HomePage.id: (context) => HomePage(),
+  WrapperSocial.id: (context) => WrapperSocial(),
 };

@@ -22,9 +22,8 @@ class _ProfilePageState extends State<ProfilePage> {
     DocumentReference moduleSocial =
         FirebaseFirestore.instance.collection('module_social').doc(uid);
     Query moduleSocialphotos = FirebaseFirestore.instance
-        .collection('module_social')
-        .doc(uid)
-        .collection('photos')
+        .collection('module_social_photos')
+        .where('uid', isEqualTo: uid)
         .orderBy('timestamp', descending: true);
 
     return StreamBuilder<DocumentSnapshot>(

@@ -36,7 +36,7 @@ class StorageService {
     }
   }
 
-  Future<void> uploadPhoto(String filepath, uid) async {
+  Future<void> uploadPhoto(String filepath, String uid) async {
     File file = File(filepath);
     Timestamp timestamp = Timestamp.now();
     try {

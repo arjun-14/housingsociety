@@ -5,7 +5,7 @@ import 'package:housingsociety/screens/home/modules/contacts/contacts.dart';
 import 'package:housingsociety/screens/home/modules/health/health.dart';
 import 'package:housingsociety/screens/home/modules/notice/notice.dart';
 import 'package:housingsociety/screens/home/modules/profile/profile.dart';
-import 'package:housingsociety/screens/home/modules/social/homepage.dart';
+import 'package:housingsociety/screens/home/modules/social/wrappersocial.dart';
 import 'package:housingsociety/screens/home/modules/visitor/visitor.dart';
 import 'package:housingsociety/screens/home/modules/voting/voting.dart';
 import 'package:housingsociety/screens/home/admin/residents.dart';
@@ -140,7 +140,7 @@ class Home extends StatelessWidget {
                     icon: Icons.group,
                     text: 'Social Media',
                     onpress: () {
-                      Navigator.pushNamed(context, HomePage.id);
+                      Navigator.pushNamed(context, WrapperSocial.id);
                     },
                   ),
                 ],

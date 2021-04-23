@@ -27,6 +27,8 @@ class DatabaseService {
       FirebaseFirestore.instance.collection('module_social');
   CollectionReference moduleSocialUserNames =
       FirebaseFirestore.instance.collection('module_social_usernames');
+  CollectionReference moduleSocialPhotos =
+      FirebaseFirestore.instance.collection('module_social_photos');
 
   Future<void> addMessage(message, sender, email, Timestamp timestamp) {
     return moduleChat.add(
@@ -309,19 +311,27 @@ class DatabaseService {
     return userdata;
   }
 
-  Future uploadPhotodetails(uid, timestamp, String url) async {
-    moduleSocial
-        .doc(uid)
-        .collection('photos')
-        .add({'timestamp': timestamp, 'url': url});
-
-    QuerySnapshot querysnapshot =
-        await moduleSocial.doc(uid).collection('photos').get();
-    int noOfPhotos = querysnapshot.docs.length;
-
-    moduleSocial.doc(uid).update({
-      'posts': noOfPhotos,
+  Future uploadPhotodetails(String uid, Timestamp timestamp, String url) {
+    return moduleSocialPhotos
+        .add({'uid': uid, 'timestamp': timestamp, 'url': url}).then((_) async {
+      QuerySnapshot querySnapshot =
+          await moduleSocialPhotos.where('uid', isEqualTo: uid).get();
+      int noOfPhotos = querySnapshot.docs.length;
+      moduleSocial.doc(uid).update({'posts': noOfPhotos});
     });
+
+    // moduleSocial
+    //     .doc(uid)
+    //     .collection('photos')
+    //     .add({'timestamp': timestamp, 'url': url});
+
+    // QuerySnapshot querysnapshot =
+    //     await moduleSocial.doc(uid).collection('photos').get();
+    // int noOfPhotos = querysnapshot.docs.length;
+
+    // moduleSocial.doc(uid).update({
+    //   'posts': noOfPhotos,
+    // });
   }
 
   Future setUserNameSocial(String username, String uid) {
@@ -344,6 +354,7 @@ class DatabaseService {
         .doc(toFollowUserUid)
         .set({
       'uid': toFollowUserUid,
+      //  'followingphotos': moduleSocial.doc(toFollowUserUid).collection('photos'),
     });
     moduleSocial
         .doc(toFollowUserUid)
@@ -363,7 +374,7 @@ class DatabaseService {
       });
     });
 
-    moduleSocial
+    return moduleSocial
         .doc(toFollowUserUid)
         .collection('followers')
         .get()
