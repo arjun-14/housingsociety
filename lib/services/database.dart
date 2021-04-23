@@ -319,19 +319,6 @@ class DatabaseService {
       int noOfPhotos = querySnapshot.docs.length;
       moduleSocial.doc(uid).update({'posts': noOfPhotos});
     });
-
-    // moduleSocial
-    //     .doc(uid)
-    //     .collection('photos')
-    //     .add({'timestamp': timestamp, 'url': url});
-
-    // QuerySnapshot querysnapshot =
-    //     await moduleSocial.doc(uid).collection('photos').get();
-    // int noOfPhotos = querysnapshot.docs.length;
-
-    // moduleSocial.doc(uid).update({
-    //   'posts': noOfPhotos,
-    // });
   }
 
   Future setUserNameSocial(String username, String uid) {
