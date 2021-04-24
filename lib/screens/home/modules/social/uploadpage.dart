@@ -87,8 +87,8 @@ class _UploadPageState extends State<UploadPage> {
                 color: kAmaranth,
               ),
               onPressed: () {
-                storage.uploadPhoto(
-                    photoPath, user.uid, caption, widget.username);
+                storage.uploadPhoto(photoPath, user.uid, caption,
+                    widget.username, user.profilePicture);
                 Navigator.pop(context);
               },
             ),

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:housingsociety/screens/home/modules/social/displayphoto.dart';
 import 'package:housingsociety/shared/loading.dart';
 import 'package:provider/provider.dart';
 import 'package:housingsociety/models/user.dart';
@@ -137,7 +138,18 @@ class _ProfilePageState extends State<ProfilePage> {
                           snapshot.data.docs.map((DocumentSnapshot document) {
                         return GestureDetector(
                           onTap: () {
-                            print(document.data()['url']);
+                            Navigator.push(context,
+                                MaterialPageRoute(builder: (context) {
+                              return DisplayPhoto(
+                                username: document.data()['username'],
+                                profilePicture:
+                                    document.data()['profile_picture'],
+                                photo: document.data()['url'],
+                                likes: document.data()['likes'],
+                                comments: document.data()['comments'],
+                                caption: document.data()['caption'],
+                              );
+                            }));
                           },
                           child: Image.network(
                             document.data()['url'],

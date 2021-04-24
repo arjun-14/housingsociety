@@ -312,14 +312,16 @@ class DatabaseService {
   }
 
   Future uploadPhotodetails(String uid, Timestamp timestamp, String url,
-      String caption, String username) {
+      String caption, String username, String profilepicture) {
     return moduleSocialPhotos.add({
       'uid': uid,
       'username': username,
       'timestamp': timestamp,
       'url': url,
       'caption': caption,
-      'likes': 0
+      'likes': 0,
+      'comments': 0,
+      'profile_picture': profilepicture
     }).then((_) async {
       QuerySnapshot querySnapshot =
           await moduleSocialPhotos.where('uid', isEqualTo: uid).get();
