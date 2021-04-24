@@ -6,6 +6,7 @@ import 'package:housingsociety/screens/home/modules/social/defaultprofilepage.da
 import 'package:housingsociety/screens/home/modules/social/homepage.dart';
 import 'package:housingsociety/screens/home/modules/social/searchpage.dart';
 import 'package:housingsociety/screens/home/modules/social/setusername.dart';
+import 'package:housingsociety/screens/home/modules/social/uploadpage.dart';
 import 'package:housingsociety/services/auth.dart';
 import 'package:housingsociety/services/storage.dart';
 import 'package:housingsociety/shared/constants.dart';
@@ -29,19 +30,6 @@ class _WrapperSocialState extends State<WrapperSocial> {
   DocumentReference moduleSocial = FirebaseFirestore.instance
       .collection('module_social')
       .doc(AuthService().userId());
-
-  Future getImage(source, uid) async {
-    final pickedFile = await picker.getImage(source: source);
-    String photoPath;
-
-    setState(() {
-      if (pickedFile != null) {
-        photo = File(pickedFile.path);
-        photoPath = pickedFile.path;
-        storage.uploadPhoto(photoPath, uid);
-      }
-    });
-  }
 
   void _onItemTapped(int index) {
     setState(() {
@@ -78,45 +66,6 @@ class _WrapperSocialState extends State<WrapperSocial> {
       Text(username),
     ];
 
-    void addPhoto() {
-      showModalBottomSheet(
-        backgroundColor: Colors.transparent,
-        context: context,
-        builder: (context) {
-          return Container(
-            height: 130,
-            decoration: BoxDecoration(
-              color: kSpaceCadet,
-              borderRadius: BorderRadius.vertical(
-                top: Radius.circular(15),
-              ),
-            ),
-            child: ListView(
-              children: [
-                ListTile(
-                  leading: Icon(Icons.camera_alt),
-                  title: Text('Choose from Camera'),
-                  onTap: () {
-                    getImage(ImageSource.camera, user.uid);
-                    Navigator.pop(context);
-                  },
-                ),
-                Divider(),
-                ListTile(
-                  leading: Icon(Icons.collections),
-                  title: Text('Choose from gallery'),
-                  onTap: () {
-                    getImage(ImageSource.gallery, user.uid);
-                    Navigator.pop(context);
-                  },
-                ),
-              ],
-            ),
-          );
-        },
-      );
-    }
-
     return StreamBuilder<DocumentSnapshot>(
         stream: moduleSocial.snapshots(),
         builder:
@@ -141,7 +90,15 @@ class _WrapperSocialState extends State<WrapperSocial> {
                     icon: Icon(Icons.add_box),
                     color: kAmaranth,
                     onPressed: () {
-                      addPhoto();
+                      print(username);
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) {
+                          return UploadPage(
+                            username: username,
+                          );
+                        }),
+                      );
                     },
                   ),
                 ),

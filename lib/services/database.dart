@@ -311,9 +311,16 @@ class DatabaseService {
     return userdata;
   }
 
-  Future uploadPhotodetails(String uid, Timestamp timestamp, String url) {
-    return moduleSocialPhotos
-        .add({'uid': uid, 'timestamp': timestamp, 'url': url}).then((_) async {
+  Future uploadPhotodetails(String uid, Timestamp timestamp, String url,
+      String caption, String username) {
+    return moduleSocialPhotos.add({
+      'uid': uid,
+      'username': username,
+      'timestamp': timestamp,
+      'url': url,
+      'caption': caption,
+      'likes': 0
+    }).then((_) async {
       QuerySnapshot querySnapshot =
           await moduleSocialPhotos.where('uid', isEqualTo: uid).get();
       int noOfPhotos = querySnapshot.docs.length;

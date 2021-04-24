@@ -13,6 +13,7 @@ import 'package:housingsociety/screens/home/modules/profile/editName.dart';
 import 'package:housingsociety/screens/home/modules/profile/editPassword.dart';
 import 'package:housingsociety/screens/home/modules/profile/editPhoneNumber.dart';
 import 'package:housingsociety/screens/home/modules/profile/profile.dart';
+import 'package:housingsociety/screens/home/modules/social/uploadpage.dart';
 import 'package:housingsociety/screens/home/modules/social/wrappersocial.dart';
 import 'package:housingsociety/screens/home/modules/visitor/addvisitor.dart';
 import 'package:housingsociety/screens/home/modules/visitor/visitor.dart';

@@ -36,14 +36,15 @@ class StorageService {
     }
   }
 
-  Future<void> uploadPhoto(String filepath, String uid) async {
+  Future<void> uploadPhoto(
+      String filepath, String uid, String caption, String username) async {
     File file = File(filepath);
     Timestamp timestamp = Timestamp.now();
     try {
       await storage.ref('social/$uid/$timestamp').putFile(file);
       String downloadURL =
           await storage.ref('social/$uid/$timestamp').getDownloadURL();
-      db.uploadPhotodetails(uid, timestamp, downloadURL);
+      db.uploadPhotodetails(uid, timestamp, downloadURL, caption, username);
     } on firebase_core.FirebaseException catch (e) {
       print(e);
     }
