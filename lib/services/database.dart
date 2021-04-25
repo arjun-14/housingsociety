@@ -164,6 +164,11 @@ class DatabaseService {
         moduleComplaintUserLikes.doc(useruid).set({
           docuid: true,
         });
+        moduleComplaint.doc(docuid).update({
+          'likes': likes + 1,
+        }).catchError((e) {
+          print(e);
+        });
       }
     });
     return result;
