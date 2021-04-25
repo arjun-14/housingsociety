@@ -3,6 +3,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:housingsociety/models/user.dart';
 import 'package:housingsociety/services/auth.dart';
+import 'package:housingsociety/shared/constants.dart';
 import 'package:housingsociety/shared/loading.dart';
 import 'package:provider/provider.dart';
 
@@ -10,7 +11,7 @@ class HomePageSocial extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final user = Provider.of<CurrentUser>(context);
-    List<String> usersFollowed = [];
+    List<String> usersFollowed = [user.uid];
     CollectionReference moduleSocial = FirebaseFirestore.instance
         .collection('module_social')
         .doc(user.uid)
@@ -46,9 +47,73 @@ class HomePageSocial extends StatelessWidget {
               return Loading();
             }
             return ListView(
-              children: photosSnapshot.data.docs
-                  .map((DocumentSnapshot documentSnapshot) {
-                return Image.network(documentSnapshot.data()['url']);
+              children:
+                  photosSnapshot.data.docs.map((DocumentSnapshot document) {
+                return Container(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      ListTile(
+                        leading: CircleAvatar(
+                          backgroundImage:
+                              document.data()['profile_picture'] == null
+                                  ? AssetImage(
+                                      'assets/images/default_profile_pic.jpg')
+                                  : NetworkImage(
+                                      document.data()['profile_picture']),
+                        ),
+                        title: Text(document.data()['username']),
+                      ),
+                      Image.network(document.data()['url']),
+                      Row(
+                        children: [
+                          IconButton(
+                              icon: Icon(
+                                Icons.favorite_border,
+                                color: kAmaranth,
+                              ),
+                              onPressed: () {}),
+                          IconButton(
+                              icon: Icon(
+                                Icons.chat_bubble_outline,
+                                color: kAmaranth,
+                              ),
+                              onPressed: () {}),
+                        ],
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 12),
+                        child: Text(
+                          document.data()['likes'].toString() + ' likes',
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 17.0,
+                          ),
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 12.0),
+                        child: RichText(
+                          text: TextSpan(
+                              style: TextStyle(
+                                fontSize: 17.0,
+                              ),
+                              children: [
+                                TextSpan(
+                                  text: document.data()['username'],
+                                  style: TextStyle(fontWeight: FontWeight.bold),
+                                ),
+                                TextSpan(
+                                    text: '  ' + document.data()['caption'])
+                              ]),
+                        ),
+                      ),
+                      SizedBox(
+                        height: 20,
+                      )
+                    ],
+                  ),
+                );
               }).toList(),
             );
           },
