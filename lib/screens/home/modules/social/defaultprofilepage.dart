@@ -148,6 +148,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                 likes: document.data()['likes'],
                                 comments: document.data()['comments'],
                                 caption: document.data()['caption'],
+                                docid: document.id,
                               );
                             }));
                           },

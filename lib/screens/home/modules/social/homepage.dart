@@ -3,6 +3,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:housingsociety/models/user.dart';
 import 'package:housingsociety/services/auth.dart';
+import 'package:housingsociety/services/database.dart';
 import 'package:housingsociety/shared/constants.dart';
 import 'package:housingsociety/shared/loading.dart';
 import 'package:provider/provider.dart';
@@ -16,6 +17,10 @@ class HomePageSocial extends StatelessWidget {
         .collection('module_social')
         .doc(user.uid)
         .collection('following');
+    CollectionReference moduleSocialPhotos_ =
+        FirebaseFirestore.instance.collection('module_social_photos');
+    CollectionReference moduleSocialPhotosLikes =
+        FirebaseFirestore.instance.collection('module_social_photos_likes');
     return StreamBuilder(
       stream: moduleSocial.snapshots(),
       builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
@@ -60,7 +65,8 @@ class HomePageSocial extends StatelessWidget {
                                   ? AssetImage(
                                       'assets/images/default_profile_pic.jpg')
                                   : NetworkImage(
-                                      document.data()['profile_picture']),
+                                      document.data()['profile_picture'],
+                                    ),
                         ),
                         title: Text(document.data()['username']),
                       ),
@@ -72,7 +78,15 @@ class HomePageSocial extends StatelessWidget {
                                 Icons.favorite_border,
                                 color: kAmaranth,
                               ),
-                              onPressed: () {}),
+                              onPressed: () {
+                                DatabaseService().updateLikes(
+                                  moduleSocialPhotos_,
+                                  moduleSocialPhotosLikes,
+                                  document.id,
+                                  document.data()['likes'],
+                                  user.uid,
+                                );
+                              }),
                           IconButton(
                               icon: Icon(
                                 Icons.chat_bubble_outline,

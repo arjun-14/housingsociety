@@ -29,6 +29,8 @@ class DatabaseService {
       FirebaseFirestore.instance.collection('module_social_usernames');
   CollectionReference moduleSocialPhotos =
       FirebaseFirestore.instance.collection('module_social_photos');
+  CollectionReference moduleSocialPhotosLikes =
+      FirebaseFirestore.instance.collection('module_social_photos_likes');
 
   Future<void> addMessage(message, sender, email, Timestamp timestamp) {
     return moduleChat.add(
@@ -133,38 +135,39 @@ class DatabaseService {
     });
   }
 
-  Future<dynamic> updateLikes(docuid, likes, useruid) async {
+  Future<dynamic> updateLikes(CollectionReference moduleName,
+      CollectionReference moduleLikesName, docuid, likes, useruid) async {
     dynamic result;
-    await moduleComplaintUserLikes
+    await moduleLikesName
         .doc(useruid)
         .get()
         .then((DocumentSnapshot documentSnapshot) {
       if (documentSnapshot.exists) {
         result = (documentSnapshot.data()[docuid]);
         if (result == true) {
-          moduleComplaintUserLikes.doc(useruid).update({
+          moduleLikesName.doc(useruid).update({
             docuid: FieldValue.delete(),
           });
-          moduleComplaint.doc(docuid).update({
+          moduleName.doc(docuid).update({
             'likes': likes - 1,
           }).catchError((e) {
             print(e);
           });
         } else {
-          moduleComplaintUserLikes.doc(useruid).update({
+          moduleLikesName.doc(useruid).update({
             docuid: true,
           });
-          moduleComplaint.doc(docuid).update({
+          moduleName.doc(docuid).update({
             'likes': likes + 1,
           }).catchError((e) {
             print(e);
           });
         }
       } else {
-        moduleComplaintUserLikes.doc(useruid).set({
+        moduleLikesName.doc(useruid).set({
           docuid: true,
         });
-        moduleComplaint.doc(docuid).update({
+        moduleName.doc(docuid).update({
           'likes': likes + 1,
         }).catchError((e) {
           print(e);

@@ -28,6 +28,8 @@ class _RealTimeComplaintUpdateState extends State<RealTimeComplaintUpdate> {
   String userType;
   CollectionReference moduleComplaintUserLikes =
       FirebaseFirestore.instance.collection('module_complaint_user_likes');
+  CollectionReference moduleComplaint =
+      FirebaseFirestore.instance.collection('module_complaint');
 
   @override
   void initState() {
@@ -299,8 +301,12 @@ class _RealTimeComplaintUpdateState extends State<RealTimeComplaintUpdate> {
                               Expanded(
                                 child: TextButton.icon(
                                   onPressed: () async {
-                                    await db.updateLikes(document.id,
-                                        document.data()['likes'], user.uid);
+                                    await db.updateLikes(
+                                        moduleComplaint,
+                                        moduleComplaintUserLikes,
+                                        document.id,
+                                        document.data()['likes'],
+                                        user.uid);
                                     DocumentSnapshot value =
                                         await moduleComplaintUserLikes
                                             .doc(userid)
