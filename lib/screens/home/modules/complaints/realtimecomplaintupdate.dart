@@ -62,8 +62,6 @@ class _RealTimeComplaintUpdateState extends State<RealTimeComplaintUpdate> {
     // setState(() {
     //   likes = value.data();
     // });
-
-    print(likes);
   }
 
   @override

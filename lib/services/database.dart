@@ -31,6 +31,8 @@ class DatabaseService {
       FirebaseFirestore.instance.collection('module_social_photos');
   CollectionReference moduleSocialPhotosLikes =
       FirebaseFirestore.instance.collection('module_social_photos_likes');
+  CollectionReference moduleSocialPhotosComments =
+      FirebaseFirestore.instance.collection('module_social_photos_comments');
 
   Future<void> addMessage(message, sender, email, Timestamp timestamp) {
     return moduleChat.add(
@@ -177,12 +179,23 @@ class DatabaseService {
     return result;
   }
 
-  Future<void> addComment(docid, userName, comment) {
-    return moduleComplaintUserComments.doc(docid).collection('comments').add({
-      'userName': userName,
-      'comment': comment,
-      'timestamp': Timestamp.now(),
-    });
+  Future<void> addComment(
+      bool social, docid, userName, comment, socialusername) {
+    if (social == true) {
+      moduleSocialPhotosComments.add({
+        'docid': docid,
+        'userName': socialusername,
+        'comment': comment,
+        'timestamp': Timestamp.now(),
+      });
+    } else {
+      moduleComplaintUserComments.doc(docid).collection('comments').add({
+        'userName': userName,
+        'comment': comment,
+        'timestamp': Timestamp.now(),
+      });
+    }
+    return null;
   }
 
   Future<void> addEmergencyContact(

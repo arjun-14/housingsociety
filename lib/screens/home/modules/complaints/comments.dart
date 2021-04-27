@@ -11,7 +11,9 @@ class Comments extends StatelessWidget {
   final DatabaseService db = DatabaseService();
 
   final docid;
-  Comments({this.docid});
+  final bool social;
+  final String socialusername;
+  Comments({this.docid, this.social, this.socialusername});
   @override
   Widget build(BuildContext context) {
     final user = Provider.of<CurrentUser>(context);
@@ -25,6 +27,7 @@ class Comments extends StatelessWidget {
           Expanded(
             child: RealTimeCommentUpdates(
               docid: docid,
+              social: social,
             ),
           ),
           Padding(
@@ -64,7 +67,8 @@ class Comments extends StatelessWidget {
                     color: kAmaranth,
                     onPressed: () {
                       _textController.clear();
-                      db.addComment(docid, user.name, comment);
+                      db.addComment(
+                          social, docid, user.name, comment, socialusername);
                     },
                     icon: Icon(Icons.send),
                   ),

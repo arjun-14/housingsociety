@@ -5,14 +5,20 @@ import 'package:housingsociety/shared/loading.dart';
 
 class RealTimeCommentUpdates extends StatelessWidget {
   final String docid;
-  RealTimeCommentUpdates({this.docid});
+  final social;
+  RealTimeCommentUpdates({this.docid, this.social});
   @override
   Widget build(BuildContext context) {
-    Query moduleComplaintUserComments = FirebaseFirestore.instance
-        .collection('module_complaint_comments')
-        .doc(docid)
-        .collection('comments')
-        .orderBy('timestamp');
+    Query moduleComplaintUserComments = social == true
+        ? FirebaseFirestore.instance
+            .collection('module_social_photos_comments')
+            .where('docid', isEqualTo: docid)
+            .orderBy('timestamp')
+        : FirebaseFirestore.instance
+            .collection('module_complaint_comments')
+            .doc(docid)
+            .collection('comments')
+            .orderBy('timestamp');
     return StreamBuilder<QuerySnapshot>(
       stream: moduleComplaintUserComments.snapshots(),
       builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {

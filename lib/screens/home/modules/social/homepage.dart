@@ -1,14 +1,54 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:housingsociety/models/user.dart';
+import 'package:housingsociety/screens/home/modules/complaints/comments.dart';
 import 'package:housingsociety/services/auth.dart';
 import 'package:housingsociety/services/database.dart';
 import 'package:housingsociety/shared/constants.dart';
 import 'package:housingsociety/shared/loading.dart';
 import 'package:provider/provider.dart';
+import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 
-class HomePageSocial extends StatelessWidget {
+class HomePageSocial extends StatefulWidget {
+  @override
+  _HomePageSocialState createState() => _HomePageSocialState();
+}
+
+class _HomePageSocialState extends State<HomePageSocial> {
+  Map<String, dynamic> likes;
+  CollectionReference moduleSocialPhotosLikes =
+      FirebaseFirestore.instance.collection('module_social_photos_likes');
+  dynamic userid = AuthService().userId();
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    getCurrentUSerLikes();
+  }
+
+  void getCurrentUSerLikes() async {
+    moduleSocialPhotosLikes
+        .doc(userid)
+        .get()
+        .then((DocumentSnapshot documentSnapshot) {
+      print(documentSnapshot.data());
+      if (documentSnapshot.exists) {
+        setState(() {
+          likes = documentSnapshot.data();
+        });
+      } else {
+        setState(() {
+          likes = {};
+        });
+      }
+    });
+    print(likes);
+    // DocumentSnapshot value = await moduleComplaintUserLikes.doc(userid).get();
+    // setState(() {
+    //   likes = value.data();
+    // });
+  }
+
   @override
   Widget build(BuildContext context) {
     final user = Provider.of<CurrentUser>(context);
@@ -19,8 +59,7 @@ class HomePageSocial extends StatelessWidget {
         .collection('following');
     CollectionReference moduleSocialPhotos_ =
         FirebaseFirestore.instance.collection('module_social_photos');
-    CollectionReference moduleSocialPhotosLikes =
-        FirebaseFirestore.instance.collection('module_social_photos_likes');
+
     return StreamBuilder(
       stream: moduleSocial.snapshots(),
       builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
@@ -36,7 +75,7 @@ class HomePageSocial extends StatelessWidget {
         snapshot.data.docs.forEach((user) {
           usersFollowed.add(user.data()['uid']);
         });
-        print(usersFollowed);
+
         Query moduleSocialPhotos = FirebaseFirestore.instance
             .collection('module_social_photos')
             .where('uid', whereIn: usersFollowed)
@@ -70,15 +109,42 @@ class HomePageSocial extends StatelessWidget {
                         ),
                         title: Text(document.data()['username']),
                       ),
-                      Image.network(document.data()['url']),
+                      GestureDetector(
+                        onDoubleTap: () {
+                          likes.containsKey(document.id)
+                              ? likes[document.id] = !likes[document.id]
+                              : likes[document.id] = true;
+                          DatabaseService().updateLikes(
+                            moduleSocialPhotos_,
+                            moduleSocialPhotosLikes,
+                            document.id,
+                            document.data()['likes'],
+                            user.uid,
+                          );
+                        },
+                        child: Image.network(
+                          document.data()['url'],
+                          loadingBuilder: (context, child, progress) {
+                            return progress == null ? child : Loading();
+                          },
+                        ),
+                      ),
                       Row(
                         children: [
                           IconButton(
                               icon: Icon(
-                                Icons.favorite_border,
+                                likes.containsKey(document.id)
+                                    ? likes[document.id] == true
+                                        ? Icons.favorite
+                                        : Icons.favorite_border
+                                    : Icons.favorite_border,
                                 color: kAmaranth,
                               ),
                               onPressed: () {
+                                likes.containsKey(document.id)
+                                    ? likes[document.id] = !likes[document.id]
+                                    : likes[document.id] = true;
+
                                 DatabaseService().updateLikes(
                                   moduleSocialPhotos_,
                                   moduleSocialPhotosLikes,
@@ -92,7 +158,16 @@ class HomePageSocial extends StatelessWidget {
                                 Icons.chat_bubble_outline,
                                 color: kAmaranth,
                               ),
-                              onPressed: () {}),
+                              onPressed: () {
+                                showBarModalBottomSheet(
+                                    context: context,
+                                    builder: (context) => Comments(
+                                          social: true,
+                                          docid: document.id,
+                                          socialusername:
+                                              document.data()['username'],
+                                        ));
+                              }),
                         ],
                       ),
                       Padding(
