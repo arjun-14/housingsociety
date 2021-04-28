@@ -1,6 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:housingsociety/screens/home/modules/social/userprofilepage.dart';
+import 'package:housingsociety/screens/home/modules/social/otherusersprofilepage.dart';
 import 'package:housingsociety/services/auth.dart';
 
 class SearchPage extends StatefulWidget {

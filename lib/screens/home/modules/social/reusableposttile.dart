@@ -19,6 +19,21 @@ class ReusablePostDisplayTile extends StatelessWidget {
         FirebaseFirestore.instance.collection('module_social_photos');
     CollectionReference moduleSocialPhotosLikes =
         FirebaseFirestore.instance.collection('module_social_photos_likes');
+
+    void likepost() {
+      likes.containsKey(document.id)
+          ? likes[document.id] = !likes[document.id]
+          : likes[document.id] = true;
+
+      DatabaseService().updateLikes(
+        moduleSocialPhotos,
+        moduleSocialPhotosLikes,
+        document.id,
+        document.data()['likes'],
+        user.uid,
+      );
+    }
+
     return Container(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -35,16 +50,7 @@ class ReusablePostDisplayTile extends StatelessWidget {
           ),
           GestureDetector(
             onDoubleTap: () {
-              likes.containsKey(document.id)
-                  ? likes[document.id] = !likes[document.id]
-                  : likes[document.id] = true;
-              DatabaseService().updateLikes(
-                moduleSocialPhotos,
-                moduleSocialPhotosLikes,
-                document.id,
-                document.data()['likes'],
-                user.uid,
-              );
+              likepost();
             },
             child: Image.network(
               document.data()['url'],
@@ -65,17 +71,7 @@ class ReusablePostDisplayTile extends StatelessWidget {
                     color: kAmaranth,
                   ),
                   onPressed: () {
-                    likes.containsKey(document.id)
-                        ? likes[document.id] = !likes[document.id]
-                        : likes[document.id] = true;
-
-                    DatabaseService().updateLikes(
-                      moduleSocialPhotos,
-                      moduleSocialPhotosLikes,
-                      document.id,
-                      document.data()['likes'],
-                      user.uid,
-                    );
+                    likepost();
                   }),
               IconButton(
                   icon: Icon(

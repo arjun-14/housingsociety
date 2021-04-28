@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:housingsociety/screens/home/modules/social/displayphoto.dart';
+import 'package:housingsociety/screens/home/modules/social/reusableposttile.dart';
+import 'package:housingsociety/services/auth.dart';
 import 'package:housingsociety/shared/loading.dart';
 import 'package:provider/provider.dart';
 import 'package:housingsociety/models/user.dart';
@@ -13,13 +15,41 @@ class ProfilePage extends StatefulWidget {
 }
 
 class _ProfilePageState extends State<ProfilePage> {
+  Map<String, dynamic> likes;
+  CollectionReference moduleSocialPhotosLikes =
+      FirebaseFirestore.instance.collection('module_social_photos_likes');
+  dynamic userid = AuthService().userId();
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    getCurrentUSerLikes();
+  }
+
+  void getCurrentUSerLikes() async {
+    moduleSocialPhotosLikes
+        .doc(userid)
+        .get()
+        .then((DocumentSnapshot documentSnapshot) {
+      print(documentSnapshot.data());
+      if (documentSnapshot.exists) {
+        setState(() {
+          likes = documentSnapshot.data();
+        });
+      } else {
+        setState(() {
+          likes = {};
+        });
+      }
+    });
+    print(likes);
+  }
+
   @override
   Widget build(BuildContext context) {
     final user = Provider.of<CurrentUser>(context);
     String uid;
     widget.uid == null ? uid = user.uid : uid = widget.uid;
-    print(uid);
-
     DocumentReference moduleSocial =
         FirebaseFirestore.instance.collection('module_social').doc(uid);
     Query moduleSocialphotos = FirebaseFirestore.instance
@@ -141,15 +171,19 @@ class _ProfilePageState extends State<ProfilePage> {
                             Navigator.push(context,
                                 MaterialPageRoute(builder: (context) {
                               return DisplayPhoto(
-                                username: document.data()['username'],
-                                profilePicture:
-                                    document.data()['profile_picture'],
-                                photo: document.data()['url'],
-                                likes: document.data()['likes'],
-                                comments: document.data()['comments'],
-                                caption: document.data()['caption'],
                                 docid: document.id,
+                                likes: likes,
                               );
+                              // return DisplayPhoto(
+                              //   username: document.data()['username'],
+                              //   profilePicture:
+                              //       document.data()['profile_picture'],
+                              //   photo: document.data()['url'],
+                              //   likes: document.data()['likes'],
+                              //   comments: document.data()['comments'],
+                              //   caption: document.data()['caption'],
+                              //   docid: document.id,
+                              // );
                             }));
                           },
                           child: Image.network(

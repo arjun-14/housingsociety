@@ -40,10 +40,6 @@ class _HomePageSocialState extends State<HomePageSocial> {
       }
     });
     print(likes);
-    // DocumentSnapshot value = await moduleComplaintUserLikes.doc(userid).get();
-    // setState(() {
-    //   likes = value.data();
-    // });
   }
 
   @override
