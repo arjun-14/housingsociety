@@ -6,29 +6,53 @@ import 'package:housingsociety/services/database.dart';
 import 'package:housingsociety/shared/constants.dart';
 import 'package:provider/provider.dart';
 
-class UserProfilePage extends StatelessWidget {
+class UserProfilePage extends StatefulWidget {
   final String uid;
   final String username;
-  UserProfilePage({this.uid, this.username});
+  final bool following;
+
+  UserProfilePage({this.uid, this.username, this.following});
+
+  @override
+  _UserProfilePageState createState() => _UserProfilePageState();
+}
+
+class _UserProfilePageState extends State<UserProfilePage> {
+  bool togglefollowing;
+  @override
+  void initState() {
+    super.initState();
+    togglefollowing = widget.following;
+  }
+
   @override
   Widget build(BuildContext context) {
     final user = Provider.of<CurrentUser>(context);
     return Scaffold(
       appBar: AppBar(
-        title: Text(username),
+        title: Text(widget.username),
         actions: [
-          IconButton(
-              icon: Icon(
-                Icons.person_add,
-                color: kAmaranth,
-              ),
+          TextButton(
+              child: togglefollowing == true
+                  ? Text(
+                      'Unfollow',
+                      style: TextStyle(color: kAmaranth),
+                    )
+                  : Text(
+                      'Follow',
+                      style: TextStyle(color: kAmaranth),
+                    ),
               onPressed: () {
-                DatabaseService().followUser(user.uid, uid);
-              })
+                setState(() {
+                  togglefollowing = !togglefollowing;
+                });
+
+                DatabaseService().followUser(user.uid, widget.uid);
+              }),
         ],
       ),
       body: ProfilePage(
-        uid: uid,
+        uid: widget.uid,
       ),
     );
   }

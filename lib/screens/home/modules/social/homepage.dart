@@ -54,9 +54,6 @@ class _HomePageSocialState extends State<HomePageSocial> {
     return StreamBuilder(
       stream: moduleSocial.snapshots(),
       builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
-        if (!snapshot.hasData) {
-          return Text('Start following someone');
-        }
         if (snapshot.hasError) {
           return Text('Something went wrong');
         }

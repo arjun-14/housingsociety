@@ -364,41 +364,79 @@ class DatabaseService {
     });
   }
 
-  Future<void> followUser(String loggedinUserUid, String toFollowUserUid) {
+  void followUser(String loggedinUserUid, String toFollowUserUid) {
     moduleSocial
         .doc(loggedinUserUid)
         .collection('following')
         .doc(toFollowUserUid)
-        .set({
-      'uid': toFollowUserUid,
-      //  'followingphotos': moduleSocial.doc(toFollowUserUid).collection('photos'),
-    });
-    moduleSocial
-        .doc(toFollowUserUid)
-        .collection('followers')
-        .doc(loggedinUserUid)
-        .set({
-      'uid': loggedinUserUid,
-    });
-
-    moduleSocial
-        .doc(loggedinUserUid)
-        .collection('following')
         .get()
-        .then((QuerySnapshot querySnapshot) {
-      moduleSocial.doc(loggedinUserUid).update({
-        'following': querySnapshot.docs.length,
-      });
-    });
+        .then((DocumentSnapshot documentSnapshot) {
+      if (documentSnapshot.exists) {
+        moduleSocial
+            .doc(loggedinUserUid)
+            .collection('following')
+            .doc(toFollowUserUid)
+            .delete();
+        moduleSocial
+            .doc(toFollowUserUid)
+            .collection('followers')
+            .doc(loggedinUserUid)
+            .delete();
+        moduleSocial
+            .doc(loggedinUserUid)
+            .collection('following')
+            .get()
+            .then((QuerySnapshot querySnapshot) {
+          moduleSocial.doc(loggedinUserUid).update({
+            'following': querySnapshot.docs.length,
+          });
+        });
 
-    return moduleSocial
-        .doc(toFollowUserUid)
-        .collection('followers')
-        .get()
-        .then((QuerySnapshot querySnapshot) {
-      moduleSocial.doc(toFollowUserUid).update({
-        'followers': querySnapshot.docs.length,
-      });
+        moduleSocial
+            .doc(toFollowUserUid)
+            .collection('followers')
+            .get()
+            .then((QuerySnapshot querySnapshot) {
+          moduleSocial.doc(toFollowUserUid).update({
+            'followers': querySnapshot.docs.length,
+          });
+        });
+      } else {
+        moduleSocial
+            .doc(loggedinUserUid)
+            .collection('following')
+            .doc(toFollowUserUid)
+            .set({
+          'uid': toFollowUserUid,
+          //  'followingphotos': moduleSocial.doc(toFollowUserUid).collection('photos'),
+        });
+        moduleSocial
+            .doc(toFollowUserUid)
+            .collection('followers')
+            .doc(loggedinUserUid)
+            .set({
+          'uid': loggedinUserUid,
+        });
+        moduleSocial
+            .doc(loggedinUserUid)
+            .collection('following')
+            .get()
+            .then((QuerySnapshot querySnapshot) {
+          moduleSocial.doc(loggedinUserUid).update({
+            'following': querySnapshot.docs.length,
+          });
+        });
+
+        moduleSocial
+            .doc(toFollowUserUid)
+            .collection('followers')
+            .get()
+            .then((QuerySnapshot querySnapshot) {
+          moduleSocial.doc(toFollowUserUid).update({
+            'followers': querySnapshot.docs.length,
+          });
+        });
+      }
     });
   }
 }

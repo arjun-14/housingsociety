@@ -1,7 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:housingsociety/models/user.dart';
 import 'package:housingsociety/screens/home/modules/social/otherusersprofilepage.dart';
 import 'package:housingsociety/services/auth.dart';
+import 'package:provider/provider.dart';
 
 class SearchPage extends StatefulWidget {
   @override
@@ -33,11 +35,6 @@ class _SearchPageState extends State<SearchPage> {
         tempSearchStore
             .removeWhere((element) => element['uid'] == loggedinUserUid);
         setState(() {});
-        // print(queryResultSet);
-        // setState(() {
-        //   tempSearchStore.add(queryResultSet);
-        // });
-        //print(tempSearchStore);
       });
     } else {
       print(queryResultSet);
@@ -66,6 +63,7 @@ class _SearchPageState extends State<SearchPage> {
 
   @override
   Widget build(BuildContext context) {
+    final currentUser = Provider.of<CurrentUser>(context);
     return Container(
       child: Column(
         children: [
@@ -85,23 +83,37 @@ class _SearchPageState extends State<SearchPage> {
           ),
           Expanded(
               child: ListView(
-            children: tempSearchStore.map((element) {
+            children: tempSearchStore.map((user) {
               return ListTile(
                 onTap: () {
-                  Navigator.push(context,
-                      MaterialPageRoute(builder: (BuildContext context) {
-                    return UserProfilePage(
-                      uid: element['uid'],
-                      username: element['username'],
-                    );
-                  }));
+                  moduleSocial
+                      .doc(currentUser.uid)
+                      .collection('following')
+                      .doc(user['uid'])
+                      .get()
+                      .then((DocumentSnapshot documentSnapshot) {
+                    bool following;
+                    if (documentSnapshot.exists) {
+                      following = true;
+                    } else {
+                      following = false;
+                    }
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (BuildContext context) {
+                      return UserProfilePage(
+                        uid: user['uid'],
+                        username: user['username'],
+                        following: following,
+                      );
+                    }));
+                  });
                 },
                 leading: CircleAvatar(
-                  backgroundImage: element['profile_picture'] == ''
+                  backgroundImage: user['profile_picture'] == ''
                       ? AssetImage('assets/images/default_profile_pic.jpg')
-                      : NetworkImage(element['profile_picture']),
+                      : NetworkImage(user['profile_picture']),
                 ),
-                title: Text(element['username']),
+                title: Text(user['username']),
               );
             }).toList(),
           )),
