@@ -81,10 +81,12 @@ class _HomePageSocialState extends State<HomePageSocial> {
             return ListView(
               children:
                   photosSnapshot.data.docs.map((DocumentSnapshot document) {
-                return ReusablePostDisplayTile(
-                  document: document,
-                  likes: likes,
-                );
+                return likes == null
+                    ? Loading()
+                    : ReusablePostDisplayTile(
+                        document: document,
+                        likes: likes,
+                      );
               }).toList(),
             );
           },

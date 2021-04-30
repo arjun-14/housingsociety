@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:housingsociety/screens/home/modules/social/displayphoto.dart';
+import 'package:housingsociety/screens/home/modules/social/followersandfollowingpage.dart';
 import 'package:housingsociety/screens/home/modules/social/reusableposttile.dart';
 import 'package:housingsociety/services/auth.dart';
 import 'package:housingsociety/shared/loading.dart';
@@ -121,18 +122,44 @@ class _ProfilePageState extends State<ProfilePage> {
                       ),
                     ),
                     Expanded(
-                      child: Center(
-                        child: Text(
-                          'Followers',
-                          style: TextStyle(fontSize: 18),
+                      child: GestureDetector(
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (BuildContext context) =>
+                                  FollowersAndFollowing(
+                                pageToDisplay: 'followers',
+                              ),
+                            ),
+                          );
+                        },
+                        child: Center(
+                          child: Text(
+                            'Followers',
+                            style: TextStyle(fontSize: 18),
+                          ),
                         ),
                       ),
                     ),
                     Expanded(
-                      child: Center(
-                        child: Text(
-                          'Following',
-                          style: TextStyle(fontSize: 18),
+                      child: GestureDetector(
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (BuildContext context) =>
+                                  FollowersAndFollowing(
+                                pageToDisplay: 'following',
+                              ),
+                            ),
+                          );
+                        },
+                        child: Center(
+                          child: Text(
+                            'Following',
+                            style: TextStyle(fontSize: 18),
+                          ),
                         ),
                       ),
                     ),
