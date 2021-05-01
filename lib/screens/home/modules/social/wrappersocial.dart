@@ -40,7 +40,7 @@ class _WrapperSocialState extends State<WrapperSocial> {
   List<Widget> _widgetoptions = [
     HomePageSocial(),
     SearchPage(),
-    Text('c'),
+    //Text('c'),
     ProfilePage(),
   ];
 
@@ -62,7 +62,7 @@ class _WrapperSocialState extends State<WrapperSocial> {
     List<Widget> _appbartitleoptions = [
       Text('Home'),
       Text('Search'),
-      Text('Activity'),
+      //  Text('Activity'),
       Text(username),
     ];
 
@@ -117,11 +117,11 @@ class _WrapperSocialState extends State<WrapperSocial> {
                   label: 'Search',
                   backgroundColor: kOxfordBlue,
                 ),
-                BottomNavigationBarItem(
-                  icon: Icon(Icons.favorite),
-                  label: 'Like',
-                  backgroundColor: kOxfordBlue,
-                ),
+                // BottomNavigationBarItem(
+                //   icon: Icon(Icons.favorite),
+                //   label: 'Like',
+                //   backgroundColor: kOxfordBlue,
+                // ),
                 BottomNavigationBarItem(
                   icon: CircleAvatar(
                     backgroundImage: user.profilePicture == null

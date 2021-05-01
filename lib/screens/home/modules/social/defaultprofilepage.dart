@@ -4,6 +4,7 @@ import 'package:housingsociety/screens/home/modules/social/displayphoto.dart';
 import 'package:housingsociety/screens/home/modules/social/followersandfollowingpage.dart';
 import 'package:housingsociety/screens/home/modules/social/reusableposttile.dart';
 import 'package:housingsociety/services/auth.dart';
+import 'package:housingsociety/shared/constants.dart';
 import 'package:housingsociety/shared/loading.dart';
 import 'package:provider/provider.dart';
 import 'package:housingsociety/models/user.dart';
@@ -86,80 +87,78 @@ class _ProfilePageState extends State<ProfilePage> {
                 Row(
                   children: [
                     Expanded(
-                      child: Center(
-                        child: Text(
-                          snapshot.data['posts'].toString(),
-                          style: TextStyle(fontSize: 18),
-                        ),
+                      child: Column(
+                        children: [
+                          Text(
+                            snapshot.data['posts'].toString(),
+                            style: TextStyle(fontSize: 18, color: Colors.white),
+                          ),
+                          Text(
+                            'Posts',
+                            style: TextStyle(fontSize: 18, color: Colors.white),
+                          )
+                        ],
                       ),
                     ),
                     Expanded(
-                      child: Center(
-                        child: Text(
-                          snapshot.data['followers'].toString(),
-                          style: TextStyle(fontSize: 18),
-                        ),
-                      ),
-                    ),
-                    Expanded(
-                      child: Center(
-                        child: Text(
-                          snapshot.data['following'].toString(),
-                          style: TextStyle(fontSize: 18),
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-                Row(
-                  children: [
-                    Expanded(
-                      child: Center(
-                        child: Text(
-                          'Posts',
-                          style: TextStyle(fontSize: 18),
-                        ),
-                      ),
-                    ),
-                    Expanded(
-                      child: GestureDetector(
-                        onTap: () {
+                      child: TextButton(
+                        style: TextButton.styleFrom(primary: Colors.white),
+                        onPressed: () {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
                               builder: (BuildContext context) =>
                                   FollowersAndFollowing(
                                 pageToDisplay: 'followers',
+                                username: snapshot.data['username'],
                               ),
                             ),
                           );
                         },
-                        child: Center(
-                          child: Text(
-                            'Followers',
-                            style: TextStyle(fontSize: 18),
-                          ),
+                        child: Column(
+                          children: [
+                            Text(
+                              snapshot.data['followers'].toString(),
+                              style: TextStyle(fontSize: 18),
+                            ),
+                            Center(
+                              child: Text(
+                                'Followers',
+                                style: TextStyle(fontSize: 18),
+                              ),
+                            )
+                          ],
                         ),
                       ),
                     ),
                     Expanded(
-                      child: GestureDetector(
-                        onTap: () {
+                      child: TextButton(
+                        style: TextButton.styleFrom(primary: Colors.white),
+                        onPressed: () {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
                               builder: (BuildContext context) =>
                                   FollowersAndFollowing(
                                 pageToDisplay: 'following',
+                                username: snapshot.data['username'],
                               ),
                             ),
                           );
                         },
-                        child: Center(
-                          child: Text(
-                            'Following',
-                            style: TextStyle(fontSize: 18),
-                          ),
+                        child: Column(
+                          children: [
+                            Text(
+                              snapshot.data['following'].toString(),
+                              style: TextStyle(fontSize: 18),
+                            ),
+                            Center(
+                              child: Text(
+                                'Following',
+                                style: TextStyle(fontSize: 18),
+                              ),
+                            )
+                          ],
                         ),
                       ),
                     ),
@@ -182,9 +181,7 @@ class _ProfilePageState extends State<ProfilePage> {
                     if (snapshot.connectionState == ConnectionState.waiting) {
                       return Loading();
                     }
-                    // setState(() {
-                    //   noOfPosts = snapshot.data.docs.length;
-                    // });
+
                     return GridView.count(
                       shrinkWrap: true,
                       physics: NeverScrollableScrollPhysics(),

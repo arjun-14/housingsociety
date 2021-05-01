@@ -1,13 +1,16 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:housingsociety/models/user.dart';
+import 'package:housingsociety/screens/home/modules/social/defaultprofilepage.dart';
+import 'package:housingsociety/screens/home/modules/social/otherusersprofilepage.dart';
 import 'package:housingsociety/services/auth.dart';
 import 'package:housingsociety/shared/loading.dart';
 import 'package:provider/provider.dart';
 
 class FollowersAndFollowing extends StatefulWidget {
   final String pageToDisplay;
-  FollowersAndFollowing({this.pageToDisplay});
+  final String username;
+  FollowersAndFollowing({this.pageToDisplay, this.username});
 
   @override
   _FollowersAndFollowingState createState() => _FollowersAndFollowingState();
@@ -69,6 +72,7 @@ class _FollowersAndFollowingState extends State<FollowersAndFollowing> {
       length: 2,
       child: Scaffold(
         appBar: AppBar(
+          title: Text(widget.username),
           bottom: TabBar(tabs: <Widget>[
             Tab(
               text: 'Followers',
@@ -81,14 +85,16 @@ class _FollowersAndFollowingState extends State<FollowersAndFollowing> {
         body: TabBarView(
           children: [
             followersdisplay == null
-                ? Center(child: Text('Follow someone'))
+                ? Center(child: Text('Nobody follows you yet'))
                 : FollowersandFollowingdisplaytile(
                     displaytile: followersdisplay,
+                    following: followingUid,
                   ),
             followingdisplay == null
-                ? Center(child: Text('Nobody is following you yet'))
+                ? Center(child: Text('You dont follow anyone'))
                 : FollowersandFollowingdisplaytile(
                     displaytile: followingdisplay,
+                    following: followingUid,
                   ),
           ],
         ),
@@ -98,9 +104,10 @@ class _FollowersAndFollowingState extends State<FollowersAndFollowing> {
 }
 
 class FollowersandFollowingdisplaytile extends StatelessWidget {
-  FollowersandFollowingdisplaytile({this.displaytile});
+  FollowersandFollowingdisplaytile({this.displaytile, this.following});
 
   final Query displaytile;
+  final List following;
 
   @override
   Widget build(BuildContext context) {
@@ -117,6 +124,17 @@ class FollowersandFollowingdisplaytile extends StatelessWidget {
         return ListView(
           children: snapshot.data.docs.map((DocumentSnapshot document) {
             return ListTile(
+              onTap: () {
+                Navigator.pop(context);
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (BuildContext context) {
+                  return UserProfilePage(
+                    uid: document.data()['uid'],
+                    username: document.data()['username'],
+                    following: following.contains(document.data()['uid']),
+                  );
+                }));
+              },
               leading: CircleAvatar(
                   backgroundImage: document.data()['profile_picture'] == ''
                       ? AssetImage('assets/images/default_profile_pic.jpg')
