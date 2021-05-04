@@ -90,10 +90,11 @@ class DatabaseService {
     });
   }
 
-  Future<void> addNotice(title, notice) {
+  Future<void> addNotice(String title, String notice, String type) {
     return moduleNotice.add({
       'title': title,
       'notice': notice,
+      'type': type,
       'timestamp': Timestamp.now(),
     });
   }
@@ -104,10 +105,11 @@ class DatabaseService {
     });
   }
 
-  Future<void> editNotice(uid, title, notice) {
-    return moduleNotice.doc(uid).update({
+  Future<void> editNotice(docid, title, notice, String type) {
+    return moduleNotice.doc(docid).update({
       'title': title,
       'notice': notice,
+      'type': type,
     });
   }
 

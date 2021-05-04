@@ -8,6 +8,8 @@ import 'package:flutter_tts/flutter_tts.dart';
 import 'package:housingsociety/screens/home/modules/notice/reusableflatbutton.dart';
 
 class RealTimeNoticeUpdate extends StatefulWidget {
+  final String noticeType;
+  RealTimeNoticeUpdate({this.noticeType});
   @override
   _RealTimeNoticeUpdateState createState() => _RealTimeNoticeUpdateState();
 }
@@ -55,7 +57,8 @@ class _RealTimeNoticeUpdateState extends State<RealTimeNoticeUpdate> {
   Widget build(BuildContext context) {
     Query moduleNotice = FirebaseFirestore.instance
         .collection('module_notice')
-        .orderBy('timestamp', descending: true);
+        .orderBy('timestamp', descending: true)
+        .where('type', isEqualTo: widget.noticeType);
     return StreamBuilder<QuerySnapshot>(
         stream: moduleNotice.snapshots(),
         builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
@@ -83,7 +86,7 @@ class _RealTimeNoticeUpdateState extends State<RealTimeNoticeUpdate> {
                           editTitle: document.data()['title'],
                           editNotice: document.data()['notice'],
                           flag: 0,
-                          uid: document.id,
+                          docid: document.id,
                         ),
                       ),
                     );

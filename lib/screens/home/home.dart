@@ -102,7 +102,7 @@ class Home extends StatelessWidget {
                   ),
                   ReusableCard(
                     icon: Icons.announcement,
-                    text: 'Notice',
+                    text: 'Notice & Events',
                     onpress: () {
                       Navigator.pushNamed(context, Notice.id);
                     },
