@@ -85,7 +85,7 @@ class _WrapperSocialState extends State<WrapperSocial> {
               title: _appbartitleoptions.elementAt(_selectedIndex),
               actions: [
                 Visibility(
-                  visible: _selectedIndex == 3,
+                  visible: _selectedIndex == 2,
                   child: IconButton(
                     icon: Icon(Icons.add_box),
                     color: kAmaranth,

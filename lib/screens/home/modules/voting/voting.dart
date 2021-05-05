@@ -23,7 +23,10 @@ class _VotingState extends State<Voting> {
 
   Future getuserdata() async {
     userdata = await DatabaseService().getuserdata();
-    userType = userdata.data()['userType'];
+    setState(() {
+      userType = userdata.data()['userType'];
+    });
+
     print(userdata.data());
     print(userType);
   }

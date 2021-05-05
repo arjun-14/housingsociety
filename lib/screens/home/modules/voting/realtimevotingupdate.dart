@@ -34,7 +34,7 @@ class _RealTimeVotingUpdateState extends State<RealTimeVotingUpdate> {
     Query moduleVoting = FirebaseFirestore.instance
         .collection('module_voting')
         .orderBy('timestamp', descending: true);
-
+    Timestamp timestamp = Timestamp.now();
     return StreamBuilder<QuerySnapshot>(
       stream: moduleVoting.snapshots(),
       builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
@@ -98,17 +98,21 @@ class _RealTimeVotingUpdateState extends State<RealTimeVotingUpdate> {
                 result = null;
               }
               participants.add(
-                result == true
+                timestamp.compareTo(document.data()['timer']) > 0 ||
+                        result == true
                     ? Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: Column(
                           children: [
                             LinearPercentIndicator(
                               animation: true,
-                              percent: vote / totalVotes,
+                              percent:
+                                  totalVotes != 0 ? vote / totalVotes : 0.0,
                               lineHeight: 15.0,
-                              trailing: Text(
-                                  (vote / totalVotes * 100).toStringAsFixed(2)),
+                              trailing: totalVotes != 0
+                                  ? Text((vote / totalVotes * 100)
+                                      .toStringAsFixed(2))
+                                  : Text('0.00'),
                               //  leading: Text(participant),
                               progressColor: kAmaranth,
                               center: Text(
@@ -171,7 +175,7 @@ class _RealTimeVotingUpdateState extends State<RealTimeVotingUpdate> {
                         Expanded(child: Text(totalVotes.toString() + ' vote')),
                         document.data()['timer'] != null
                             ? Text(
-                                'Ends on ${DateFormat('dd/mm/yy H:m').format((document.data()['timer']).toDate())}')
+                                'Ends on ${DateFormat('dd/MM/yy H:m').format((document.data()['timer']).toDate())}')
                             : SizedBox(
                                 width: 0,
                               )
@@ -182,7 +186,7 @@ class _RealTimeVotingUpdateState extends State<RealTimeVotingUpdate> {
                         Expanded(child: Text(totalVotes.toString() + ' votes')),
                         document.data()['timer'] != null
                             ? Text(
-                                'Ends on ${DateFormat('dd/mm/yy H:m').format((document.data()['timer']).toDate())}')
+                                'Ends on ${DateFormat('dd/M/yy H:m').format((document.data()['timer']).toDate())}')
                             : SizedBox(
                                 width: 0,
                               )

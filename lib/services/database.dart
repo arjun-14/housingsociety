@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:housingsociety/services/auth.dart';
 import 'package:housingsociety/services/storage.dart';
