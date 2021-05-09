@@ -46,7 +46,7 @@ dependencies:
   translator: ^0.1.5
   rake: ^1.0.1
   pie_chart: ^5.0.0
-
+  table_calendar: 
 
 
 dev_dependencies:

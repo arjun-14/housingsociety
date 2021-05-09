@@ -7,6 +7,7 @@ import 'package:housingsociety/shared/loading.dart';
 class ResidentClassification extends StatelessWidget {
   final String userType;
   ResidentClassification({this.userType});
+
   @override
   Widget build(BuildContext context) {
     Query userProfile;
@@ -41,6 +42,14 @@ class ResidentClassification extends StatelessWidget {
                             color: kOxfordBlue,
                             child: Column(
                               children: [
+                                ListTile(
+                                  title: Text(
+                                    'Delete account',
+                                    style: TextStyle(
+                                      color: Colors.red,
+                                    ),
+                                  ),
+                                ),
                                 ListTile(
                                   onTap: () {
                                     userType == 'admin'

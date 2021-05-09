@@ -22,12 +22,6 @@ class Home extends StatelessWidget {
         appBar: AppBar(
           actions: [
             IconButton(
-              icon: Icon(Icons.ac_unit),
-              onPressed: () {
-                print(AuthService().userName());
-              },
-            ),
-            IconButton(
               onPressed: () {
                 _auth.signOut();
               },

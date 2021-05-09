@@ -351,6 +351,12 @@ class DatabaseService {
     });
   }
 
+  Future<String> getUserNameSocial() async {
+    String currentuserid = AuthService().userId();
+    dynamic socialUserName = await moduleSocial.doc(currentuserid).get();
+    return socialUserName.data()['username'];
+  }
+
   Future setUserNameSocial(String username, String uid) {
     moduleSocialUserNames.doc(username).set({
       'uid': uid,

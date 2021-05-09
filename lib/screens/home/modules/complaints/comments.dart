@@ -7,13 +7,32 @@ import 'package:housingsociety/services/database.dart';
 import 'package:housingsociety/shared/constants.dart';
 import 'package:provider/provider.dart';
 
-class Comments extends StatelessWidget {
-  final DatabaseService db = DatabaseService();
-
+class Comments extends StatefulWidget {
   final docid;
   final bool social;
-  final String socialusername;
-  Comments({this.docid, this.social, this.socialusername});
+
+  Comments({this.docid, this.social});
+
+  @override
+  _CommentsState createState() => _CommentsState();
+}
+
+class _CommentsState extends State<Comments> {
+  final DatabaseService db = DatabaseService();
+  String userNameSocial = '';
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    getUserNameSocial();
+  }
+
+  void getUserNameSocial() async {
+    userNameSocial = await db.getUserNameSocial();
+    setState(() {});
+    print(userNameSocial);
+  }
+
   @override
   Widget build(BuildContext context) {
     final user = Provider.of<CurrentUser>(context);
@@ -26,8 +45,8 @@ class Comments extends StatelessWidget {
         children: [
           Expanded(
             child: RealTimeCommentUpdates(
-              docid: docid,
-              social: social,
+              docid: widget.docid,
+              social: widget.social,
             ),
           ),
           Padding(
@@ -67,8 +86,9 @@ class Comments extends StatelessWidget {
                     color: kAmaranth,
                     onPressed: () {
                       _textController.clear();
-                      db.addComment(
-                          social, docid, user.name, comment, socialusername);
+
+                      db.addComment(widget.social, widget.docid, user.name,
+                          comment, userNameSocial);
                     },
                     icon: Icon(Icons.send),
                   ),

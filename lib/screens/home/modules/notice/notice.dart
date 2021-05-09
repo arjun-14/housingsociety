@@ -53,7 +53,7 @@ class _NoticeState extends State<Notice> {
         shape: CircularNotchedRectangle(),
         color: kOxfordBlue,
         child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
             TextButton.icon(
               onPressed: () {
