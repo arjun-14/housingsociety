@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:housingsociety/screens/home/modules/contacts/addemergencycontact.dart';
+import 'package:housingsociety/services/database.dart';
 import 'package:housingsociety/shared/constants.dart';
 import 'package:housingsociety/shared/loading.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -23,6 +24,30 @@ class EmergencyContacts extends StatelessWidget {
         return ListView(
           children: snapshot.data.docs.map((DocumentSnapshot document) {
             return ListTile(
+              onLongPress: () {
+                showDialog(
+                    context: context,
+                    builder: (BuildContext context) {
+                      return AlertDialog(
+                        backgroundColor: kOxfordBlue,
+                        content: Text('Delete Contact?'),
+                        actions: [
+                          TextButton(
+                              onPressed: () {
+                                DatabaseService()
+                                    .deleteEmergencyContact(document.id);
+                                Navigator.pop(context);
+                              },
+                              child: Text('Yes')),
+                          TextButton(
+                              onPressed: () {
+                                Navigator.pop(context);
+                              },
+                              child: Text('Cancel')),
+                        ],
+                      );
+                    });
+              },
               leading: CircleAvatar(
                 backgroundImage: document.data()['profile_picture'] == ''
                     ? AssetImage('assets/images/default_profile_pic.jpg')

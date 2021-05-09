@@ -118,8 +118,15 @@ class _VisitorState extends State<Visitor> {
                     pageNumber = 0;
                   });
                 },
-                icon: Icon(Icons.ac_unit),
-                label: Text('a')),
+                icon: Icon(
+                  Icons.note,
+                  color: pageNumber == 0 ? kAmaranth : Colors.white,
+                ),
+                label: Text(
+                  'Log',
+                  style: TextStyle(
+                      color: pageNumber == 0 ? kAmaranth : Colors.white),
+                )),
             TextButton.icon(
               onPressed: () {
                 setState(() {
@@ -128,12 +135,12 @@ class _VisitorState extends State<Visitor> {
               },
               icon: Icon(
                 Icons.calendar_today,
-                color: kAmaranth,
+                color: pageNumber == 1 ? kAmaranth : Colors.white,
               ),
               label: Text(
                 'Calendar',
                 style: TextStyle(
-                  color: kAmaranth,
+                  color: pageNumber == 1 ? kAmaranth : Colors.white,
                 ),
               ),
             ),

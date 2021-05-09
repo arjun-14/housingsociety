@@ -236,6 +236,10 @@ class DatabaseService {
     });
   }
 
+  Future<void> deleteEmergencyContact(String docid) {
+    return moduleContatcsEmergencyContact.doc(docid).delete();
+  }
+
   void addIndividualHealthStatus(uid, status) {
     if (status == 'Healthy') {
       userProfile.doc(uid).update({

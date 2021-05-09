@@ -84,7 +84,6 @@ class ReusablePostDisplayTile extends StatelessWidget {
                         builder: (context) => Comments(
                               social: true,
                               docid: document.id,
-                             
                             ));
                   }),
             ],
