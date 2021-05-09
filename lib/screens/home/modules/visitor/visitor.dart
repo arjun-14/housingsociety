@@ -88,9 +88,9 @@ class _VisitorState extends State<Visitor> {
           )
         ],
       ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+      //floatingActionButtonLocation: FloatingActionButtonLocation.endDocked,
       floatingActionButton: Visibility(
-        visible: userType == 'admin',
+        visible: userType == 'admin' && pageNumber == 0,
         child: FloatingActionButton(
           child: Icon(Icons.add),
           onPressed: () {
@@ -100,53 +100,82 @@ class _VisitorState extends State<Visitor> {
       ),
       body: pageNumber == 0
           ? RealTimeVisitorUpdate()
-          : TableCalendar(
-              calendarController: CalendarController(),
-              startDay: DateTime.utc(2010, 10, 16),
-              endDay: DateTime.utc(2030, 3, 14),
-              initialSelectedDay: DateTime.now(),
-            ),
+          : pageNumber == 1
+              ? TableCalendar(
+                  calendarController: CalendarController(),
+                  startDay: DateTime.utc(2010, 10, 16),
+                  endDay: DateTime.utc(2030, 3, 14),
+                  initialSelectedDay: DateTime.now(),
+                )
+              : Text('a'),
       bottomNavigationBar: BottomAppBar(
         shape: CircularNotchedRectangle(),
         color: kOxfordBlue,
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
-            TextButton.icon(
-                onPressed: () {
-                  setState(() {
-                    pageNumber = 0;
-                  });
-                },
-                icon: Icon(
-                  Icons.note,
-                  color: pageNumber == 0 ? kAmaranth : Colors.white,
-                ),
-                label: Text(
-                  'Log',
-                  style: TextStyle(
-                      color: pageNumber == 0 ? kAmaranth : Colors.white),
-                )),
-            TextButton.icon(
-              onPressed: () {
+            ReusbaleBottomNavBarChild(
+              pageNumber: 0,
+              onpressed: () {
+                setState(() {
+                  pageNumber = 0;
+                });
+              },
+              iconData: Icons.note,
+              label: 'Log',
+              color: pageNumber == 0 ? kAmaranth : Colors.white,
+            ),
+            ReusbaleBottomNavBarChild(
+              pageNumber: 1,
+              onpressed: () {
                 setState(() {
                   pageNumber = 1;
                 });
               },
-              icon: Icon(
-                Icons.calendar_today,
-                color: pageNumber == 1 ? kAmaranth : Colors.white,
-              ),
-              label: Text(
-                'Calendar',
-                style: TextStyle(
-                  color: pageNumber == 1 ? kAmaranth : Colors.white,
-                ),
-              ),
+              iconData: Icons.calendar_today,
+              label: 'Calendar',
+              color: pageNumber == 1 ? kAmaranth : Colors.white,
+            ),
+            ReusbaleBottomNavBarChild(
+              pageNumber: 2,
+              onpressed: () {
+                setState(() {
+                  pageNumber = 2;
+                });
+              },
+              iconData: Icons.add,
+              label: 'Housekeeper',
+              color: pageNumber == 2 ? kAmaranth : Colors.white,
             ),
           ],
         ),
       ),
     );
+  }
+}
+
+class ReusbaleBottomNavBarChild extends StatelessWidget {
+  ReusbaleBottomNavBarChild(
+      {this.pageNumber, this.onpressed, this.iconData, this.label, this.color});
+
+  final int pageNumber;
+  final IconData iconData;
+  final Function onpressed;
+  final String label;
+  final Color color;
+  @override
+  Widget build(BuildContext context) {
+    return TextButton.icon(
+        onPressed: onpressed,
+        icon: Icon(
+          iconData,
+          color: color,
+        ),
+        label: Text(
+          label,
+          style: TextStyle(
+            color: color,
+          ),
+        ));
   }
 }
