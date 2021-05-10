@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:housingsociety/screens/home/modules/visitor/reusabletextfield.dart';
+import 'package:housingsociety/screens/home/modules/visitor/showresidents.dart';
 import 'package:housingsociety/services/database.dart';
 import 'package:housingsociety/shared/constants.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class AddVisitor extends StatefulWidget {
   static const String id = 'add_visitor';
@@ -31,6 +33,7 @@ class AddVisitor extends StatefulWidget {
 
 class _AddVisitorState extends State<AddVisitor> {
   String name = '', wing = '', flatno = '', purpose = '', mobileNo = '';
+  var usermobileNo = '';
   TimeOfDay selectedTimeIn = TimeOfDay.now();
   TimeOfDay selectedTimeOut;
 
@@ -69,11 +72,31 @@ class _AddVisitorState extends State<AddVisitor> {
     }
   }
 
+  void showResidents() async {
+    final result = await Navigator.push(
+        context, MaterialPageRoute(builder: (context) => ShowResidents()));
+    setState(() {
+      usermobileNo = result[2];
+      wing = result[3];
+      flatno = result[4];
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Text('Add Visitor'),
+        actions: [
+          Visibility(
+            visible: widget.flag != 0,
+            child: IconButton(
+                icon: Icon(Icons.person),
+                onPressed: () {
+                  showResidents();
+                }),
+          ),
+        ],
       ),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 16.0),
@@ -106,7 +129,7 @@ class _AddVisitorState extends State<AddVisitor> {
               children: [
                 Expanded(
                     child: ReusableTextField(
-                  labelText: 'Wing',
+                  labelText: wing == '' ? 'Wing' : wing,
                   prefixIcon: Icon(Icons.apartment),
                   initialValue: widget.flag == 0 ? widget.wing : wing,
                   onChanged: (val) {
@@ -114,19 +137,21 @@ class _AddVisitorState extends State<AddVisitor> {
                       wing = val;
                     });
                   },
+                  enabled: false,
                 )),
                 SizedBox(
                   width: 10,
                 ),
                 Expanded(
                   child: ReusableTextField(
-                    labelText: 'Flat No.',
+                    labelText: flatno == '' ? 'Flat No.' : flatno,
                     initialValue: widget.flag == 0 ? widget.flatno : flatno,
                     onChanged: (val) {
                       setState(() {
                         flatno = val;
                       });
                     },
+                    enabled: false,
                   ),
                 ),
               ],
@@ -207,6 +232,25 @@ class _AddVisitorState extends State<AddVisitor> {
                 ),
               ],
             ),
+            TextButton(
+                onPressed: usermobileNo != ''
+                    ? () {
+                        String smsbody =
+                            '?body=You have a visitor. Visitor details are:\nName: ' +
+                                name +
+                                '\nPhone%20No: ' +
+                                mobileNo +
+                                '\nPurpose of visit: ' +
+                                purpose;
+                        launch("sms://" + usermobileNo + smsbody);
+                      }
+                    : null,
+                child: Text(
+                  'Send SMS',
+                  style: TextStyle(
+                    color: usermobileNo != '' ? kAmaranth : Colors.grey,
+                  ),
+                )),
           ],
         ),
       ),

@@ -105,7 +105,10 @@ class RealTimeVisitorUpdate extends StatelessWidget {
                         Icons.call,
                         color: kMediumAquamarine,
                       ),
-                      title: Text(document.data()['mobileNo']),
+                      title: Text(
+                        document.data()['mobileNo'],
+                        style: TextStyle(color: kMediumAquamarine),
+                      ),
                       onTap: () {
                         launch("tel://" + document.data()['mobileNo']);
                       },

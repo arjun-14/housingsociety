@@ -9,7 +9,7 @@ class ReusableTextField extends StatelessWidget {
   final Icon prefixIcon;
   final int maxLength;
   final Function onChanged;
-
+  final bool enabled;
   ReusableTextField({
     @required this.labelText,
     this.maxlines,
@@ -19,10 +19,12 @@ class ReusableTextField extends StatelessWidget {
     this.prefixIcon,
     this.maxLength,
     this.onChanged,
+    this.enabled = true,
   });
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      enabled: enabled,
       onTap: onTap,
       maxLines: maxlines,
       keyboardType: keyboardType,
