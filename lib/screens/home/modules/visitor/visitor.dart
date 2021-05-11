@@ -108,46 +108,49 @@ class _VisitorState extends State<Visitor> {
                   initialSelectedDay: DateTime.now(),
                 )
               : Text('a'),
-      bottomNavigationBar: BottomAppBar(
-        shape: CircularNotchedRectangle(),
-        color: kOxfordBlue,
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: [
-            ReusbaleBottomNavBarChild(
-              pageNumber: 0,
-              onpressed: () {
-                setState(() {
-                  pageNumber = 0;
-                });
-              },
-              iconData: Icons.note,
-              label: 'Log',
-              color: pageNumber == 0 ? kAmaranth : Colors.white,
-            ),
-            ReusbaleBottomNavBarChild(
-              pageNumber: 1,
-              onpressed: () {
-                setState(() {
-                  pageNumber = 1;
-                });
-              },
-              iconData: Icons.calendar_today,
-              label: 'Calendar',
-              color: pageNumber == 1 ? kAmaranth : Colors.white,
-            ),
-            ReusbaleBottomNavBarChild(
-              pageNumber: 2,
-              onpressed: () {
-                setState(() {
-                  pageNumber = 2;
-                });
-              },
-              iconData: Icons.add,
-              label: 'Housekeeper',
-              color: pageNumber == 2 ? kAmaranth : Colors.white,
-            ),
-          ],
+      bottomNavigationBar: Visibility(
+        visible: false,
+        child: BottomAppBar(
+          shape: CircularNotchedRectangle(),
+          color: kOxfordBlue,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: [
+              ReusbaleBottomNavBarChild(
+                pageNumber: 0,
+                onpressed: () {
+                  setState(() {
+                    pageNumber = 0;
+                  });
+                },
+                iconData: Icons.note,
+                label: 'Log',
+                color: pageNumber == 0 ? kAmaranth : Colors.white,
+              ),
+              ReusbaleBottomNavBarChild(
+                pageNumber: 1,
+                onpressed: () {
+                  setState(() {
+                    pageNumber = 1;
+                  });
+                },
+                iconData: Icons.calendar_today,
+                label: 'Calendar',
+                color: pageNumber == 1 ? kAmaranth : Colors.white,
+              ),
+              ReusbaleBottomNavBarChild(
+                pageNumber: 2,
+                onpressed: () {
+                  setState(() {
+                    pageNumber = 2;
+                  });
+                },
+                iconData: Icons.add,
+                label: 'Housekeeper',
+                color: pageNumber == 2 ? kAmaranth : Colors.white,
+              ),
+            ],
+          ),
         ),
       ),
     );

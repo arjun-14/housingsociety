@@ -22,6 +22,18 @@ class _EditPasswordState extends State<EditPassword> {
   Color visibiltyIconColorCurrent = Colors.grey;
   Color visibiltyIconColorUpdated = Colors.grey;
   Color visibiltyIconColorUpdatedReEntered = Colors.grey;
+  SnackBar snackbar;
+
+  void showSnackBar(String text) {
+    setState(() {
+      snackbar = SnackBar(
+        content: Text(text),
+        backgroundColor: Colors.white,
+        duration: Duration(seconds: 1, milliseconds: 50),
+        behavior: SnackBarBehavior.floating,
+      );
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -136,21 +148,10 @@ class _EditPasswordState extends State<EditPassword> {
           builder: (BuildContext context) => FloatingActionButton(
             onPressed: () async {
               if (updatedPassword != updatedPasswordReEntered) {
-                final snackbar = SnackBar(
-                  content: Text('Passwords do not match'),
-                  backgroundColor: kAmaranth,
-                  duration: Duration(seconds: 1, milliseconds: 50),
-                  behavior: SnackBarBehavior.floating,
-                );
-
+                showSnackBar('passwords do not match');
                 ScaffoldMessenger.of(context).showSnackBar(snackbar);
               } else if (updatedPassword.length < 4) {
-                final snackbar = SnackBar(
-                  content: Text('Password must be atleast 4 charachters long'),
-                  backgroundColor: kAmaranth,
-                  duration: Duration(seconds: 1, milliseconds: 50),
-                  behavior: SnackBarBehavior.floating,
-                );
+                showSnackBar('Password must be atleast 4 charachters long');
                 ScaffoldMessenger.of(context).showSnackBar(snackbar);
               } else {
                 setState(() {
@@ -190,12 +191,7 @@ class _EditPasswordState extends State<EditPassword> {
                     ),
                   );
                 } else {
-                  final snackbar = SnackBar(
-                    content: Text(result.toString()),
-                    backgroundColor: kAmaranth,
-                    duration: Duration(seconds: 1, milliseconds: 50),
-                    behavior: SnackBarBehavior.floating,
-                  );
+                  showSnackBar(result.toString());
                   ScaffoldMessenger.of(context).showSnackBar(snackbar);
                 }
               }
