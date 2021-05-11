@@ -72,6 +72,13 @@ class DatabaseService {
     return AuthService().updateDisplayName(updatedName);
   }
 
+  Future<void> updateFlatNo(String docid, String wing, String flatno) {
+    return userProfile.doc(docid).update({
+      'wing': wing,
+      'flatno': flatno,
+    });
+  }
+
   Future<void> updateProfilePicture(uid, profilePicture) {
     moduleSocial.doc(uid).update({
       'profile_picture': profilePicture,

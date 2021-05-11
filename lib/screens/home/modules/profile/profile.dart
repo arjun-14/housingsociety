@@ -5,7 +5,9 @@ import 'package:housingsociety/screens/home/modules/profile/editEmail.dart';
 import 'package:housingsociety/screens/home/modules/profile/editName.dart';
 import 'package:housingsociety/screens/home/modules/profile/editPassword.dart';
 import 'package:housingsociety/screens/home/modules/profile/editPhoneNumber.dart';
+import 'package:housingsociety/screens/home/modules/profile/editflat.dart';
 import 'package:housingsociety/screens/home/modules/profile/reusableprofiletile.dart';
+import 'package:housingsociety/services/auth.dart';
 import 'package:housingsociety/services/storage.dart';
 import 'package:housingsociety/shared/constants.dart';
 import 'package:housingsociety/shared/loading.dart';
@@ -138,7 +140,7 @@ class _ProfileState extends State<Profile> {
                       label: 'Email',
                       value: user.email,
                       onpress: () {
-                        Navigator.pushNamed(context, EditEmail.id);
+                        //  Navigator.pushNamed(context, EditEmail.id);
                       },
                     ),
                     ReusableProfileTile(
@@ -160,14 +162,48 @@ class _ProfileState extends State<Profile> {
                       value: snapshot.data['wing'] +
                           '  ' +
                           snapshot.data['flatno'],
-                      onpress: () {},
+                      onpress: () {
+                        Navigator.pushNamed(context, EditFlat.id);
+                      },
                     ),
                     Row(
                       children: [
                         Padding(
                           padding: const EdgeInsets.all(8.0),
                           child: TextButton(
-                            onPressed: () {},
+                            onPressed: () {
+                              showDialog(
+                                  context: context,
+                                  builder: (BuildContext context) {
+                                    return AlertDialog(
+                                      backgroundColor: kOxfordBlue,
+                                      content: Text(
+                                        'Are you sure you want to delte your account ? This action is irreversible.',
+                                        style: TextStyle(
+                                            fontWeight: FontWeight.bold),
+                                      ),
+                                      actions: [
+                                        TextButton(
+                                            onPressed: () {
+                                              Navigator.pop(context);
+                                            },
+                                            child: Text(
+                                              'No',
+                                              style:
+                                                  TextStyle(color: kAmaranth),
+                                            )),
+                                        ElevatedButton(
+                                            style: ElevatedButton.styleFrom(
+                                              primary: kAmaranth,
+                                            ),
+                                            onPressed: () {
+                                              AuthService().delteAccount();
+                                            },
+                                            child: Text('Delete')),
+                                      ],
+                                    );
+                                  });
+                            },
                             child: Text(
                               'Delete account',
                               style: TextStyle(

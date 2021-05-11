@@ -154,4 +154,8 @@ class AuthService {
       return 'An error occurred, please try again.';
     }
   }
+
+  Future delteAccount() {
+    return _auth.currentUser.delete();
+  }
 }

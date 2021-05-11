@@ -12,6 +12,7 @@ import 'package:housingsociety/screens/home/modules/profile/editEmail.dart';
 import 'package:housingsociety/screens/home/modules/profile/editName.dart';
 import 'package:housingsociety/screens/home/modules/profile/editPassword.dart';
 import 'package:housingsociety/screens/home/modules/profile/editPhoneNumber.dart';
+import 'package:housingsociety/screens/home/modules/profile/editflat.dart';
 import 'package:housingsociety/screens/home/modules/profile/profile.dart';
 import 'package:housingsociety/screens/home/modules/social/uploadpage.dart';
 import 'package:housingsociety/screens/home/modules/social/wrappersocial.dart';
@@ -29,6 +30,7 @@ Map<String, Widget Function(BuildContext)> routes = <String, WidgetBuilder>{
   EditEmail.id: (context) => EditEmail(),
   EditPhoneNumber.id: (context) => EditPhoneNumber(),
   EditPassword.id: (context) => EditPassword(),
+  EditFlat.id: (context) => EditFlat(),
   Notice.id: (context) => Notice(),
   AddNotice.id: (context) => AddNotice(),
   Translate.id: (context) => Translate(),
