@@ -158,4 +158,6 @@ class AuthService {
   Future delteAccount() {
     return _auth.currentUser.delete();
   }
+
+  Future disableAccount() {}
 }

@@ -61,6 +61,7 @@ class DatabaseService {
         'wing': wing,
         'flatno': flatno,
         'profile_picture': '',
+        'userType': 'user',
       },
     );
   }
@@ -333,8 +334,14 @@ class DatabaseService {
             'userType': 'admin',
           })
         : userProfile.doc(docid).update({
-            'userType': FieldValue.delete(),
+            'userType': 'user',
           });
+  }
+
+  Future disableAccount(String docid) {
+    return userProfile.doc(docid).update({
+      'userType': 'disabled',
+    });
   }
 
   Future getuserdata() async {

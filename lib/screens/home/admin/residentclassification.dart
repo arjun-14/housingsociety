@@ -11,14 +11,10 @@ class ResidentClassification extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Query userProfile;
-    if (userType == 'admin') {
-      userProfile = FirebaseFirestore.instance
-          .collection('user_profile')
-          .where('userType', isEqualTo: 'admin');
-    } else {
-      userProfile =
-          FirebaseFirestore.instance.collection('user_profile').orderBy('name');
-    }
+
+    userProfile = FirebaseFirestore.instance
+        .collection('user_profile')
+        .where('userType', isEqualTo: userType);
 
     return StreamBuilder(
       stream: userProfile.snapshots(),
@@ -42,14 +38,23 @@ class ResidentClassification extends StatelessWidget {
                             color: kOxfordBlue,
                             child: Column(
                               children: [
-                                ListTile(
-                                  title: Text(
-                                    'Delete account',
-                                    style: TextStyle(
-                                      color: Colors.red,
-                                    ),
-                                  ),
-                                ),
+                                userType != 'admin'
+                                    ? ListTile(
+                                        onTap: () {
+                                          DatabaseService()
+                                              .disableAccount(document.id);
+                                          Navigator.pop(context);
+                                        },
+                                        title: Text(
+                                          'Disable account',
+                                          style: TextStyle(
+                                            color: Colors.red,
+                                          ),
+                                        ),
+                                      )
+                                    : SizedBox(
+                                        height: 0,
+                                      ),
                                 ListTile(
                                   onTap: () {
                                     userType == 'admin'

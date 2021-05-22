@@ -7,7 +7,7 @@ class Residents extends StatelessWidget {
   Widget build(BuildContext context) {
     return DefaultTabController(
       initialIndex: 1,
-      length: 2,
+      length: 3,
       child: Scaffold(
         appBar: AppBar(
           title: Text('Residents'),
@@ -19,6 +19,9 @@ class Residents extends StatelessWidget {
               Tab(
                 text: 'Residents',
               ),
+              Tab(
+                text: 'Disabled',
+              ),
             ],
           ),
         ),
@@ -27,8 +30,11 @@ class Residents extends StatelessWidget {
             userType: 'admin',
           ),
           ResidentClassification(
-            userType: 'resident',
+            userType: 'user',
           ),
+          ResidentClassification(
+            userType: 'disabled',
+          )
         ]),
       ),
     );
