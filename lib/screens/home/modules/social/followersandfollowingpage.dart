@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:housingsociety/models/user.dart';
 import 'package:housingsociety/screens/home/modules/social/defaultprofilepage.dart';
@@ -17,7 +18,7 @@ class FollowersAndFollowing extends StatefulWidget {
 }
 
 class _FollowersAndFollowingState extends State<FollowersAndFollowing> {
-  String userid = AuthService().userId();
+  String userid;
   Query followersdisplay;
   Query followingdisplay;
   List<String> followersUid = [];
@@ -28,40 +29,47 @@ class _FollowersAndFollowingState extends State<FollowersAndFollowing> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    CollectionReference followers = FirebaseFirestore.instance
-        .collection('module_social')
-        .doc(userid)
-        .collection('followers');
-    CollectionReference following = FirebaseFirestore.instance
-        .collection('module_social')
-        .doc(userid)
-        .collection('following');
-    if (widget.pageToDisplay == 'following') {
-      initialIndex = 1;
-    }
-    followers.get().then((value) {
-      value.docs.forEach((doc) {
-        followersUid.add(doc.data()['uid']);
-      });
-      if (followersUid.isNotEmpty) {
-        setState(() {
-          followersdisplay = FirebaseFirestore.instance
-              .collection('module_social')
-              .where('uid', whereIn: followersUid);
-        });
+    FirebaseFirestore.instance
+        .collection('module_social_usernames')
+        .doc(widget.username)
+        .get()
+        .then((DocumentSnapshot documentSnapshot) {
+      userid = documentSnapshot.data()['uid'];
+      CollectionReference followers = FirebaseFirestore.instance
+          .collection('module_social')
+          .doc(userid)
+          .collection('followers');
+      CollectionReference following = FirebaseFirestore.instance
+          .collection('module_social')
+          .doc(userid)
+          .collection('following');
+      if (widget.pageToDisplay == 'following') {
+        initialIndex = 1;
       }
-    });
-    following.get().then((value) {
-      value.docs.forEach((doc) {
-        followingUid.add(doc.data()['uid']);
-      });
-      if (followingUid.isNotEmpty) {
-        setState(() {
-          followingdisplay = FirebaseFirestore.instance
-              .collection('module_social')
-              .where('uid', whereIn: followingUid);
+      followers.get().then((value) {
+        value.docs.forEach((doc) {
+          followersUid.add(doc.data()['uid']);
         });
-      }
+        if (followersUid.isNotEmpty) {
+          setState(() {
+            followersdisplay = FirebaseFirestore.instance
+                .collection('module_social')
+                .where('uid', whereIn: followersUid);
+          });
+        }
+      });
+      following.get().then((value) {
+        value.docs.forEach((doc) {
+          followingUid.add(doc.data()['uid']);
+        });
+        if (followingUid.isNotEmpty) {
+          setState(() {
+            followingdisplay = FirebaseFirestore.instance
+                .collection('module_social')
+                .where('uid', whereIn: followingUid);
+          });
+        }
+      });
     });
   }
 
@@ -85,13 +93,13 @@ class _FollowersAndFollowingState extends State<FollowersAndFollowing> {
         body: TabBarView(
           children: [
             followersdisplay == null
-                ? Center(child: Text('Nobody follows you yet'))
+                ? Center(child: Text('No users to display'))
                 : FollowersandFollowingdisplaytile(
                     displaytile: followersdisplay,
                     following: followingUid,
                   ),
             followingdisplay == null
-                ? Center(child: Text('You dont follow anyone'))
+                ? Center(child: Text('No users to display'))
                 : FollowersandFollowingdisplaytile(
                     displaytile: followingdisplay,
                     following: followingUid,
