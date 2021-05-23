@@ -1,3 +1,6 @@
+import 'dart:async';
+
+import 'package:connectivity/connectivity.dart';
 import 'package:flutter/material.dart';
 import 'package:housingsociety/screens/home/modules/chat/chat.dart';
 import 'package:housingsociety/screens/home/modules/complaints/complaint.dart';
@@ -22,11 +25,23 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> {
   final AuthService _auth = AuthService();
   String userType;
+  // ConnectivityResult connectivityResult;
+  // StreamSubscription subscription;
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
     getuserdata();
+    //  subscription = Connectivity().onConnectivityChanged.listen((event) {
+    //   connectivityResult = event;
+    //  });
+  }
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+    // subscription.cancel();
   }
 
   void getuserdata() async {
@@ -35,6 +50,14 @@ class _HomeState extends State<Home> {
         userType = value.data()['userType'];
       });
     });
+  }
+
+  Future checkConnectivity() async {
+    bool connectivity;
+    ConnectivityResult connectivityResult =
+        await Connectivity().checkConnectivity();
+    connectivity = connectivityResult == ConnectivityResult.none ? false : true;
+    return connectivity;
   }
 
   @override
@@ -131,10 +154,48 @@ class _HomeState extends State<Home> {
                               ReusableCard(
                                 icon: Icons.group,
                                 text: 'Social Media',
-                                onpress: () {
-                                  Navigator.pushNamed(
-                                      context, WrapperSocial.id);
+                                onpress: () async {
+                                  var connectivity = await checkConnectivity();
+                                  connectivity == true
+                                      ? Navigator.pushNamed(
+                                          context, WrapperSocial.id)
+                                      : showDialog(
+                                          context: context,
+                                          builder: (context) {
+                                            return AlertDialog(
+                                              content: Text(
+                                                  'No Internet connection. Please try again'),
+                                              actions: [
+                                                TextButton(
+                                                  onPressed: () {
+                                                    Navigator.pop(context);
+                                                  },
+                                                  child: Text('Okay'),
+                                                )
+                                              ],
+                                            );
+                                          });
                                 },
+                                // ? showDialog(
+                                //     context: context,
+                                //     builder: (context) {
+                                //       return AlertDialog(
+                                //         content: Text(
+                                //             'No Internet connection. Please try again'),
+                                //         actions: [
+                                //           TextButton(
+                                //             onPressed: () {
+                                //               Navigator.pop(context);
+                                //             },
+                                //             child: Text('Okay'),
+                                //           )
+                                //         ],
+                                //       );
+                                //     })
+                                // : () {
+                                //     Navigator.pushNamed(
+                                //         context, WrapperSocial.id);
+                                //   },
                               ),
                             ],
                           ),
