@@ -344,6 +344,12 @@ class DatabaseService {
     });
   }
 
+  Future enableAccount(String docid) {
+    return userProfile.doc(docid).update({
+      'userType': 'user',
+    });
+  }
+
   Future getuserdata() async {
     String currentuserid = AuthService().userId();
     dynamic userdata = await userProfile.doc(currentuserid).get();

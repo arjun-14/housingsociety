@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:housingsociety/models/user.dart';
 import 'package:housingsociety/services/database.dart';
 import 'package:housingsociety/shared/constants.dart';
 import 'package:housingsociety/shared/loading.dart';
+import 'package:provider/provider.dart';
 
 class ResidentClassification extends StatelessWidget {
   final String userType;
@@ -11,7 +13,7 @@ class ResidentClassification extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Query userProfile;
-
+    final user = Provider.of<CurrentUser>(context);
     userProfile = FirebaseFirestore.instance
         .collection('user_profile')
         .where('userType', isEqualTo: userType);
@@ -28,53 +30,67 @@ class ResidentClassification extends StatelessWidget {
         return ListView(
           children: snapshot.data.docs.map((DocumentSnapshot document) {
             return GestureDetector(
-              onTap: () {
-                showModalBottomSheet(
-                    context: context,
-                    builder: (BuildContext context) {
-                      return Wrap(
-                        children: [
-                          Container(
-                            color: kOxfordBlue,
-                            child: Column(
+              onTap: document.id == user.uid
+                  ? null
+                  : () {
+                      showModalBottomSheet(
+                          context: context,
+                          builder: (BuildContext context) {
+                            return Wrap(
                               children: [
-                                userType != 'admin'
-                                    ? ListTile(
+                                Container(
+                                  color: kOxfordBlue,
+                                  child: Column(
+                                    children: [
+                                      userType != 'admin' &&
+                                              userType != 'disabled'
+                                          ? ListTile(
+                                              onTap: () {
+                                                DatabaseService()
+                                                    .disableAccount(
+                                                        document.id);
+                                                Navigator.pop(context);
+                                              },
+                                              title: Text(
+                                                'Disable account',
+                                                style: TextStyle(
+                                                  color: Colors.red,
+                                                ),
+                                              ),
+                                            )
+                                          : SizedBox(
+                                              height: 0,
+                                            ),
+                                      ListTile(
                                         onTap: () {
-                                          DatabaseService()
-                                              .disableAccount(document.id);
+                                          userType == 'disabled'
+                                              ? DatabaseService()
+                                                  .enableAccount(document.id)
+                                              : userType == 'admin'
+                                                  ? DatabaseService().setAdmin(
+                                                      document.id, 'resident')
+                                                  : DatabaseService().setAdmin(
+                                                      document.id, 'admin');
                                           Navigator.pop(context);
                                         },
-                                        title: Text(
-                                          'Disable account',
-                                          style: TextStyle(
-                                            color: Colors.red,
-                                          ),
-                                        ),
+                                        title: userType == 'disabled'
+                                            ? Text(
+                                                'Enable Account',
+                                                style: TextStyle(
+                                                  color: kMediumAquamarine,
+                                                ),
+                                              )
+                                            : userType == 'admin'
+                                                ? Text('Remove admin')
+                                                : Text('Make admin'),
                                       )
-                                    : SizedBox(
-                                        height: 0,
-                                      ),
-                                ListTile(
-                                  onTap: () {
-                                    userType == 'admin'
-                                        ? DatabaseService()
-                                            .setAdmin(document.id, 'resident')
-                                        : DatabaseService()
-                                            .setAdmin(document.id, 'admin');
-                                    Navigator.pop(context);
-                                  },
-                                  title: userType == 'admin'
-                                      ? Text('Remove admin')
-                                      : Text('Make admin'),
-                                )
+                                    ],
+                                  ),
+                                ),
                               ],
-                            ),
-                          ),
-                        ],
-                      );
-                    });
-              },
+                            );
+                          });
+                    },
               child: ListTile(
                 leading: CircleAvatar(
                   backgroundImage: document.data()['profile_picture'] == ''
