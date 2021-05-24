@@ -19,9 +19,10 @@ class RealTimeCommentUpdates extends StatelessWidget {
             .doc(docid)
             .collection('comments')
             .orderBy('timestamp');
-    return StreamBuilder<QuerySnapshot>(
+    return StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
       stream: moduleComplaintUserComments.snapshots(),
-      builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
+      builder: (BuildContext context,
+          AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>> snapshot) {
         if (snapshot.hasError) {
           return Text('Something went wrong');
         }
@@ -31,7 +32,8 @@ class RealTimeCommentUpdates extends StatelessWidget {
         }
 
         return ListView(
-          children: snapshot.data.docs.map((DocumentSnapshot document) {
+          children: snapshot.data.docs
+              .map((DocumentSnapshot<Map<String, dynamic>> document) {
             return Padding(
               padding: const EdgeInsets.all(8.0),
               child: Container(

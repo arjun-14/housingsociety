@@ -9,19 +9,21 @@ import 'package:url_launcher/url_launcher.dart';
 class RealTimeVisitorUpdate extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    Query moduleVisitor = FirebaseFirestore.instance
+    Query<Map<String, dynamic>> moduleVisitor = FirebaseFirestore.instance
         .collection('module_visitor')
         .orderBy('timestamp', descending: true);
-    return StreamBuilder<QuerySnapshot>(
+    return StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
       stream: moduleVisitor.snapshots(),
-      builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
+      builder: (BuildContext context,
+          AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>> snapshot) {
         if (snapshot.hasError) {
           return Text('Something went wrong.');
         } else if (snapshot.connectionState == ConnectionState.waiting) {
           return Loading();
         }
         return ListView(
-          children: snapshot.data.docs.map((DocumentSnapshot document) {
+          children: snapshot.data.docs
+              .map((DocumentSnapshot<Map<String, dynamic>> document) {
             return Padding(
               padding: const EdgeInsets.all(8.0),
               child: Container(

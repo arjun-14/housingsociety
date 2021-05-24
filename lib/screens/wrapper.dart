@@ -3,7 +3,6 @@ import 'package:housingsociety/models/user.dart';
 import 'package:housingsociety/screens/authenticate/authenticate.dart';
 import 'package:housingsociety/screens/home/home.dart';
 import 'package:provider/provider.dart';
-import 'package:firebase_messaging/firebase_messaging.dart';
 
 class Wrapper extends StatefulWidget {
   @override
@@ -11,11 +10,9 @@ class Wrapper extends StatefulWidget {
 }
 
 class _WrapperState extends State<Wrapper> {
-  final FirebaseMessaging _messaging = FirebaseMessaging();
   @override
   void initState() {
     super.initState();
-    _messaging.getToken().then((token) => print(token));
   }
 
   @override

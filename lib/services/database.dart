@@ -3,33 +3,33 @@ import 'package:housingsociety/services/auth.dart';
 import 'package:housingsociety/services/storage.dart';
 
 class DatabaseService {
-  CollectionReference moduleChat =
+  CollectionReference<Map<String, dynamic>> moduleChat =
       FirebaseFirestore.instance.collection('module_chat');
-  CollectionReference userProfile =
+  CollectionReference<Map<String, dynamic>> userProfile =
       FirebaseFirestore.instance.collection('user_profile');
-  CollectionReference moduleNotice =
+  CollectionReference<Map<String, dynamic>> moduleNotice =
       FirebaseFirestore.instance.collection('module_notice');
-  CollectionReference moduleComplaint =
+  CollectionReference<Map<String, dynamic>> moduleComplaint =
       FirebaseFirestore.instance.collection('module_complaint');
-  CollectionReference moduleComplaintUserLikes =
+  CollectionReference<Map<String, dynamic>> moduleComplaintUserLikes =
       FirebaseFirestore.instance.collection('module_complaint_user_likes');
-  CollectionReference moduleComplaintUserComments =
+  CollectionReference<Map<String, dynamic>> moduleComplaintUserComments =
       FirebaseFirestore.instance.collection('module_complaint_comments');
-  CollectionReference moduleContatcsEmergencyContact =
+  CollectionReference<Map<String, dynamic>> moduleContatcsEmergencyContact =
       FirebaseFirestore.instance.collection('module_contacts_emergency');
-  CollectionReference moduleVisitor =
+  CollectionReference<Map<String, dynamic>> moduleVisitor =
       FirebaseFirestore.instance.collection('module_visitor');
-  CollectionReference moduleVoting =
+  CollectionReference<Map<String, dynamic>> moduleVoting =
       FirebaseFirestore.instance.collection('module_voting');
-  CollectionReference moduleSocial =
+  CollectionReference<Map<String, dynamic>> moduleSocial =
       FirebaseFirestore.instance.collection('module_social');
-  CollectionReference moduleSocialUserNames =
+  CollectionReference<Map<String, dynamic>> moduleSocialUserNames =
       FirebaseFirestore.instance.collection('module_social_usernames');
-  CollectionReference moduleSocialPhotos =
+  CollectionReference<Map<String, dynamic>> moduleSocialPhotos =
       FirebaseFirestore.instance.collection('module_social_photos');
-  CollectionReference moduleSocialPhotosLikes =
+  CollectionReference<Map<String, dynamic>> moduleSocialPhotosLikes =
       FirebaseFirestore.instance.collection('module_social_photos_likes');
-  CollectionReference moduleSocialPhotosComments =
+  CollectionReference<Map<String, dynamic>> moduleSocialPhotosComments =
       FirebaseFirestore.instance.collection('module_social_photos_comments');
 
   Future<void> addMessage(message, sender, email, Timestamp timestamp) {
@@ -145,13 +145,17 @@ class DatabaseService {
     });
   }
 
-  Future<dynamic> updateLikes(CollectionReference moduleName,
-      CollectionReference moduleLikesName, docuid, likes, useruid) async {
+  Future<dynamic> updateLikes(
+      CollectionReference<Map<String, dynamic>> moduleName,
+      CollectionReference<Map<String, dynamic>> moduleLikesName,
+      docuid,
+      likes,
+      useruid) async {
     dynamic result;
     await moduleLikesName
         .doc(useruid)
         .get()
-        .then((DocumentSnapshot documentSnapshot) {
+        .then((DocumentSnapshot<Map<String, dynamic>> documentSnapshot) {
       if (documentSnapshot.exists) {
         result = (documentSnapshot.data()[docuid]);
         if (result == true) {

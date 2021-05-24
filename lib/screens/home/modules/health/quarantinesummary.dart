@@ -7,13 +7,14 @@ class QuarantineSummary extends StatelessWidget {
   static const String id = 'quarantine_summary';
   @override
   Widget build(BuildContext context) {
-    Query userProfile = FirebaseFirestore.instance
+    Query<Map<String, dynamic>> userProfile = FirebaseFirestore.instance
         .collection('user_profile')
         .orderBy('health')
         .where('health', isNotEqualTo: 'Healthy');
-    return StreamBuilder<QuerySnapshot>(
+    return StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
       stream: userProfile.snapshots(),
-      builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
+      builder: (BuildContext context,
+          AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>> snapshot) {
         if (snapshot.hasError) {
           return Text('Something went wrong');
         }
@@ -23,7 +24,8 @@ class QuarantineSummary extends StatelessWidget {
         }
 
         return ListView(
-          children: snapshot.data.docs.map((DocumentSnapshot document) {
+          children: snapshot.data.docs
+              .map((DocumentSnapshot<Map<String, dynamic>> document) {
             return ListTile(
               title: Text(document.data()['name']),
               subtitle: Text(

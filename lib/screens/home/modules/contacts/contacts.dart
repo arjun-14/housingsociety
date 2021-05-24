@@ -39,7 +39,7 @@ class _ContactsState extends State<Contacts> {
 
   @override
   Widget build(BuildContext context) {
-    Query userProfile =
+    Query<Map<String, dynamic>> userProfile =
         FirebaseFirestore.instance.collection('user_profile').orderBy('name');
     //  .where('phone_no', isNotEqualTo: '');
 
@@ -65,10 +65,10 @@ class _ContactsState extends State<Contacts> {
         ],
       ),
       body: _selectedIndex == 0
-          ? StreamBuilder<QuerySnapshot>(
+          ? StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
               stream: userProfile.snapshots(),
               builder: (BuildContext context,
-                  AsyncSnapshot<QuerySnapshot> snapshot) {
+                  AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>> snapshot) {
                 if (snapshot.hasError) {
                   return Center(
                     child: Text('Something went wrong'),
@@ -78,7 +78,8 @@ class _ContactsState extends State<Contacts> {
                   return Loading();
                 }
                 return ListView(
-                  children: snapshot.data.docs.map((DocumentSnapshot document) {
+                  children: snapshot.data.docs
+                      .map((DocumentSnapshot<Map<String, dynamic>> document) {
                     return document.data()['phone_no'] == ''
                         ? SizedBox(
                             height: 0,

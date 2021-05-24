@@ -51,9 +51,10 @@ class _HomePageSocialState extends State<HomePageSocial> {
         .doc(user.uid)
         .collection('following');
 
-    return StreamBuilder(
+    return StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
       stream: moduleSocial.snapshots(),
-      builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
+      builder: (BuildContext context,
+          AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>> snapshot) {
         if (snapshot.hasError) {
           return Text('Something went wrong');
         }
@@ -68,10 +69,11 @@ class _HomePageSocialState extends State<HomePageSocial> {
             .collection('module_social_photos')
             .where('uid', whereIn: usersFollowed)
             .orderBy('timestamp', descending: true);
-        return StreamBuilder(
+        return StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
           stream: moduleSocialPhotosCurrentUser.snapshots(),
           builder: (BuildContext context,
-              AsyncSnapshot<QuerySnapshot> photosSnapshot) {
+              AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>>
+                  photosSnapshot) {
             if (photosSnapshot.hasError) {
               return Text('Something went wrong');
             }
@@ -79,8 +81,8 @@ class _HomePageSocialState extends State<HomePageSocial> {
               return Loading();
             }
             return ListView(
-              children:
-                  photosSnapshot.data.docs.map((DocumentSnapshot document) {
+              children: photosSnapshot.data.docs
+                  .map((DocumentSnapshot<Map<String, dynamic>> document) {
                 return likes == null
                     ? Loading()
                     : ReusablePostDisplayTile(

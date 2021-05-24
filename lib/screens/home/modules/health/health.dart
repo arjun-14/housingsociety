@@ -27,7 +27,7 @@ class _HealthState extends State<Health> {
   }
 
   void getInitialstatus() async {
-    DocumentSnapshot result =
+    DocumentSnapshot<Map<String, dynamic>> result =
         await db.readIndividualHealthStatus(_auth.userId());
     if (result.data()['health'] != null) {
       setState(() {

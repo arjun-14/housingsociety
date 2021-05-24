@@ -34,15 +34,21 @@ class _ComplaintState extends State<Complaint> with TickerProviderStateMixin {
               await FirebaseFirestore.instance
                   .collection('module_complaint')
                   .get()
-                  .then((QuerySnapshot querySnapshot) {
+                  .then((QuerySnapshot<Map<String, dynamic>> querySnapshot) {
                 querySnapshot.docs.forEach((document) {
                   List documentKeywords =
                       rake.rank(document.data()['description']);
-                  for (var keyword in documentKeywords) {
-                    if (keywords.containsKey(keyword)) {
-                      keywords[keyword] += 1;
-                    } else {
-                      keywords[keyword] = 1;
+                  for (String keyword in documentKeywords) {
+                    if (keyword.endsWith('ing') ||
+                        keyword == 'wing' ||
+                        keyword.endsWith('ly'))
+                      continue;
+                    else {
+                      if (keywords.containsKey(keyword)) {
+                        keywords[keyword] += 1;
+                      } else {
+                        keywords[keyword] = 1;
+                      }
                     }
                   }
                 });

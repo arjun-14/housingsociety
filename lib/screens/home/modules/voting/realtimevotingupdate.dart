@@ -31,13 +31,14 @@ class _RealTimeVotingUpdateState extends State<RealTimeVotingUpdate> {
 
   @override
   Widget build(BuildContext context) {
-    Query moduleVoting = FirebaseFirestore.instance
+    Query<Map<String, dynamic>> moduleVoting = FirebaseFirestore.instance
         .collection('module_voting')
         .orderBy('timestamp', descending: true);
     Timestamp timestamp = Timestamp.now();
-    return StreamBuilder<QuerySnapshot>(
+    return StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
       stream: moduleVoting.snapshots(),
-      builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
+      builder: (BuildContext context,
+          AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>> snapshot) {
         if (snapshot.hasError) {
           return Text('Something went wrong');
         }
@@ -47,7 +48,8 @@ class _RealTimeVotingUpdateState extends State<RealTimeVotingUpdate> {
         }
 
         return ListView(
-          children: snapshot.data.docs.map((DocumentSnapshot document) {
+          children: snapshot.data.docs
+              .map((DocumentSnapshot<Map<String, dynamic>> document) {
             // voteStatus(document.id);
             List<Widget> participants = [
               Row(

@@ -33,13 +33,15 @@ class _FollowersAndFollowingState extends State<FollowersAndFollowing> {
         .collection('module_social_usernames')
         .doc(widget.username)
         .get()
-        .then((DocumentSnapshot documentSnapshot) {
+        .then((DocumentSnapshot<Map<String, dynamic>> documentSnapshot) {
       userid = documentSnapshot.data()['uid'];
-      CollectionReference followers = FirebaseFirestore.instance
+      CollectionReference<Map<String, dynamic>> followers = FirebaseFirestore
+          .instance
           .collection('module_social')
           .doc(userid)
           .collection('followers');
-      CollectionReference following = FirebaseFirestore.instance
+      CollectionReference<Map<String, dynamic>> following = FirebaseFirestore
+          .instance
           .collection('module_social')
           .doc(userid)
           .collection('following');
@@ -119,9 +121,10 @@ class FollowersandFollowingdisplaytile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder(
+    return FutureBuilder<QuerySnapshot<Map<String, dynamic>>>(
       future: displaytile.get(),
-      builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
+      builder: (BuildContext context,
+          AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>> snapshot) {
         if (snapshot.hasError) {
           return Text("Something went wrong");
         }
@@ -130,7 +133,8 @@ class FollowersandFollowingdisplaytile extends StatelessWidget {
         }
 
         return ListView(
-          children: snapshot.data.docs.map((DocumentSnapshot document) {
+          children: snapshot.data.docs
+              .map((DocumentSnapshot<Map<String, dynamic>> document) {
             return ListTile(
               onTap: () {
                 Navigator.pop(context);

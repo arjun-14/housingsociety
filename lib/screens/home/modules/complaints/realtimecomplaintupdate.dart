@@ -12,8 +12,7 @@ import 'package:housingsociety/services/auth.dart';
 class RealTimeComplaintUpdate extends StatefulWidget {
   final String complaintStatus;
   RealTimeComplaintUpdate({this.complaintStatus});
-  // final Map<String, dynamic> likes;
-  // RealTimeComplaintUpdate({this.likes});
+
   @override
   _RealTimeComplaintUpdateState createState() =>
       _RealTimeComplaintUpdateState();
@@ -26,9 +25,9 @@ class _RealTimeComplaintUpdateState extends State<RealTimeComplaintUpdate> {
   dynamic userid = AuthService().userId();
   String complaintstatus;
   String userType;
-  CollectionReference moduleComplaintUserLikes =
+  CollectionReference<Map<String, dynamic>> moduleComplaintUserLikes =
       FirebaseFirestore.instance.collection('module_complaint_user_likes');
-  CollectionReference moduleComplaint =
+  CollectionReference<Map<String, dynamic>> moduleComplaint =
       FirebaseFirestore.instance.collection('module_complaint');
 
   @override
@@ -58,26 +57,22 @@ class _RealTimeComplaintUpdateState extends State<RealTimeComplaintUpdate> {
         });
       }
     });
-    // DocumentSnapshot value = await moduleComplaintUserLikes.doc(userid).get();
-    // setState(() {
-    //   likes = value.data();
-    // });
   }
 
   @override
   Widget build(BuildContext context) {
     final user = Provider.of<CurrentUser>(context);
 
-    Query notice = FirebaseFirestore.instance
+    Query<Map<String, dynamic>> notice = FirebaseFirestore.instance
         .collection('module_complaint')
         .orderBy('likes', descending: true)
         .where('status', isEqualTo: widget.complaintStatus);
     return likes == null
         ? Loading()
-        : StreamBuilder<QuerySnapshot>(
+        : StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
             stream: notice.snapshots(),
-            builder:
-                (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
+            builder: (BuildContext context,
+                AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>> snapshot) {
               if (snapshot.hasError) {
                 return Text('Something went wrong');
               }
@@ -86,7 +81,8 @@ class _RealTimeComplaintUpdateState extends State<RealTimeComplaintUpdate> {
                 return Loading();
               }
               return ListView(
-                children: snapshot.data.docs.map((DocumentSnapshot document) {
+                children: snapshot.data.docs
+                    .map((DocumentSnapshot<Map<String, dynamic>> document) {
                   Timestamp timestamp = document.data()['timestamp'];
                   // DateTime dateTime = timestamp.toDate();
 

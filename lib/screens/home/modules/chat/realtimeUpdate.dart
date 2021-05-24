@@ -13,13 +13,14 @@ class RealtimeChatUpdate extends StatelessWidget {
     String previousUserEmail;
     String currentUserEmail;
 
-    Query users = FirebaseFirestore.instance
+    Query<Map<String, dynamic>> users = FirebaseFirestore.instance
         .collection('module_chat')
         .orderBy('timestamp', descending: true);
 
-    return StreamBuilder<QuerySnapshot>(
+    return StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
       stream: users.snapshots(),
-      builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
+      builder: (BuildContext context,
+          AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>> snapshot) {
         if (snapshot.hasError) {
           return Text('Something went wrong');
         }
@@ -30,7 +31,8 @@ class RealtimeChatUpdate extends StatelessWidget {
 
         return ListView(
           reverse: true,
-          children: snapshot.data.docs.map((DocumentSnapshot document) {
+          children: snapshot.data.docs
+              .map((DocumentSnapshot<Map<String, dynamic>> document) {
             previousUserEmail = currentUserEmail;
             currentUserEmail = document.data()['email'];
 

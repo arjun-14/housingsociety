@@ -63,12 +63,12 @@ class _CommentsState extends State<Comments> {
                       comment = val;
                     },
                     decoration: InputDecoration(
-                      prefixIcon: IconButton(
-                        onPressed: () {},
-                        icon: Icon(
-                          Icons.emoji_emotions,
-                        ),
-                      ),
+                      // prefixIcon: IconButton(
+                      //   onPressed: () {},
+                      //   icon: Icon(
+                      //     Icons.emoji_emotions,
+                      //   ),
+                      // ),
                       fillColor: kSpaceCadet,
                       filled: true,
                       hintText: 'Write a comment...',

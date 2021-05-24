@@ -27,7 +27,8 @@ class _WrapperSocialState extends State<WrapperSocial> {
   final picker = ImagePicker();
   StorageService storage = StorageService();
   String username = '';
-  DocumentReference moduleSocial = FirebaseFirestore.instance
+  DocumentReference<Map<String, dynamic>> moduleSocial = FirebaseFirestore
+      .instance
       .collection('module_social')
       .doc(AuthService().userId());
 
@@ -66,10 +67,10 @@ class _WrapperSocialState extends State<WrapperSocial> {
       Text(username),
     ];
 
-    return StreamBuilder<DocumentSnapshot>(
+    return StreamBuilder<DocumentSnapshot<Map<String, dynamic>>>(
         stream: moduleSocial.snapshots(),
-        builder:
-            (BuildContext context, AsyncSnapshot<DocumentSnapshot> snapshot) {
+        builder: (BuildContext context,
+            AsyncSnapshot<DocumentSnapshot<Map<String, dynamic>>> snapshot) {
           if (snapshot.hasError) {
             return Text('Something went wrong');
           }
@@ -117,11 +118,6 @@ class _WrapperSocialState extends State<WrapperSocial> {
                   label: 'Search',
                   backgroundColor: kOxfordBlue,
                 ),
-                // BottomNavigationBarItem(
-                //   icon: Icon(Icons.favorite),
-                //   label: 'Like',
-                //   backgroundColor: kOxfordBlue,
-                // ),
                 BottomNavigationBarItem(
                   icon: CircleAvatar(
                     backgroundImage: user.profilePicture == null

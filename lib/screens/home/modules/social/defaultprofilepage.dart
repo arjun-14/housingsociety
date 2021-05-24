@@ -18,7 +18,7 @@ class ProfilePage extends StatefulWidget {
 
 class _ProfilePageState extends State<ProfilePage> {
   Map<String, dynamic> likes;
-  CollectionReference moduleSocialPhotosLikes =
+  CollectionReference<Map<String, dynamic>> moduleSocialPhotosLikes =
       FirebaseFirestore.instance.collection('module_social_photos_likes');
   dynamic userid = AuthService().userId();
   @override
@@ -32,7 +32,7 @@ class _ProfilePageState extends State<ProfilePage> {
     moduleSocialPhotosLikes
         .doc(userid)
         .get()
-        .then((DocumentSnapshot documentSnapshot) {
+        .then((DocumentSnapshot<Map<String, dynamic>> documentSnapshot) {
       print(documentSnapshot.data());
       if (documentSnapshot.exists) {
         setState(() {
@@ -52,9 +52,9 @@ class _ProfilePageState extends State<ProfilePage> {
     final user = Provider.of<CurrentUser>(context);
     String uid;
     widget.uid == null ? uid = user.uid : uid = widget.uid;
-    DocumentReference moduleSocial =
+    DocumentReference<Map<String, dynamic>> moduleSocial =
         FirebaseFirestore.instance.collection('module_social').doc(uid);
-    Query moduleSocialphotos = FirebaseFirestore.instance
+    Query<Map<String, dynamic>> moduleSocialphotos = FirebaseFirestore.instance
         .collection('module_social_photos')
         .where('uid', isEqualTo: uid)
         .orderBy('timestamp', descending: true);
@@ -170,10 +170,11 @@ class _ProfilePageState extends State<ProfilePage> {
                 Divider(
                   thickness: 1,
                 ),
-                StreamBuilder<QuerySnapshot>(
+                StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
                   stream: moduleSocialphotos.snapshots(),
                   builder: (BuildContext context,
-                      AsyncSnapshot<QuerySnapshot> snapshot) {
+                      AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>>
+                          snapshot) {
                     if (snapshot.hasError) {
                       return Text('Something went wrong');
                     }
@@ -188,8 +189,8 @@ class _ProfilePageState extends State<ProfilePage> {
                       crossAxisCount: 3,
                       mainAxisSpacing: 5,
                       crossAxisSpacing: 5,
-                      children:
-                          snapshot.data.docs.map((DocumentSnapshot document) {
+                      children: snapshot.data.docs.map(
+                          (DocumentSnapshot<Map<String, dynamic>> document) {
                         return GestureDetector(
                           onTap: () {
                             Navigator.push(context,
@@ -198,16 +199,6 @@ class _ProfilePageState extends State<ProfilePage> {
                                 docid: document.id,
                                 likes: likes,
                               );
-                              // return DisplayPhoto(
-                              //   username: document.data()['username'],
-                              //   profilePicture:
-                              //       document.data()['profile_picture'],
-                              //   photo: document.data()['url'],
-                              //   likes: document.data()['likes'],
-                              //   comments: document.data()['comments'],
-                              //   caption: document.data()['caption'],
-                              //   docid: document.id,
-                              // );
                             }));
                           },
                           child: Image.network(

@@ -55,13 +55,14 @@ class _RealTimeNoticeUpdateState extends State<RealTimeNoticeUpdate> {
 
   @override
   Widget build(BuildContext context) {
-    Query moduleNotice = FirebaseFirestore.instance
+    Query<Map<String, dynamic>> moduleNotice = FirebaseFirestore.instance
         .collection('module_notice')
         .orderBy('timestamp', descending: true)
         .where('type', isEqualTo: widget.noticeType);
-    return StreamBuilder<QuerySnapshot>(
+    return StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
         stream: moduleNotice.snapshots(),
-        builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
+        builder: (BuildContext context,
+            AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>> snapshot) {
           if (snapshot.hasError) {
             return Text('Something went wrong');
           }
@@ -70,7 +71,8 @@ class _RealTimeNoticeUpdateState extends State<RealTimeNoticeUpdate> {
             return Loading();
           }
           return ListView(
-            children: snapshot.data.docs.map((DocumentSnapshot document) {
+            children: snapshot.data.docs
+                .map((DocumentSnapshot<Map<String, dynamic>> document) {
               Timestamp timestamp = document.data()['timestamp'];
               DateTime dateTime = timestamp.toDate();
 
@@ -274,25 +276,28 @@ class _RealTimeNoticeUpdateState extends State<RealTimeNoticeUpdate> {
                                                     ),
                                                   ),
                                                 ),
-                                                ListTile(
-                                                  onTap: () {
-                                                    _speak(
-                                                        document.data()[
-                                                                'title'] +
-                                                            '  ' +
-                                                            document.data()[
-                                                                'notice'],
-                                                        document.id);
-                                                    Navigator.pop(context);
-                                                  },
-                                                  leading: Icon(
-                                                    Icons.volume_up,
-                                                    color: kAmaranth,
-                                                  ),
-                                                  title: Text(
-                                                    'Text-to-speech',
-                                                    style: TextStyle(
+                                                Visibility(
+                                                  visible: true,
+                                                  child: ListTile(
+                                                    onTap: () {
+                                                      _speak(
+                                                          document.data()[
+                                                                  'title'] +
+                                                              '  ' +
+                                                              document.data()[
+                                                                  'notice'],
+                                                          document.id);
+                                                      Navigator.pop(context);
+                                                    },
+                                                    leading: Icon(
+                                                      Icons.volume_up,
                                                       color: kAmaranth,
+                                                    ),
+                                                    title: Text(
+                                                      'Text-to-speech',
+                                                      style: TextStyle(
+                                                        color: kAmaranth,
+                                                      ),
                                                     ),
                                                   ),
                                                 ),

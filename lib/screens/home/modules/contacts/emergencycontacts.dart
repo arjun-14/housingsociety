@@ -9,12 +9,13 @@ import 'package:url_launcher/url_launcher.dart';
 class EmergencyContacts extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    Query contactsEmergency = FirebaseFirestore.instance
+    Query<Map<String, dynamic>> contactsEmergency = FirebaseFirestore.instance
         .collection('module_contacts_emergency')
         .orderBy('name');
-    return StreamBuilder<QuerySnapshot>(
+    return StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
       stream: contactsEmergency.snapshots(),
-      builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
+      builder: (BuildContext context,
+          AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>> snapshot) {
         if (snapshot.hasError) {
           return Text('Something went wrong');
         }
@@ -22,7 +23,8 @@ class EmergencyContacts extends StatelessWidget {
           return Loading();
         }
         return ListView(
-          children: snapshot.data.docs.map((DocumentSnapshot document) {
+          children: snapshot.data.docs
+              .map((DocumentSnapshot<Map<String, dynamic>> document) {
             return ListTile(
               onLongPress: () {
                 showDialog(

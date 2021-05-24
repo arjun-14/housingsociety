@@ -12,15 +12,16 @@ class ResidentClassification extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Query userProfile;
+    Query<Map<String, dynamic>> userProfile;
     final user = Provider.of<CurrentUser>(context);
     userProfile = FirebaseFirestore.instance
         .collection('user_profile')
         .where('userType', isEqualTo: userType);
 
-    return StreamBuilder(
+    return StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
       stream: userProfile.snapshots(),
-      builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
+      builder: (BuildContext context,
+          AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>> snapshot) {
         if (snapshot.hasError) {
           return Text('Something went wrong');
         }
@@ -28,7 +29,8 @@ class ResidentClassification extends StatelessWidget {
           return Loading();
         }
         return ListView(
-          children: snapshot.data.docs.map((DocumentSnapshot document) {
+          children: snapshot.data.docs
+              .map((DocumentSnapshot<Map<String, dynamic>> document) {
             return GestureDetector(
               onTap: document.id == user.uid
                   ? null
