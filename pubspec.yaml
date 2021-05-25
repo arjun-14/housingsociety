@@ -34,7 +34,6 @@ dependencies:
   firebase_storage: ^8.1.0
   flutter_spinkit: ^5.0.0
   provider: ^5.0.0
-  adaptive_dialog: ^0.9.2
   modal_bottom_sheet: ^2.0.0
   image_picker: ^0.7.5+2
   url_launcher: ^6.0.4

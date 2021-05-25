@@ -16,6 +16,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return StreamProvider<CurrentUser>.value(
+      initialData: null,
       value: AuthService().user,
       child: MaterialApp(
         theme: ThemeData.dark().copyWith(

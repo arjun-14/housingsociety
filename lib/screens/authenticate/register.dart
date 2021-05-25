@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:housingsociety/shared/constants.dart';
 import 'package:housingsociety/services/auth.dart';
 import 'package:housingsociety/shared/loading.dart';
+import 'package:housingsociety/shared/snackbarpage.dart';
 
 class Register extends StatefulWidget {
   final Function toggle;
@@ -179,18 +180,10 @@ class _RegisterState extends State<Register> {
                                     setState(() {
                                       loading = false;
                                     });
-                                    // showModalActionSheet(
-                                    //   context: context,
-                                    //   actions: [
-                                    //     SheetAction(
-                                    //       label:
-                                    //           'An error occured.Please try again',
-                                    //       icon: Icons.error,
-                                    //       isDestructiveAction: true,
-                                    //     )
-                                    //   ],
-                                    //   //title: 'Incorrect email id or password',
-                                    // );
+                                    ShowSnackBar().showSnackBar(
+                                        context,
+                                        'An error occured. Please try again',
+                                        Colors.white);
                                   }
                                 }
                               },

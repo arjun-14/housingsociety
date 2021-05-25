@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:housingsociety/services/auth.dart';
 import 'package:housingsociety/shared/loading.dart';
+import 'package:housingsociety/shared/snackbarpage.dart';
 import 'package:provider/provider.dart';
 import 'package:housingsociety/models/user.dart';
 import 'package:housingsociety/shared/constants.dart';
-import 'package:adaptive_dialog/adaptive_dialog.dart';
 
 class EditEmail extends StatefulWidget {
   static const String id = 'edit_email';
@@ -100,16 +100,8 @@ class _EditEmailState extends State<EditEmail> {
                   });
                   print(result);
                   if (result == null) {
-                    showModalActionSheet(
-                      context: context,
-                      actions: [
-                        SheetAction(
-                          label: 'An error occurred. Please try again!',
-                          icon: Icons.error,
-                          isDestructiveAction: true,
-                        )
-                      ],
-                    );
+                    ShowSnackBar().showSnackBar(context,
+                        'An error occured. Please try again', Colors.white);
                   } else {
                     Navigator.pop(context);
                   }
