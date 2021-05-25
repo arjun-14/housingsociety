@@ -38,6 +38,21 @@ class _AddVotingState extends State<AddVoting> {
     return participants;
   }
 
+  void showSnackBar(BuildContext context, String text) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(
+          text,
+          style: TextStyle(
+            color: Colors.white,
+          ),
+        ),
+        backgroundColor: kOxfordBlue,
+        duration: Duration(seconds: 1),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -51,18 +66,10 @@ class _AddVotingState extends State<AddVoting> {
                   : () {
                       participants = collectParticipantsName();
                       if (participants.length < 2) {
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(
-                            content: Text(
-                              'There must be atleast two participants',
-                              style: TextStyle(
-                                color: Colors.white,
-                              ),
-                            ),
-                            backgroundColor: kOxfordBlue,
-                            duration: Duration(seconds: 1),
-                          ),
-                        );
+                        showSnackBar(
+                            context, 'There must be atleast two participants');
+                      } else if (dateAndTime == null) {
+                        showSnackBar(context, 'Set a timer');
                       } else {
                         DatabaseService()
                             .addVoting(title, participants, dateAndTime);
