@@ -3,6 +3,7 @@ import 'package:housingsociety/screens/home/modules/profile/profile.dart';
 import 'package:housingsociety/services/auth.dart';
 import 'package:housingsociety/shared/constants.dart';
 import 'package:housingsociety/shared/loading.dart';
+import 'package:housingsociety/shared/snackbarpage.dart';
 
 class EditPassword extends StatefulWidget {
   static const String id = 'edit_password';
@@ -14,7 +15,6 @@ class _EditPasswordState extends State<EditPassword> {
   String currentPassword = '';
   String updatedPassword = '';
   String updatedPasswordReEntered = '';
-  String snackBarText;
   bool obscureTextCurrent = true;
   bool obscureTextUpdated = true;
   bool obscureTextupdatedReEntered = true;
@@ -22,18 +22,6 @@ class _EditPasswordState extends State<EditPassword> {
   Color visibiltyIconColorCurrent = Colors.grey;
   Color visibiltyIconColorUpdated = Colors.grey;
   Color visibiltyIconColorUpdatedReEntered = Colors.grey;
-  SnackBar snackbar;
-
-  void showSnackBar(String text) {
-    setState(() {
-      snackbar = SnackBar(
-        content: Text(text),
-        backgroundColor: Colors.white,
-        duration: Duration(seconds: 1, milliseconds: 50),
-        behavior: SnackBarBehavior.floating,
-      );
-    });
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -148,11 +136,10 @@ class _EditPasswordState extends State<EditPassword> {
           builder: (BuildContext context) => FloatingActionButton(
             onPressed: () async {
               if (updatedPassword != updatedPasswordReEntered) {
-                showSnackBar('passwords do not match');
-                ScaffoldMessenger.of(context).showSnackBar(snackbar);
+                ShowSnackBar().showSnackBar(context, 'passwords do not match');
               } else if (updatedPassword.length < 4) {
-                showSnackBar('Password must be atleast 4 charachters long');
-                ScaffoldMessenger.of(context).showSnackBar(snackbar);
+                ShowSnackBar().showSnackBar(
+                    context, 'Password must be atleast 4 charachters long');
               } else {
                 setState(() {
                   loading = true;
@@ -191,8 +178,7 @@ class _EditPasswordState extends State<EditPassword> {
                     ),
                   );
                 } else {
-                  showSnackBar(result.toString());
-                  ScaffoldMessenger.of(context).showSnackBar(snackbar);
+                  ShowSnackBar().showSnackBar(context, result.toString());
                 }
               }
             },

@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:housingsociety/models/user.dart';
+import 'package:housingsociety/screens/home/modules/profile/editEmail.dart';
 import 'package:housingsociety/screens/home/modules/profile/editName.dart';
 import 'package:housingsociety/screens/home/modules/profile/editPassword.dart';
 import 'package:housingsociety/screens/home/modules/profile/editPhoneNumber.dart';
@@ -138,7 +139,7 @@ class _ProfileState extends State<Profile> {
                       label: 'Email',
                       value: user.email,
                       onpress: () {
-                        //  Navigator.pushNamed(context, EditEmail.id);
+                        Navigator.pushNamed(context, EditEmail.id);
                       },
                     ),
                     ReusableProfileTile(

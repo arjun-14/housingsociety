@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:housingsociety/screens/home/modules/profile/profile.dart';
 import 'package:housingsociety/services/auth.dart';
 import 'package:housingsociety/shared/loading.dart';
 import 'package:housingsociety/shared/snackbarpage.dart';
@@ -98,12 +99,36 @@ class _EditEmailState extends State<EditEmail> {
                   setState(() {
                     loading = false;
                   });
-                  print(result);
-                  if (result == null) {
-                    ShowSnackBar().showSnackBar(context,
-                        'An error occured. Please try again', Colors.white);
+                  if (result == 'Email updated successfully') {
+                    showDialog(
+                      context: context,
+                      builder: (_) => AlertDialog(
+                        elevation: 50,
+                        backgroundColor: kSpaceCadet,
+                        title: Text(
+                          'Email updated successfully',
+                          style: TextStyle(
+                            fontSize: 16,
+                          ),
+                        ),
+                        actions: [
+                          TextButton(
+                            onPressed: () {
+                              Navigator.popUntil(
+                                context,
+                                ModalRoute.withName(Profile.id),
+                              );
+                            },
+                            child: Text(
+                              'Okay',
+                              style: TextStyle(),
+                            ),
+                          )
+                        ],
+                      ),
+                    );
                   } else {
-                    Navigator.pop(context);
+                    ShowSnackBar().showSnackBar(context, result.toString());
                   }
                 },
                 child: Icon(Icons.save),

@@ -181,9 +181,9 @@ class _RegisterState extends State<Register> {
                                       loading = false;
                                     });
                                     ShowSnackBar().showSnackBar(
-                                        context,
-                                        'An error occured. Please try again',
-                                        Colors.white);
+                                      context,
+                                      'An error occurred. Please try again',
+                                    );
                                   }
                                 }
                               },

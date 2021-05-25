@@ -128,7 +128,6 @@ class _LogInState extends State<LogIn> {
                                     ShowSnackBar().showSnackBar(
                                       context,
                                       'Incorrect email id or password',
-                                      Colors.white,
                                     );
                                   }
                                 }

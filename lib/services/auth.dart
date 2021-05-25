@@ -109,22 +109,23 @@ class AuthService {
 
   Future updateEmail(email, password) async {
     try {
-      _auth.currentUser.updateEmail(email);
       EmailAuthCredential credential = EmailAuthProvider.credential(
+          email: _auth.currentUser.email, password: password);
+      await _auth.currentUser.reauthenticateWithCredential(credential);
+      await _auth.currentUser.updateEmail(email);
+      EmailAuthCredential newCredential = EmailAuthProvider.credential(
         email: email,
         password: password,
       );
-      dynamic result =
-          await _auth.currentUser.reauthenticateWithCredential(credential);
-      return result;
+      await _auth.currentUser.reauthenticateWithCredential(newCredential);
+      return 'Email updated successfully';
     } on FirebaseAuthException catch (e) {
-      if (e.code == 'email-already-in-use') {
-        print('The account already exists for that email.');
-      }
-      return null;
+      if (e.code == 'email-already-in-use')
+        return 'The account already exists for that email.';
+      if (e.code == 'wrong-password') return 'Wrong password provided.';
     } catch (e) {
       print(e);
-      return null;
+      return 'An error occurred.Please try again.';
     }
   }
 
@@ -144,8 +145,7 @@ class AuthService {
       return 'Password updated successfully';
     } on FirebaseAuthException catch (e) {
       if (e.code == 'wrong-password') {
-        print('Wrong password provided for that user.');
-        return 'Wrong password provided for that user.';
+        return 'Wrong password provided.';
       }
     } catch (e) {
       print(e);
