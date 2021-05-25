@@ -2,9 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:housingsociety/screens/home/modules/social/displayphoto.dart';
 import 'package:housingsociety/screens/home/modules/social/followersandfollowingpage.dart';
-import 'package:housingsociety/screens/home/modules/social/reusableposttile.dart';
 import 'package:housingsociety/services/auth.dart';
-import 'package:housingsociety/shared/constants.dart';
 import 'package:housingsociety/shared/loading.dart';
 import 'package:provider/provider.dart';
 import 'package:housingsociety/models/user.dart';
@@ -23,7 +21,6 @@ class _ProfilePageState extends State<ProfilePage> {
   dynamic userid = AuthService().userId();
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     getCurrentUSerLikes();
   }

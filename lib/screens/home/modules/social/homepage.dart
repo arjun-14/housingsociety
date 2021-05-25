@@ -18,7 +18,6 @@ class _HomePageSocialState extends State<HomePageSocial> {
   dynamic userid = AuthService().userId();
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     getCurrentUSerLikes();
   }

@@ -47,7 +47,6 @@ class _WrapperSocialState extends State<WrapperSocial> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     moduleSocial.get().then((document) {
       setState(() {

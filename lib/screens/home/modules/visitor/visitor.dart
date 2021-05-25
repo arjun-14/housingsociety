@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:housingsociety/screens/home/modules/visitor/addvisitor.dart';
 import 'package:housingsociety/screens/home/modules/visitor/realtimevisitorupdate.dart';
 import 'package:housingsociety/services/database.dart';
 import 'package:housingsociety/shared/constants.dart';
-import 'package:table_calendar/table_calendar.dart';
 
 class Visitor extends StatefulWidget {
   static const String id = 'visitor';
@@ -98,16 +96,7 @@ class _VisitorState extends State<Visitor> {
           },
         ),
       ),
-      body: pageNumber == 0
-          ? RealTimeVisitorUpdate()
-          : pageNumber == 1
-              ? TableCalendar(
-                  calendarController: CalendarController(),
-                  startDay: DateTime.utc(2010, 10, 16),
-                  endDay: DateTime.utc(2030, 3, 14),
-                  initialSelectedDay: DateTime.now(),
-                )
-              : Text('a'),
+      body: RealTimeVisitorUpdate(),
       bottomNavigationBar: Visibility(
         visible: false,
         child: BottomAppBar(

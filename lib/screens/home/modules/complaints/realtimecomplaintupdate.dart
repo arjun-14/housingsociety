@@ -83,11 +83,6 @@ class _RealTimeComplaintUpdateState extends State<RealTimeComplaintUpdate> {
               return ListView(
                 children: snapshot.data.docs
                     .map((DocumentSnapshot<Map<String, dynamic>> document) {
-                  Timestamp timestamp = document.data()['timestamp'];
-                  // DateTime dateTime = timestamp.toDate();
-
-                  // status = db.getstatusofLikeOnStartup(document.id, user.uid);
-
                   return Padding(
                     padding: const EdgeInsets.symmetric(
                         vertical: 8.0, horizontal: 16.0),

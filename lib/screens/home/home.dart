@@ -25,23 +25,16 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> {
   final AuthService _auth = AuthService();
   String userType;
-  // ConnectivityResult connectivityResult;
-  // StreamSubscription subscription;
+
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     getuserdata();
-    //  subscription = Connectivity().onConnectivityChanged.listen((event) {
-    //   connectivityResult = event;
-    //  });
   }
 
   @override
   void dispose() {
-    // TODO: implement dispose
     super.dispose();
-    // subscription.cancel();
   }
 
   void getuserdata() async {
@@ -176,26 +169,6 @@ class _HomeState extends State<Home> {
                                             );
                                           });
                                 },
-                                // ? showDialog(
-                                //     context: context,
-                                //     builder: (context) {
-                                //       return AlertDialog(
-                                //         content: Text(
-                                //             'No Internet connection. Please try again'),
-                                //         actions: [
-                                //           TextButton(
-                                //             onPressed: () {
-                                //               Navigator.pop(context);
-                                //             },
-                                //             child: Text('Okay'),
-                                //           )
-                                //         ],
-                                //       );
-                                //     })
-                                // : () {
-                                //     Navigator.pushNamed(
-                                //         context, WrapperSocial.id);
-                                //   },
                               ),
                             ],
                           ),

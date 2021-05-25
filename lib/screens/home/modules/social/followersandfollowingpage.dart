@@ -1,12 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:housingsociety/models/user.dart';
-import 'package:housingsociety/screens/home/modules/social/defaultprofilepage.dart';
 import 'package:housingsociety/screens/home/modules/social/otherusersprofilepage.dart';
-import 'package:housingsociety/services/auth.dart';
 import 'package:housingsociety/shared/loading.dart';
-import 'package:provider/provider.dart';
 
 class FollowersAndFollowing extends StatefulWidget {
   final String pageToDisplay;
@@ -27,7 +22,6 @@ class _FollowersAndFollowingState extends State<FollowersAndFollowing> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     FirebaseFirestore.instance
         .collection('module_social_usernames')

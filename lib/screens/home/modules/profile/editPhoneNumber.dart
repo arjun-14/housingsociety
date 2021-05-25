@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:housingsociety/models/user.dart';
 import 'package:housingsociety/services/database.dart';
 import 'package:provider/provider.dart';

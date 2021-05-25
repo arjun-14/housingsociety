@@ -26,7 +26,6 @@ class _ContactsState extends State<Contacts> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     getuserdata();
   }

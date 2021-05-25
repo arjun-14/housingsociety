@@ -1,8 +1,6 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:housingsociety/models/user.dart';
 import 'package:housingsociety/screens/home/modules/complaints/realtimecommentsupdate.dart';
-import 'package:housingsociety/services/auth.dart';
 import 'package:housingsociety/services/database.dart';
 import 'package:housingsociety/shared/constants.dart';
 import 'package:provider/provider.dart';
@@ -22,7 +20,6 @@ class _CommentsState extends State<Comments> {
   String userNameSocial = '';
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     getUserNameSocial();
   }

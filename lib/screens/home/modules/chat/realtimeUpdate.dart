@@ -10,9 +10,6 @@ class RealtimeChatUpdate extends StatelessWidget {
   Widget build(BuildContext context) {
     final user = Provider.of<CurrentUser>(context);
 
-    String previousUserEmail;
-    String currentUserEmail;
-
     Query<Map<String, dynamic>> users = FirebaseFirestore.instance
         .collection('module_chat')
         .orderBy('timestamp', descending: true);
@@ -33,9 +30,6 @@ class RealtimeChatUpdate extends StatelessWidget {
           reverse: true,
           children: snapshot.data.docs
               .map((DocumentSnapshot<Map<String, dynamic>> document) {
-            previousUserEmail = currentUserEmail;
-            currentUserEmail = document.data()['email'];
-
             return Padding(
               padding: const EdgeInsets.all(3.0),
               child: Column(
