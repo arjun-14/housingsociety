@@ -135,13 +135,26 @@ class DatabaseService {
     });
   }
 
-  Future<void> deleteComplaint(uid) {
-    moduleComplaint.doc(uid).delete().catchError((e) {
+  Future<void> deleteComplaint(docid) {
+    moduleComplaint.doc(docid).delete().catchError((e) {
       print(e);
     });
 
-    return moduleComplaintUserComments.doc(uid).delete().catchError((e) {
-      print(e);
+    moduleComplaintUserComments
+        .where('docid', isEqualTo: docid)
+        .get()
+        .then((QuerySnapshot querySnapshot) {
+      querySnapshot.docs.forEach((QueryDocumentSnapshot queryDocumentSnapshot) {
+        queryDocumentSnapshot.reference.delete();
+      });
+    });
+
+    moduleComplaintUserLikes.get().then((QuerySnapshot querySnapshot) {
+      querySnapshot.docs.forEach((QueryDocumentSnapshot queryDocumentSnapshot) {
+        queryDocumentSnapshot.reference.update({
+          docid: FieldValue.delete(),
+        });
+      });
     });
   }
 
@@ -201,7 +214,8 @@ class DatabaseService {
         'timestamp': Timestamp.now(),
       });
     } else {
-      moduleComplaintUserComments.doc(docid).collection('comments').add({
+      moduleComplaintUserComments.add({
+        'docid': docid,
         'userName': userName,
         'comment': comment,
         'timestamp': Timestamp.now(),

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:housingsociety/models/user.dart';
-import 'package:housingsociety/screens/home/modules/complaints/realtimecommentsupdate.dart';
+import 'package:housingsociety/shared/realtimecommentsupdate.dart';
 import 'package:housingsociety/services/database.dart';
 import 'package:housingsociety/shared/constants.dart';
 import 'package:provider/provider.dart';

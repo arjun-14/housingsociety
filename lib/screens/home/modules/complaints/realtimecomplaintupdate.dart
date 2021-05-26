@@ -1,6 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:housingsociety/screens/home/modules/complaints/comments.dart';
+import 'package:housingsociety/shared/comments.dart';
 import 'package:housingsociety/services/database.dart';
 import 'package:housingsociety/shared/loading.dart';
 import 'package:housingsociety/shared/constants.dart';
@@ -343,23 +343,6 @@ class _RealTimeComplaintUpdateState extends State<RealTimeComplaintUpdate> {
                           SizedBox(
                             height: 10,
                           ),
-                          // Center(
-                          //   child: Text(
-                          //     dateTime.day.toString() +
-                          //         '/' +
-                          //         dateTime.month.toString() +
-                          //         '    ' +
-                          //         dateTime.hour.toString() +
-                          //         ':' +
-                          //         dateTime.minute.toString(),
-                          //     style: TextStyle(
-                          //       fontWeight: FontWeight.w300,
-                          //     ),
-                          //   ),
-                          // ),
-                          // SizedBox(
-                          //   height: 16,
-                          // )
                         ],
                       ),
                     ),

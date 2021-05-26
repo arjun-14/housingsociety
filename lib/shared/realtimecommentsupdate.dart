@@ -16,8 +16,7 @@ class RealTimeCommentUpdates extends StatelessWidget {
             .orderBy('timestamp')
         : FirebaseFirestore.instance
             .collection('module_complaint_comments')
-            .doc(docid)
-            .collection('comments')
+            .where('docid', isEqualTo: docid)
             .orderBy('timestamp');
     return StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
       stream: moduleComplaintUserComments.snapshots(),
