@@ -57,9 +57,7 @@ class _HomePageSocialState extends State<HomePageSocial> {
         if (snapshot.hasError) {
           return Text('Something went wrong');
         }
-        if (snapshot.connectionState == ConnectionState.waiting) {
-          return Loading();
-        }
+
         snapshot.data.docs.forEach((user) {
           usersFollowed.add(user.data()['uid']);
         });

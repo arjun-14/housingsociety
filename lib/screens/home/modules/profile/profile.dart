@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:housingsociety/models/user.dart';
+import 'package:housingsociety/screens/home/admin/residents.dart';
 import 'package:housingsociety/screens/home/modules/profile/editEmail.dart';
 import 'package:housingsociety/screens/home/modules/profile/editName.dart';
 import 'package:housingsociety/screens/home/modules/profile/editPassword.dart';
@@ -27,7 +28,10 @@ class _ProfileState extends State<Profile> {
   StorageService storage = StorageService();
 
   Future getImage(source, uid) async {
-    final pickedFile = await picker.getImage(source: source);
+    final pickedFile = await picker.getImage(
+      source: source,
+      imageQuality: 50,
+    );
     String profileImagePath;
 
     setState(() {
@@ -164,6 +168,16 @@ class _ProfileState extends State<Profile> {
                       onpress: () {
                         Navigator.pushNamed(context, EditFlat.id);
                       },
+                    ),
+                    Visibility(
+                      visible: snapshot.data['userType'] == 'admin',
+                      child: ReusableProfileTile(
+                        label: 'Manage Residents',
+                        value: '',
+                        onpress: () {
+                          Navigator.pushNamed(context, Residents.id);
+                        },
+                      ),
                     ),
                     // Row(
                     //   children: [

@@ -43,6 +43,7 @@ dependencies:
   rake: ^1.0.1
   pie_chart: ^5.0.0 
   connectivity: ^3.0.4
+  
 
 
 dev_dependencies:

@@ -147,9 +147,6 @@ class AuthService {
       if (e.code == 'wrong-password') {
         return 'Wrong password provided.';
       }
-    } catch (e) {
-      print(e);
-      return 'An error occurred, please try again.';
     }
   }
 

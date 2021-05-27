@@ -44,7 +44,22 @@ class DatabaseService {
   }
 
   Future<void> setProfileonRegistration(uid, name, wing, flatno) {
-    moduleSocial.doc(uid).set({
+    userProfile.get().then((QuerySnapshot querySnapshot) {
+      String userType;
+      userType = querySnapshot.docs.length > 0 ? 'user' : 'admin';
+      userProfile.doc(uid).set(
+        {
+          'name': name,
+          'phone_no': '',
+          'wing': wing,
+          'flatno': flatno,
+          'profile_picture': '',
+          'userType': userType,
+        },
+      );
+    });
+
+    return moduleSocial.doc(uid).set({
       'profile_picture': '',
       'posts': 0,
       'followers': 0,
@@ -53,17 +68,6 @@ class DatabaseService {
       'searchKey': '',
       'uid': uid,
     });
-
-    return userProfile.doc(uid).set(
-      {
-        'name': name,
-        'phone_no': '',
-        'wing': wing,
-        'flatno': flatno,
-        'profile_picture': '',
-        'userType': 'user',
-      },
-    );
   }
 
   Future<void> updateProfileName(uid, updatedName) {
@@ -149,7 +153,7 @@ class DatabaseService {
       });
     });
 
-    moduleComplaintUserLikes.get().then((QuerySnapshot querySnapshot) {
+    return moduleComplaintUserLikes.get().then((QuerySnapshot querySnapshot) {
       querySnapshot.docs.forEach((QueryDocumentSnapshot queryDocumentSnapshot) {
         queryDocumentSnapshot.reference.update({
           docid: FieldValue.delete(),

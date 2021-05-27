@@ -22,7 +22,10 @@ class _UploadPageState extends State<UploadPage> {
   final picker = ImagePicker();
 
   Future getImage(source, uid) async {
-    final pickedFile = await picker.getImage(source: source);
+    final pickedFile = await picker.getImage(
+      source: source,
+      imageQuality: 50,
+    );
 
     setState(() {
       if (pickedFile != null) {
