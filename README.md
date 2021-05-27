@@ -2,15 +2,13 @@
 
 Housing Society Management Application written in Flutter.
 ## Screenshots      
-|Profile  									       |Chat                                          |Notice                                               |
-|--------------------------------------------------|----------------------------------------------|-----------------------------------------------------| 
-|<img src='screenshots/profile.gif' width='250'>   |<img src='screenshots/chat.gif' width='250'>  |<img src='screenshots/notice events.gif' width='250'>|
-|Complaints								           |Voting                                        |Contacts                                             |
-|--------------------------------------------------|----------------------------------------------|-----------------------------------------------------| 
-|<img src='screenshots/complaints.gif' width='250'>|<img src='screenshots/voting.gif' width='250'>|<img src='screenshots/contacts.gif' width='250'>     |
-|Social Media 									   |Health                                        |Visitor                                              |
-|--------------------------------------------------|----------------------------------------------|-----------------------------------------------------| 
-|<img src='screenshots/social.gif' width='250'>    |<img src='screenshots/health.gif' width='250'>|<img src='screenshots/visitor.gif' width='250'>      |
+|Profile  									                    |Chat                                        |Notice                                        |
+|-----------------------------------------------|--------------------------------------------|----------------------------------------------| 
+|<img src='screenshots/profile.gif' width='250'>|<img src='screenshots/chat.gif' width='250'>|<img src='screenshots/notice.gif' width='250'>|
+|Complaints								                      |Voting                                      |Contacts                                        |
+|<img src='screenshots/complaints.gif' width='250'>|<img src='screenshots/voting.gif' width='250'>|<img src='screenshots/contacts.gif' width='250'>|
+|Social Media 									                   |Health                                        |Visitor                                        |
+|<img src='screenshots/social.gif' width='250'>    |<img src='screenshots/health.gif' width='250'>|<img src='screenshots/visitor.gif' width='250'>|
 
 ## Getting Started
 
