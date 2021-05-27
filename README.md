@@ -11,6 +11,8 @@ Housing Society Management Application written in Flutter.
 |Social Media 									                   |Health                                        |Visitor                                        |
 |<img src='screenshots/social.gif' width='250'>    |<img src='screenshots/health.gif' width='250'>|<img src='screenshots/visitor.gif' width='250'>|
 
+## Demo
+[Download the release apk to try out the application](https://github.com/arjun-14/housingsociety/releases/download/1.0.0/app-release.apk)
 ## Features
 First user to register is given admin access by default. Rest of the users do not have admin access by default.
 * User types
