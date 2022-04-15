@@ -38,33 +38,29 @@ class DefaultFirebaseOptions {
   }
 
   static const FirebaseOptions web = FirebaseOptions(
-    apiKey: 'AIzaSyDnz3v0yDDSpPyoa8Ea8u7iagiqT75AlCY',
-    appId: '1:877713775382:web:ca14f8b7f20a57f28b4e37',
-    messagingSenderId: '877713775382',
-    projectId: 'skiddy',
-    authDomain: 'skiddy.firebaseapp.com',
-    databaseURL: 'https://skiddy.firebaseio.com',
-    storageBucket: 'skiddy.appspot.com',
-    measurementId: 'G-7GYG8ZLCJ8',
+    apiKey: 'AIzaSyDtqBGet4ei5a9bcEhjU_Oiye_AxiCIqTQ',
+    appId: '1:411194630020:web:964a544e5aa6db7599c7d1',
+    messagingSenderId: '411194630020',
+    projectId: 'housingsociety786',
+    authDomain: 'housingsociety786.firebaseapp.com',
+    storageBucket: 'housingsociety786.appspot.com',
   );
 
   static const FirebaseOptions android = FirebaseOptions(
-    apiKey: 'AIzaSyBUis6OgphM1kQKprM58C2tO7IX_v7B7Y4',
-    appId: '1:877713775382:android:84d3614b7afded6a8b4e37',
-    messagingSenderId: '877713775382',
-    projectId: 'skiddy',
-    databaseURL: 'https://skiddy.firebaseio.com',
-    storageBucket: 'skiddy.appspot.com',
+    apiKey: 'AIzaSyDOSfgAGVhR5ApNLl27UrStyZ2T6js0DAk',
+    appId: '1:411194630020:android:ee990a0a8172d33199c7d1',
+    messagingSenderId: '411194630020',
+    projectId: 'housingsociety786',
+    storageBucket: 'housingsociety786.appspot.com',
   );
 
   static const FirebaseOptions ios = FirebaseOptions(
-    apiKey: 'AIzaSyDJGxUXCsjFgDAo46J7Uhddyib2zzfjFg4',
-    appId: '1:877713775382:ios:dea612b9c8049a348b4e37',
-    messagingSenderId: '877713775382',
-    projectId: 'skiddy',
-    databaseURL: 'https://skiddy.firebaseio.com',
-    storageBucket: 'skiddy.appspot.com',
-    iosClientId: '877713775382-4bdbnaq9mnm32d8afvi2leual1h75fv5.apps.googleusercontent.com',
-    iosBundleId: 'com.example.housingsociety',
+    apiKey: 'AIzaSyAfdX5uKXTt7_w2NaNTR2dJwq0nPL9_-9g',
+    appId: '1:411194630020:ios:c7db1c1850f0c3b399c7d1',
+    messagingSenderId: '411194630020',
+    projectId: 'housingsociety786',
+    storageBucket: 'housingsociety786.appspot.com',
+    iosClientId: '411194630020-otvjelfc7tpcphm13loa13io36a0rvgb.apps.googleusercontent.com',
+    iosBundleId: 'co',
   );
 }
