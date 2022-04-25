@@ -2,9 +2,9 @@
 
 Housing Society Management Application written in Flutter.
 
-## Screenshots      
+## Screenshots
 |Profile  									                    |Chat                                        |Notice                                        |
-|-----------------------------------------------|--------------------------------------------|----------------------------------------------| 
+|-----------------------------------------------|--------------------------------------------|----------------------------------------------|
 |<img src='screenshots/profile.gif' width='250'>|<img src='screenshots/chat.gif' width='250'>|<img src='screenshots/notice.gif' width='250'>|
 |Complaints								                      |Voting                                      |Contacts                                        |
 |<img src='screenshots/complaints.gif' width='250'>|<img src='screenshots/voting.gif' width='250'>|<img src='screenshots/contacts.gif' width='250'>|
@@ -16,7 +16,7 @@ Housing Society Management Application written in Flutter.
 ## Features
 First user to register is given admin access by default. Rest of the users do not have admin access by default.
 * User types
-  * Admin 
+  * Admin
     * give / revoke admin access
     * disable / enable access to application
   * User
@@ -32,7 +32,7 @@ First user to register is given admin access by default. Rest of the users do no
   * like, comment on complaints
   * Analyse complaints
 * Voting (admin access required to initiate voting)
-  * Set timer 
+  * Set timer
 * Contacts
   * Add emergency contacts (admin access required)
 * Social Media
@@ -57,3 +57,9 @@ $ https://github.com/arjun-14/housingsociety.git
 
 ## What's next
 * IOS support
+
+#### To setup Firebase, download the flutterfire cli and run the commands in the firebase setup.bash or run
+
+` bash firebase_setup.bash `
+
+You don't need to go to firebase.google.com to create a new project manually or add your application to the existing application
