@@ -1,12 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:housingsociety/shared/constants.dart';
-import 'package:housingsociety/services/auth.dart';
-import 'package:housingsociety/shared/loading.dart';
-import 'package:housingsociety/shared/snackbarpage.dart';
+
+import '../../services/auth.dart';
+import '../../shared/constants.dart';
+import '../../shared/loading.dart';
+import '../../shared/snackbarpage.dart';
 
 class LogIn extends StatefulWidget {
   final Function toggle;
-  LogIn({this.toggle});
+
+  LogIn({required this.toggle});
+
   @override
   _LogInState createState() => _LogInState();
 }
@@ -15,7 +18,7 @@ class _LogInState extends State<LogIn> {
   final AuthService _auth = AuthService();
   final _formkey = GlobalKey<FormState>();
 
-  String _email, _password;
+  String? _email, _password;
   bool buttonEnabled = false;
   bool obscureText = true;
   bool loading = false;
@@ -69,7 +72,9 @@ class _LogInState extends State<LogIn> {
                               });
                             },
                             validator: (val) {
-                              return val.isEmpty ? 'Enter an email' : null;
+                              return val == null || val.isEmpty
+                                  ? 'Enter an email'
+                                  : null;
                             },
                             decoration: InputDecoration(
                               labelText: 'Email ID',
@@ -87,7 +92,7 @@ class _LogInState extends State<LogIn> {
                               });
                             },
                             validator: (val) {
-                              return val.length < 4
+                              return val == null || val.length < 4
                                   ? 'Password must be minimum of 4 characters'
                                   : null;
                             },
@@ -110,17 +115,17 @@ class _LogInState extends State<LogIn> {
                             width: double.infinity,
                             child: ElevatedButton(
                               style: ElevatedButton.styleFrom(
-                                primary: kAmaranth,
+                                foregroundColor: kAmaranth,
                               ),
                               // color: kAmaranth,
                               onPressed: () async {
-                                if (_formkey.currentState.validate()) {
+                                if (_formkey.currentState?.validate() == true) {
                                   setState(() {
                                     loading = true;
                                   });
                                   dynamic result =
                                       await _auth.logInWithEmailAndPassword(
-                                          _email, _password);
+                                          _email ?? "", _password ?? "");
                                   if (result == null) {
                                     setState(() {
                                       loading = false;

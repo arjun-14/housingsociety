@@ -1,9 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:housingsociety/models/user.dart';
-import 'package:housingsociety/shared/constants.dart';
-import 'package:housingsociety/shared/loading.dart';
 import 'package:provider/provider.dart';
+
+import '../../../../models/user.dart';
+import '../../../../shared/loading.dart';
 
 class RealtimeChatUpdate extends StatelessWidget {
   @override
@@ -28,7 +28,7 @@ class RealtimeChatUpdate extends StatelessWidget {
 
         return ListView(
           reverse: true,
-          children: snapshot.data.docs
+          children: snapshot.data?.docs
               .map((DocumentSnapshot<Map<String, dynamic>> document) {
             return Padding(
               padding: const EdgeInsets.all(3.0),

@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:housingsociety/screens/home/modules/contacts/contacts.dart';
-import 'package:housingsociety/services/database.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:housingsociety/shared/constants.dart';
 import 'dart:io';
+
+import '../../../../services/database.dart';
+import '../../../../shared/constants.dart';
+import 'contacts.dart';
 
 class AddEmergencyContact extends StatefulWidget {
   static const String id = 'add_emergency_contact';
@@ -14,12 +15,20 @@ class AddEmergencyContact extends StatefulWidget {
       docid;
   final int flag;
   AddEmergencyContact(
-      {this.currentProfilePicture,
-      this.currentName,
-      this.currentPhone,
-      this.currentAddress,
-      this.flag,
-      this.docid});
+
+  {
+
+  this
+
+      ?.
+
+  currentProfilePicture,
+  this?.currentName,
+  this?.currentPhone,
+  this?.currentAddress,
+  this?.flag,
+  this?.docid
+});
   @override
   _AddEmergencyContactState createState() => _AddEmergencyContactState();
 }
@@ -31,7 +40,7 @@ class _AddEmergencyContactState extends State<AddEmergencyContact> {
   String name = '', phoneNo = '', address = '';
   final formkey = GlobalKey<FormState>();
   Future getImage(source) async {
-    final pickedFile = await picker.getImage(source: source);
+    final pickedFile = await picker?.getImage(source: source);
 
     setState(() {
       if (pickedFile != null) {
@@ -111,7 +120,7 @@ class _AddEmergencyContactState extends State<AddEmergencyContact> {
             visible: true,
             child: TextButton(
               onPressed: () async {
-                if (formkey.currentState.validate()) {
+                if (formkey.currentState?.validate() == true) {
                   await DatabaseService().addEmergencyContact(name, phoneNo,
                       address, profileImagePath, widget.flag, widget.docid);
                   Navigator.pop(context);

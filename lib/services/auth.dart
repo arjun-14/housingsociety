@@ -1,12 +1,13 @@
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:housingsociety/models/user.dart';
-import 'package:housingsociety/services/database.dart';
+
+import '../models/user.dart';
+import 'database.dart';
 
 class AuthService {
   final FirebaseAuth _auth = FirebaseAuth.instance;
   DatabaseService db = DatabaseService();
 
-  CurrentUser _userFromFireBase(User user) {
+  CurrentUser? _userFromFireBase(User? user) {
     return user != null
         ? CurrentUser(
             uid: user.uid,
@@ -26,7 +27,7 @@ class AuthService {
       UserCredential userCredential = await _auth
           .createUserWithEmailAndPassword(email: email, password: password);
 
-      userCredential.user.updateProfile(displayName: name).then((_) {
+      userCredential.user?.updateProfile(displayName: name).then((_) {
         User user = _auth.currentUser;
         user.reload();
         User updateduser = _auth.currentUser;

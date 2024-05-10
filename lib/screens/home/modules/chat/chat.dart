@@ -1,11 +1,12 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:housingsociety/screens/home/modules/chat/realtimeUpdate.dart';
-import 'package:housingsociety/services/auth.dart';
-import 'package:housingsociety/services/database.dart';
-import 'package:housingsociety/shared/constants.dart';
 import 'package:provider/provider.dart';
-import 'package:housingsociety/models/user.dart';
+import 'package:shivalikcityapp/screens/home/modules/chat/realtimeUpdate.dart';
+
+import '../../../../models/user.dart';
+import '../../../../services/auth.dart';
+import '../../../../services/database.dart';
+import '../../../../shared/constants.dart';
 
 class Chat extends StatefulWidget {
   static const String id = 'chat';
@@ -16,7 +17,7 @@ class Chat extends StatefulWidget {
 class _ChatState extends State<Chat> {
   DatabaseService db = DatabaseService();
 
-  String message;
+  String? message;
   @override
   Widget build(BuildContext context) {
     final user = Provider.of<CurrentUser>(context);

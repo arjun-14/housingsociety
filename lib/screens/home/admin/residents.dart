@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:housingsociety/screens/home/admin/residentclassification.dart';
+import 'package:shivalikcityapp/screens/home/admin/residentclassification.dart';
 
 class Residents extends StatelessWidget {
   static const String id = 'residents';

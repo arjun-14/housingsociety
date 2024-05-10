@@ -1,10 +1,10 @@
-import 'package:flutter/material.dart';
-import 'package:housingsociety/screens/home/modules/complaints/addcomplaint.dart';
-import 'package:housingsociety/screens/home/modules/complaints/piechart.dart';
-import 'package:housingsociety/screens/home/modules/complaints/realtimecomplaintupdate.dart';
-import 'package:housingsociety/shared/constants.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:rake/rake.dart';
+import 'package:flutter/material.dart';
+import 'package:shivalikcityapp/screens/home/modules/complaints/piechart.dart';
+import 'package:shivalikcityapp/screens/home/modules/complaints/realtimecomplaintupdate.dart';
+
+import '../../../../shared/constants.dart';
+import 'addcomplaint.dart';
 
 class Complaint extends StatefulWidget {
   static const String id = 'complaint';
@@ -15,7 +15,7 @@ class Complaint extends StatefulWidget {
 
 class _ComplaintState extends State<Complaint> with TickerProviderStateMixin {
   Map<String, double> keywords = {};
-  TabController _tabController;
+  TabController? _tabController;
   @override
   void initState() {
     super.initState();

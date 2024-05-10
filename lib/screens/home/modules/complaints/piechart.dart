@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:housingsociety/shared/constants.dart';
-import 'package:pie_chart/pie_chart.dart';
+
+\import 'package:pie_chart/pie_chart.dart';
 import 'dart:collection';
 
 class PieChartComplaints extends StatefulWidget {
-  final Map<String, double> dataMap;
+  final Map<String, double>? dataMap;
   PieChartComplaints({this.dataMap});
 
   @override
@@ -20,7 +20,7 @@ class _PieChartComplaintsState extends State<PieChartComplaints> {
     super.initState();
     //newDataMap = widget.dataMap;
     print(widget.dataMap);
-    var sortedKeys = widget.dataMap.keys.toList(growable: false)
+    var sortedKeys = widget.dataMap?.keys.toList(growable: false)
       ..sort((k2, k1) => widget.dataMap[k1].compareTo(widget.dataMap[k2]));
     sortedMap = new LinkedHashMap.fromIterable(sortedKeys,
         key: (k) => k, value: (k) => widget.dataMap[k]);

@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:housingsociety/shared/constants.dart';
-import 'package:housingsociety/services/auth.dart';
-import 'package:housingsociety/shared/loading.dart';
-import 'package:housingsociety/shared/snackbarpage.dart';
+
+import '../../services/auth.dart';
+import '../../shared/constants.dart';
+import '../../shared/loading.dart';
+import '../../shared/snackbarpage.dart';
 
 class Register extends StatefulWidget {
   final Function toggle;
-  Register({this.toggle});
+
+  Register({required this.toggle});
 
   @override
   _RegisterState createState() => _RegisterState();
@@ -16,7 +18,7 @@ class _RegisterState extends State<Register> {
   final AuthService _auth = AuthService();
   final _formkey = GlobalKey<FormState>();
 
-  String _email, _password, name, flatno;
+  String? _email, _password, name, flatno;
   String wing = '';
   bool buttonEnabled = false;
   bool obscureText = true;
@@ -71,7 +73,7 @@ class _RegisterState extends State<Register> {
                               });
                             },
                             validator: (val) {
-                              return val.isEmpty
+                              return (val == null || val.isEmpty)
                                   ? 'Name cannot be empty'
                                   : null;
                             },
@@ -105,7 +107,9 @@ class _RegisterState extends State<Register> {
                                     flatno = val;
                                   },
                                   validator: (val) {
-                                    return val.isEmpty ? 'Enter flat no' : null;
+                                    return (val == null || val.isEmpty)
+                                        ? 'Enter flat no'
+                                        : null;
                                   },
                                   decoration: InputDecoration(
                                     labelText: 'Flat no.',
@@ -125,7 +129,9 @@ class _RegisterState extends State<Register> {
                               });
                             },
                             validator: (val) {
-                              return val.isEmpty ? 'Enter an email' : null;
+                              return (val == null || val.isEmpty)
+                                  ? 'Enter an email'
+                                  : null;
                             },
                             decoration: InputDecoration(
                               labelText: 'Email ID',
@@ -143,7 +149,7 @@ class _RegisterState extends State<Register> {
                               });
                             },
                             validator: (val) {
-                              return val.length < 4
+                              return (val == null || val.length < 4)
                                   ? 'Password must be minimum of 4 characters'
                                   : null;
                             },
@@ -166,16 +172,20 @@ class _RegisterState extends State<Register> {
                             width: double.infinity,
                             child: ElevatedButton(
                               style: ElevatedButton.styleFrom(
-                                primary: kAmaranth,
+                                foregroundColor: kAmaranth,
                               ),
                               onPressed: () async {
-                                if (_formkey.currentState.validate()) {
+                                if (_formkey.currentState?.validate() == true) {
                                   setState(() {
                                     loading = true;
                                   });
                                   dynamic result = await _auth
-                                      .createUserWithEmailAndPassword(_email,
-                                          _password, name, wing, flatno);
+                                      .createUserWithEmailAndPassword(
+                                          _email ?? "",
+                                          _password ?? "",
+                                          name ?? "",
+                                          wing,
+                                          flatno ?? "");
                                   if (result == null) {
                                     setState(() {
                                       loading = false;

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:housingsociety/screens/authenticate/register.dart';
-import 'package:housingsociety/screens/authenticate/logIn.dart';
+import 'package:shivalikcityapp/screens/authenticate/register.dart';
+
+import 'logIn.dart';
 
 class Authenticate extends StatefulWidget {
   @override
